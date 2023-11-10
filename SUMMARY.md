@@ -17,3 +17,7 @@
 * [Phần 3. Phân tích hệ thống](phan-3.-phan-tich-he-thong/README.md)
   * [3.1 Danh sách tác nhân (actor)](phan-3.-phan-tich-he-thong/3.1-danh-sach-tac-nhan-actor.md)
   * [3.2 Danh sách các use case](phan-3.-phan-tich-he-thong/3.2-danh-sach-cac-use-case.md)
+* [Phần 5. Xây dựng cơ sở dữ liệu](phan-5.-xay-dung-co-so-du-lieu/README.md)
+  * [5.1 Cơ sở dữ liệu](phan-5.-xay-dung-co-so-du-lieu/5.1-co-so-du-lieu.md)
+  * [5.2 Chi tiết các bảng](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/README.md)
+    * [5.2.1 Bảng admin](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/5.2.1-bang-admin.md)
