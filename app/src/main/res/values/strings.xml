@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">QuickMem</string>
+    <string name="quickmem">QuickMem</string>
+    <string name="terms_and_conditions">By signing up, I accept QuickMem\'s \n <b>Terms of service</b> and <b>Privacy policy</b></string>
+    <string name="sign_up">Sign up for free</string>
+    <string name="sign_in">Or sign in</string>
 </resources>

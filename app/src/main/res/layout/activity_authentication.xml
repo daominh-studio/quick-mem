@@ -7,4 +7,85 @@
         android:layout_height="match_parent"
         tools:context=".auth.AuthenticationActivity">
 
+    <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quickmem"
+            android:id="@+id/app_name_tv"
+            android:textSize="30sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/celestial_blue"
+            android:textStyle="bold"
+            android:fontFamily="@font/alfa_slab_one"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.viewpager.widget.ViewPager
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_name_tv"
+            android:id="@+id/onboarding_vp"/>
+
+    <me.relex.circleindicator.CircleIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            app:ci_gravity="center_vertical|center_horizontal"
+            app:ci_height="5dp"
+            app:ci_margin="10dp"
+            app:ci_orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/onboarding_vp"
+            app:layout_constraintStart_toStartOf="@id/onboarding_vp"
+            app:layout_constraintEnd_toEndOf="@id/onboarding_vp"
+            app:ci_drawable="@drawable/indicator_selector"
+            android:id="@+id/indicator"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:id="@+id/terms_and_conditions_tv"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/indicator"
+            app:layout_constraintStart_toStartOf="@id/indicator"
+            app:layout_constraintEnd_toEndOf="@id/indicator"
+            android:text="@string/terms_and_conditions"/>
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginVertical="15dp"
+            android:text="@string/sign_up"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/terms_and_conditions_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/button_background"
+            android:id="@+id/sign_up_btn"/>
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginVertical="15dp"
+            android:text="@string/sign_in"
+            android:textColor="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/button_sign_in"
+            android:id="@+id/sign_in_btn"
+            android:focusable="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
