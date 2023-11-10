@@ -22,3 +22,4 @@
   * [5.2 Chi tiết các bảng](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/README.md)
     * [5.2.1 Bảng admin](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/5.2.1-bang-admin.md)
     * [5.2.2 Bảng user](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/5.2.2-bang-user.md)
+    * [5.2.3 Bảng class](phan-5.-xay-dung-co-so-du-lieu/5.2-chi-tiet-cac-bang/5.2.3-bang-class.md)
