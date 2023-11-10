@@ -13,16 +13,16 @@
             android:theme="@style/Theme.QuickMem"
             tools:targetApi="31">
         <activity
-                android:name=".MainActivity"
+                android:name=".ui.activities.MainActivity"
                 android:exported="false"/>
         <activity
-                android:name=".auth.signup.SignupActivity"
+                android:name=".ui.activities.auth.signup.SignupActivity"
                 android:exported="false"/>
         <activity
-                android:name=".auth.signin.SigninActivity"
+                android:name=".ui.activities.auth.signin.SigninActivity"
                 android:exported="false"/>
         <activity
-                android:name=".auth.AuthenticationActivity"
+                android:name=".ui.activities.auth.AuthenticationActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

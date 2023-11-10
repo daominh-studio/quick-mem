@@ -4,4 +4,10 @@
     <string name="terms_and_conditions">By signing up, I accept QuickMem\'s \n <b>Terms of service</b> and <b>Privacy policy</b></string>
     <string name="sign_up">Sign up for free</string>
     <string name="sign_in">Or sign in</string>
+    <string name="onboarding_title">Start Your Learning Journey with QuickMem!</string>
+    <string name="onboarding_title_1">Start Your Learning Journey with QuickMem!</string>
+    <string name="onboarding_title_2">Create and Conquer Your Own Flashcards with QuickMem!</string>
+    <string name="onboarding_title_3">Boost Your Memory with QuickMem: A Simple and Effective Flashcard Learning Method!</string>
+    <string name="onboarding_title_4">QuickMem - Your Companion in the Journey of Knowledge Discovery!</string>
+
 </resources>

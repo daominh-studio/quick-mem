@@ -1,4 +1,4 @@
-package com.daominh.quickmem.auth.signin;
+package com.daominh.quickmem.ui.activities.auth.signin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
