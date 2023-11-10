@@ -2,7 +2,8 @@
 
 * [Phần 1. Giới thiệu chung](README.md)
   * [Link source code](phan-1.-gioi-thieu-chung/link-source-code.md)
-  * [Sinh viên thực hiện](phan-1.-gioi-thieu-chung/sinh-vien-thuc-hien.md)
+  * [Sinh viên thực hiện](phan-1.-gioi-thieu-chung/sinh-vien-thuc-hien/README.md)
+    * [Bảng chú giải thuật ngữ:](phan-1.-gioi-thieu-chung/sinh-vien-thuc-hien/bang-chu-giai-thuat-ngu.md)
   * [1.1 Giới thiệu đề tài](phan-1.-gioi-thieu-chung/1.1-gioi-thieu-de-tai/README.md)
     * [1.1.1 Lý do chọn đề tài](phan-1.-gioi-thieu-chung/1.1-gioi-thieu-de-tai/1.1.1-ly-do-chon-de-tai.md)
     * [1.1.2 Mục tiêu làm đề tài](phan-1.-gioi-thieu-chung/1.1-gioi-thieu-de-tai/1.1.2-muc-tieu-lam-de-tai.md)
