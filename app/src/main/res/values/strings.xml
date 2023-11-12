@@ -25,5 +25,14 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="agree_to_terms_and_conditions">By signing up, I accept QuickMem\'s \n <b>Term of Service</b> and <b>Privacy Policy</b></string>
+    <string name="date_picker_title">Please enter your date of birth</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="date_error">That\'s today date. Please select your date of birth</string>
+    <string name="date_geater_than_current_date">That\'s greater than or equal today date. Please select your date of birth</string>
+    <string name="email_is_empty">Email is required</string>
+    <string name="email_is_invalid">Email is invalid</string>
+    <string name="password_is_empty">Password is required</string>
+    <string name="password_is_invalid">Password must be at least 8 characters</string>
 
 </resources>

@@ -162,6 +162,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:focusable="false"
+                android:clickable="false"
                 android:id="@+id/date_et"/>
 
     </com.google.android.material.textfield.TextInputLayout>

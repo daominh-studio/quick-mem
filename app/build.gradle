@@ -53,4 +53,7 @@ dependencies {
 
     //material
     implementation 'com.google.android.material:material:1.10.0'
+
+    //date picker
+    implementation 'com.github.swnishan:materialdatetimepicker:1.0.0'
 }

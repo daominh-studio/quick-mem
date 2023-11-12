@@ -2,7 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.QuickMem" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/celestial_blue</item>
+        <item name="colorPrimary">@color/celestial_blue</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
     </style>
 
     <style name="Theme.QuickMem" parent="Base.Theme.QuickMem"/>

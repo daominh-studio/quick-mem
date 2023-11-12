@@ -17,6 +17,7 @@
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.auth.signup.SignupActivity"
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.auth.signin.SigninActivity"
