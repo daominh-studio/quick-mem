@@ -185,8 +185,8 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 if (userDAO.insertUser(user) > 0) {
-//                    userSharePreferences = new UserSharePreferences(this);
-//                    userSharePreferences.setLogin(true);
+                    userSharePreferences = new UserSharePreferences(this);
+                    userSharePreferences.setLogin(true);
                     intentToMain();
                     Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
                 } else {

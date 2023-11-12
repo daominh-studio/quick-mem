@@ -124,6 +124,10 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 }
                 user = getUser(number, email);
+                userSharePreferences = new UserSharePreferences(SignInActivity.this);
+                userSharePreferences.saveUser(user);
+                userSharePreferences.setLogin(true);
+                intentToMain();
                 Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
 
             }
