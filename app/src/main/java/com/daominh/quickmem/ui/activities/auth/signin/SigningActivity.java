@@ -124,6 +124,16 @@ public class SigningActivity extends AppCompatActivity {
 
             }
         });
+
+        //forgot username
+        binding.usernameTv.setOnClickListener(v -> {
+            openDialogUsername();
+        });
+
+        //forgot password
+        binding.passwordTv.setOnClickListener(v -> {
+            openDialogPassword();
+        });
     }
 
     private void intentToMain() {
@@ -175,5 +185,13 @@ public class SigningActivity extends AppCompatActivity {
             email = userDAO.getEmailByUsername(input);
         }
         return user = userDAO.getUserByEmail(email);
+    }
+
+    private void openDialogUsername() {
+
+    }
+
+    private void openDialogPassword() {
+
     }
 }
