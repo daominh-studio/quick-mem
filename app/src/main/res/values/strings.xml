@@ -7,7 +7,23 @@
     <string name="onboarding_title">Start Your Learning Journey with QuickMem!</string>
     <string name="onboarding_title_1">Start Your Learning Journey with QuickMem!</string>
     <string name="onboarding_title_2">Create and Conquer Your Own Flashcards with QuickMem!</string>
-    <string name="onboarding_title_3">Boost Your Memory with QuickMem: A Simple and Effective Flashcard Learning Method!</string>
-    <string name="onboarding_title_4">QuickMem - Your Companion in the Journey of Knowledge Discovery!</string>
+    <string name="onboarding_title_3">A Simple and Effective Flashcard Learning Method!</string>
+    <string name="onboarding_title_4">Your Companion in the Journey of Knowledge Discovery!</string>
+    <string name="quick_sign_up">Quickly signup with</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="or_sign_up_tv">Or sign up with an email</string>
+    <string name="or">or</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="email_example">example@email.com</string>
+    <string name="email">Email</string>
+    <string name="select_your_birthday">Select your birthday</string>
+    <string name="password_example">•••••••••</string>
+    <string name="password">Password</string>
+    <string name="sign_up_disable">Sign up</string>
+    <string name="are_you_a_teacher">Are you a teacher?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="agree_to_terms_and_conditions">By signing up, I accept QuickMem\'s \n <b>Term of Service</b> and <b>Privacy Policy</b></string>
 
 </resources>
