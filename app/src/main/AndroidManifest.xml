@@ -25,6 +25,7 @@
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.auth.AuthenticationActivity"
+
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
