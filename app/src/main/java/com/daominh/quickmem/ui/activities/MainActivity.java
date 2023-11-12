@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.homeFragment,
                 R.id.bookFragment,
                 R.id.libraryFragment,
-                R.id.profileFragment
+                R.id.profileFragment,
+                R.id.createFragment
         ).build();
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);

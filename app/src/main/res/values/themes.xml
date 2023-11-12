@@ -8,4 +8,9 @@
     </style>
 
     <style name="Theme.QuickMem" parent="Base.Theme.QuickMem"/>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <!-- Các thuộc tính tối ở đây -->
+    </style>
+
 </resources>

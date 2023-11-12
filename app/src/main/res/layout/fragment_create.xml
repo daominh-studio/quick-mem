@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="@dimen/_16dp"
+        android:background="@drawable/background_bottom_sheet"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.fragments.CreateFragment">
+
+        <LinearLayout
+                android:paddingBottom="@dimen/_30ssp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:layout_width="@dimen/_30ssp"
+                    android:layout_height="@dimen/_30ssp"
+                    android:src="@mipmap/ic_arrow_down"
+                    android:layout_marginBottom="@dimen/_10dp"/>
+
+
+            <LinearLayout
+                    android:layout_margin="@dimen/_10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:layout_width="@dimen/_30ssp"
+                        android:layout_height="@dimen/_30ssp"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:src="@mipmap/ic_set"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_20ssp"
+                        android:text="@string/create_set"
+                        android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_margin="@dimen/_10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:layout_width="@dimen/_30ssp"
+                        android:layout_height="@dimen/_30ssp"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:src="@mipmap/ic_folder"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_20ssp"
+                        android:text="@string/create_set"
+                        android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_margin="@dimen/_10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:layout_width="@dimen/_30ssp"
+                        android:layout_height="@dimen/_30ssp"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:src="@mipmap/ic_class"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_20ssp"
+                        android:text="@string/create_set"
+                        android:textStyle="bold"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+</androidx.cardview.widget.CardView>
