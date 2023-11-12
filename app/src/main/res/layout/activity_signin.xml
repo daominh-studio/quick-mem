@@ -7,4 +7,253 @@
         android:layout_height="match_parent"
         tools:context=".ui.activities.auth.signin.SigninActivity">
 
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quick_sign_in"
+            android:id="@+id/quick_sign_up_tv"
+            android:paddingBottom="@dimen/_10dp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_fast_ll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_sign_up_tv"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/facebook_btn"
+                    android:background="@drawable/background_login_fast"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:layout_width="@dimen/_50ssp"
+                        android:layout_height="@dimen/_50ssp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_facebook"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/facebook"
+                        android:textSize="@dimen/_25ssp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/_10dp"
+                        android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="180dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/google_btn"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/background_login_fast"
+                    android:orientation="horizontal">
+
+                <ImageView
+
+                        android:layout_width="@dimen/_50ssp"
+                        android:layout_height="@dimen/_50ssp"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/ic_google"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/google"
+                        android:textSize="@dimen/_25ssp"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        android:layout_marginStart="@dimen/_10dp"
+                        android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/or_ll"
+            app:layout_constraintTop_toBottomOf="@id/login_fast_ll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp">
+
+        <View
+                android:layout_width="@dimen/_50ssp"
+                android:background="@color/gray"
+                android:layout_height="1dp"/>
+
+        <View
+                android:layout_width="@dimen/_50ssp"
+                android:background="@color/gray"
+                android:layout_height="1dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="@dimen/_10dp"/>
+
+        <View
+                android:layout_width="@dimen/_50ssp"
+                android:background="@color/gray"
+                android:layout_height="1dp"/>
+
+        <View
+                android:layout_width="@dimen/_50ssp"
+                android:background="@color/gray"
+                android:layout_height="1dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/or_ll"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp"
+            app:helperTextEnabled="true"
+            app:endIconMode="clear_text"
+            app:helperText="@string/email"
+            android:hint="@string/email_example"
+            android:id="@+id/email_til">
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                android:id="@+id/email_et"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/email_til"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp"
+            app:helperTextEnabled="true"
+            app:helperText="@string/password"
+            app:passwordToggleEnabled="true"
+            android:hint="@string/password_example"
+            android:id="@+id/password_til">
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:id="@+id/password_et"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            app:layout_constraintTop_toBottomOf="@id/password_til"
+            app:layout_constraintStart_toStartOf="@id/password_til"
+            app:layout_constraintEnd_toEndOf="@id/password_til"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50ssp"
+            android:layout_marginVertical="@dimen/_20ssp"
+            android:text="@string/sign_in_in"
+            android:textStyle="bold"
+            android:textSize="@dimen/_20ssp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/button_background"
+            android:id="@+id/sign_in_btn"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgot_ll"
+            android:paddingVertical="@dimen/_10dp"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forgot"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username_tv"
+                android:text="@string/username"
+                android:paddingHorizontal="@dimen/_5dp"
+                android:textStyle="bold"
+                android:textColor="@color/celestial_blue"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/password_tv"
+                android:text="@string/password_lowcase"
+                android:paddingHorizontal="@dimen/_5dp"
+                android:textStyle="bold"
+                android:textColor="@color/celestial_blue"/>
+
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terms_and_conditions_login"
+            app:layout_constraintTop_toBottomOf="@id/forgot_ll"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="@id/forgot_ll"
+            app:layout_constraintEnd_toEndOf="@id/forgot_ll"
+            android:textColor="@color/gray"
+            android:layout_marginTop="@dimen/_10dp"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            android:id="@+id/terms_and_conditions_tv"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,9 +13,6 @@
             android:theme="@style/Theme.QuickMem"
             tools:targetApi="31">
         <activity
-                android:name=".ui.activities.auth.forgotpassword.ForgotPasswordActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.MainActivity"
                 android:exported="false"/>
         <activity
