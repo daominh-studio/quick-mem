@@ -20,7 +20,7 @@
                 android:exported="false"
                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"/>
         <activity
-                android:name=".ui.activities.auth.signin.SigninActivity"
+                android:name=".ui.activities.auth.signin.SigningActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.auth.AuthenticationActivity"

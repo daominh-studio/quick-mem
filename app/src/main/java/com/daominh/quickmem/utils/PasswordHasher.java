@@ -36,6 +36,7 @@ public class PasswordHasher {
     public static boolean checkPassword(String password, String hashedPassword) {
         // Hash the plain text password
         String hashOfInput = hashPassword(password);
+        Log.d("PasswordHasher", "checkPassword: " + hashOfInput);
 
         // Compare the hashed password with the hash of the input password
         return hashOfInput != null && hashOfInput.equals(hashedPassword);

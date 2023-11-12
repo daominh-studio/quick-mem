@@ -20,6 +20,7 @@ import com.daominh.quickmem.databinding.ActivitySignupBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
+import com.daominh.quickmem.ui.activities.auth.signin.SigningActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
@@ -40,7 +41,6 @@ public class SignupActivity extends AppCompatActivity {
     private User user;
     private UserDAO userDAO;
     private UserSharePreferences userSharePreferences;
-    PasswordHasher passwordHasher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,11 +148,17 @@ public class SignupActivity extends AppCompatActivity {
                 binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
                 binding.passwordEt.requestFocus();
             } else {
+
+                userDAO = new UserDAO(this);
+
                 String uuid = UUID.randomUUID().toString();
                 String username = email.split("@")[0];
-                if (username.length() > 20) {
+                if (username.length() > 18) {
                     username = "quickmem" + new Random().nextInt(1000000);
+                } else if (userDAO.checkUsername(username)) {
+                    username = username + new Random().nextInt(100);
                 }
+
                 String hashedPassword = PasswordHasher.hashPassword(password);
                 int role = 0;
                 if (binding.teacherLl.getVisibility() == View.VISIBLE) {
@@ -178,7 +184,6 @@ public class SignupActivity extends AppCompatActivity {
                 user.setUpdated_at(updatedAt);
                 user.setStatus(status);
 
-                userDAO = new UserDAO(this);
 
                 if (userDAO.insertUser(user) > 0) {
 //                    userSharePreferences = new UserSharePreferences(this);
@@ -395,5 +400,11 @@ public class SignupActivity extends AppCompatActivity {
     private boolean isEmailExist(String email) {
         userDAO = new UserDAO(this);
         return userDAO.checkEmail(email);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SignupActivity.this, AuthenticationActivity.class));
     }
 }

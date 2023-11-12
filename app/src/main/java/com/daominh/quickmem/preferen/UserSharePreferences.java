@@ -2,6 +2,7 @@ package com.daominh.quickmem.preferen;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.daominh.quickmem.data.model.User;
 
 public class UserSharePreferences {
 
@@ -35,4 +36,8 @@ public class UserSharePreferences {
         return sharedPreferences.getString(KEY_ID, "");
     }
 
+    public void saveUser(User user) {
+        setId(user.getId());
+        setLogin(true);
+    }
 }

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.daominh.quickmem.adapter.OnboardingAdapter;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
-import com.daominh.quickmem.ui.activities.auth.signin.SigninActivity;
+import com.daominh.quickmem.ui.activities.auth.signin.SigningActivity;
 import com.daominh.quickmem.ui.activities.auth.signup.SignupActivity;
 import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
 
@@ -43,7 +43,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         // Setup sign in button
         binding.signInBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, SigninActivity.class));
+            startActivity(new Intent(this, SigningActivity.class));
             finish();
         });
     }

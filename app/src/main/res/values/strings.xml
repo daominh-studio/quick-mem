@@ -47,5 +47,8 @@
     <string name="username_or_email">Username or email address</string>
     <string name="forgot_username">Forgot your username</string>
     <string name="enter_your_email">Enter email address</string>
+    <string name="email_is_not_exist">Email is not exist</string>
+    <string name="user_is_not_exist">User is not exist</string>
+    <string name="password_is_not_correct">Password is not correct</string>
 
 </resources>
