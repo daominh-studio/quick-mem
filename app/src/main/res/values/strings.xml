@@ -50,5 +50,6 @@
     <string name="email_is_not_exist">Email is not exist</string>
     <string name="user_is_not_exist">User is not exist</string>
     <string name="password_is_not_correct">Password is not correct</string>
+    <string name="check_your_email">Check your email</string>
 
 </resources>

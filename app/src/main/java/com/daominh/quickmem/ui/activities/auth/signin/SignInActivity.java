@@ -3,12 +3,15 @@ package com.daominh.quickmem.ui.activities.auth.signin;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.R;
@@ -16,12 +19,13 @@ import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ActivitySigninBinding;
 import com.daominh.quickmem.databinding.ActivitySignupBinding;
+import com.daominh.quickmem.databinding.DialogForGotPasswordBinding;
+import com.daominh.quickmem.databinding.DialogForgotUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
-import com.daominh.quickmem.utils.PasswordHasher;
 
-public class SigningActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
     private UserSharePreferences userSharePreferences;
     private User user;
     private UserDAO userDAO;
@@ -35,7 +39,7 @@ public class SigningActivity extends AppCompatActivity {
 
         //toolbar
         binding.toolbar.setNavigationOnClickListener(v ->
-                startActivity(new Intent(SigningActivity.this, AuthenticationActivity.class))
+                startActivity(new Intent(SignInActivity.this, AuthenticationActivity.class))
         );
 
         //sign in by social
@@ -87,7 +91,7 @@ public class SigningActivity extends AppCompatActivity {
             String password = binding.passwordEt.getText().toString();
 
             if (handleEmailTextChanged(email, binding) && handlePasswordTextChanged(password, binding)) {
-                userDAO = new UserDAO(SigningActivity.this);
+                userDAO = new UserDAO(SignInActivity.this);
 
                 int number = 0;
 //                password = PasswordHasher.hashPassword(password);
@@ -175,11 +179,11 @@ public class SigningActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(SigningActivity.this, AuthenticationActivity.class));
+        startActivity(new Intent(SignInActivity.this, AuthenticationActivity.class));
     }
 
     private User getUser(int number, String input) {
-        userDAO = new UserDAO(SigningActivity.this);
+        userDAO = new UserDAO(SignInActivity.this);
         String email = input;
         if (number == 1) {
             email = userDAO.getEmailByUsername(input);
@@ -188,10 +192,148 @@ public class SigningActivity extends AppCompatActivity {
     }
 
     private void openDialogUsername() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final DialogForgotUsernameBinding binding = DialogForgotUsernameBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        builder.setView(view);
+        builder.setCancelable(true);
+
+        AlertDialog alertDialog = builder.create();
+        binding.cancelTv.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        //show keyboard automatically
+        binding.emailEt.postDelayed(() -> {
+            binding.emailEt.requestFocus();
+            binding.emailEt.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
+            binding.emailEt.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
+        }, 100);
+        binding.emailEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                handleEmailUserTextChanged(s.toString(), binding);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handleEmailUserTextChanged(s.toString(), binding);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                handleEmailUserTextChanged(s.toString(), binding);
+            }
+        });
+
+        binding.okTv.setOnClickListener(v -> {
+            String email = binding.emailEt.getText().toString();
+            if (handleEmailUserTextChanged(email, binding)) {
+                userDAO = new UserDAO(SignInActivity.this);
+                if (!userDAO.checkEmail(email)) {
+                    binding.emailEt.setError(getString(R.string.email_is_not_exist));
+                    return;
+                } else {
+                    binding.emailEt.setError(null);
+                    alertDialog.dismiss();
+                }
+                user = userDAO.getUserByEmail(email);
+                Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
 
     }
 
     private void openDialogPassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final DialogForGotPasswordBinding binding = DialogForGotPasswordBinding.inflate(getLayoutInflater());
+        final View view = binding.getRoot();
+        builder.setView(view);
+        builder.setCancelable(true);
+        AlertDialog alertDialog = builder.create();
 
+        binding.cancelTv.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        binding.emailOrUsernameEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                handleEmailUserForgotPasswordTextChanged(s.toString(), binding);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handleEmailUserForgotPasswordTextChanged(s.toString(), binding);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                handleEmailUserForgotPasswordTextChanged(s.toString(), binding);
+            }
+        });
+
+        binding.okTv.setOnClickListener(v -> {
+            String emailOrUsername = binding.emailOrUsernameEt.getText().toString();
+            if (handleEmailUserForgotPasswordTextChanged(emailOrUsername, binding)) {
+                userDAO = new UserDAO(SignInActivity.this);
+                if (Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
+                    if (!userDAO.checkEmail(emailOrUsername)) {
+                        binding.emailOrUsernameEt.setError(getString(R.string.email_is_not_exist));
+                        return;
+                    } else {
+                        binding.emailOrUsernameEt.setError(null);
+                        alertDialog.dismiss();
+                    }
+                    Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
+                    if (!userDAO.checkUsername(emailOrUsername)) {
+                        binding.emailOrUsernameEt.setError(getString(R.string.user_is_not_exist));
+                        return;
+                    } else {
+                        binding.emailOrUsernameEt.setError(null);
+                        alertDialog.dismiss();
+                    }
+                    Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        alertDialog.show();
     }
+
+    private boolean handleEmailUserTextChanged(String text, DialogForgotUsernameBinding binding) {
+        if (text.isEmpty()) {
+            binding.emailEt.requestFocus();
+            binding.emailEt.setError(getString(R.string.email_is_empty));
+
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+            binding.emailEt.requestFocus();
+            binding.emailEt.setError(getString(R.string.email_is_invalid));
+            return false;
+        } else {
+            binding.emailEt.setError(null);
+            return true;
+        }
+    }
+
+    //check format email and username
+    private boolean handleEmailUserForgotPasswordTextChanged(String text, DialogForGotPasswordBinding binding) {
+        if (text.isEmpty()) {
+            binding.emailOrUsernameEt.requestFocus();
+            binding.emailOrUsernameEt.setError(getString(R.string.email_is_empty));
+
+            return false;
+        } else if (text.contains("@") && !Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+            binding.emailOrUsernameEt.requestFocus();
+            binding.emailOrUsernameEt.setError(getString(R.string.email_is_invalid));
+            return false;
+        } else {
+            binding.emailOrUsernameEt.setError(null);
+            return true;
+        }
+    }
+
 }

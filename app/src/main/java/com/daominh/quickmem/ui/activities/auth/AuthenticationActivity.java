@@ -5,11 +5,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.adapter.OnboardingAdapter;
+import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
-import com.daominh.quickmem.ui.activities.auth.signin.SigningActivity;
-import com.daominh.quickmem.ui.activities.auth.signup.SignupActivity;
-import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
+import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
+import com.daominh.quickmem.ui.activities.auth.signup.SignUpActivity;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -37,13 +37,13 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         // Setup sign up button
         binding.signUpBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, SignupActivity.class));
+            startActivity(new Intent(this, SignUpActivity.class));
             finish();
         });
 
         // Setup sign in button
         binding.signInBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, SigningActivity.class));
+            startActivity(new Intent(this, SignInActivity.class));
             finish();
         });
     }

@@ -20,7 +20,6 @@ import com.daominh.quickmem.databinding.ActivitySignupBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
-import com.daominh.quickmem.ui.activities.auth.signin.SigningActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
@@ -36,7 +35,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private User user;
     private UserDAO userDAO;
@@ -405,6 +404,6 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(SignupActivity.this, AuthenticationActivity.class));
+        startActivity(new Intent(SignUpActivity.this, AuthenticationActivity.class));
     }
 }
