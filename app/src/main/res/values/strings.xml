@@ -34,5 +34,7 @@
     <string name="email_is_invalid">Email is invalid</string>
     <string name="password_is_empty">Password is required</string>
     <string name="password_is_invalid">Password must be at least 8 characters</string>
+    <string name="date_is_empty">Plsease select your birthday</string>
+    <string name="email_is_exist">Email is exits, please choose another email</string>
 
 </resources>

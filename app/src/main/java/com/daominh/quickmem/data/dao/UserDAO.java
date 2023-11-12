@@ -2,6 +2,7 @@ package com.daominh.quickmem.data.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -43,8 +44,24 @@ public class UserDAO {
         } catch (SQLException e) {
             Log.e("UserDAO", "insertUser: " + e);
         } finally {
-            sqLiteDatabase.close();
+//            sqLiteDatabase.close();
         }
         return result;
+    }
+
+    //check email is exist
+    public boolean checkEmail(String email) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE email = '" + email + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "checkEmail: " + e);
+        }
+        return false;
     }
 }

@@ -14,8 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.content.res.AppCompatResources;
 import com.daominh.quickmem.R;
+import com.daominh.quickmem.data.dao.UserDAO;
+import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ActivitySignupBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
+import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
+import com.daominh.quickmem.utils.PasswordHasher;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
 
@@ -27,8 +32,15 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 public class SignupActivity extends AppCompatActivity {
+
+    private User user;
+    private UserDAO userDAO;
+    private UserSharePreferences userSharePreferences;
+    PasswordHasher passwordHasher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,11 @@ public class SignupActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //icon navigation
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, AuthenticationActivity.class));
+            finish();
+        });
 
         //login by social
         binding.facebookBtn.setOnClickListener(v -> {
@@ -102,7 +119,78 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         binding.signUpBtn.setOnClickListener(v -> {
-            Toast.makeText(this, binding.signUpBtn.isEnabled() + "", Toast.LENGTH_SHORT).show();
+            final String date = binding.dateEt.getText().toString();
+            final String email = binding.emailEt.getText().toString();
+            final String password = binding.passwordEt.getText().toString();
+
+            if (!handleDateTextChanged(date, binding)) return;
+            if (!handleEmailTextChanged(email, binding)) return;
+            if (!handlePasswordTextChanged(password, binding)) return;
+
+            if (date.isEmpty()) {
+                binding.dateTil.setHelperText(getString(R.string.date_is_empty));
+                binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                binding.dateEt.requestFocus();
+            } else if (email.isEmpty()) {
+                binding.emailTil.setHelperText(getString(R.string.email_is_empty));
+                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                binding.emailEt.requestFocus();
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
+                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                binding.emailEt.requestFocus();
+            } else if (password.isEmpty()) {
+                binding.passwordTil.setHelperText(getString(R.string.password_is_empty));
+                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                binding.passwordEt.requestFocus();
+            } else if (password.length() < 8) {
+                binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
+                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                binding.passwordEt.requestFocus();
+            } else {
+                String uuid = UUID.randomUUID().toString();
+                String username = email.split("@")[0];
+                if (username.length() > 20) {
+                    username = "quickmem" + new Random().nextInt(1000000);
+                }
+                String hashedPassword = PasswordHasher.hashPassword(password);
+                int role = 0;
+                if (binding.teacherLl.getVisibility() == View.VISIBLE) {
+                    if (binding.radioYes.isChecked()) {
+                        role = 1;
+                    } else {
+                        role = 2;
+                    }
+                }
+                String createdAt = getCurrentDate();
+                String updatedAt = getCurrentDate();
+                int status = 1;
+
+                user = new User();
+                user.setId(uuid);
+                user.setName("");
+                user.setEmail(email);
+                user.setUsername(username);
+                user.setPassword(hashedPassword);
+                user.setAvatar("");
+                user.setRole(role);
+                user.setCreated_at(createdAt);
+                user.setUpdated_at(updatedAt);
+                user.setStatus(status);
+
+                userDAO = new UserDAO(this);
+
+                if (userDAO.insertUser(user) > 0) {
+//                    userSharePreferences = new UserSharePreferences(this);
+//                    userSharePreferences.setLogin(true);
+                    intentToMain();
+                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
         });
     }
 
@@ -203,7 +291,7 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    private void handleDateTextChanged(String text, ActivitySignupBinding binding) {
+    private boolean handleDateTextChanged(String text, ActivitySignupBinding binding) {
         String currentDate = getCurrentDate();
         if (text.equals(currentDate)) {
             binding.dateTil.setHelperText(getString(R.string.date_error));
@@ -211,34 +299,51 @@ public class SignupActivity extends AppCompatActivity {
             binding.teacherLl.setVisibility(View.GONE);
             enableButton(false, binding);
             binding.dateEt.requestFocus();
+
+            return false;
         } else if (isDateGreaterThanCurrentDate(text)) {
             binding.dateTil.setHelperText(getString(R.string.date_geater_than_current_date));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.teacherLl.setVisibility(View.GONE);
             enableButton(false, binding);
             binding.dateEt.requestFocus();
+
+            return false;
         } else if (isAgeGreaterThan18(text)) {
             binding.teacherLl.setVisibility(View.VISIBLE);
             binding.dateTil.setHelperText(getString(R.string.date_of_birth));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
             enableButton(true, binding);
+
+            return true;
         } else {
             // clear error if date is valid
             binding.dateTil.setHelperText(getString(R.string.date_of_birth));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
             binding.teacherLl.setVisibility(View.GONE);
             enableButton(true, binding);
+
+            return true;
         }
     }
 
-    private void handleEmailTextChanged(String text, ActivitySignupBinding binding) {
+    private boolean handleEmailTextChanged(String text, ActivitySignupBinding binding) {
         if (text.isEmpty()) {
             binding.emailTil.setHelperText(getString(R.string.email_is_empty));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             enableButton(false, binding);
             binding.emailEt.requestFocus();
+
+            return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
             binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
+            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+            enableButton(false, binding);
+            binding.emailEt.requestFocus();
+
+            return false;
+        } else if (isEmailExist(text)) {
+            binding.emailTil.setHelperText(getString(R.string.email_is_exist));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             enableButton(false, binding);
             binding.emailEt.requestFocus();
@@ -246,25 +351,35 @@ public class SignupActivity extends AppCompatActivity {
             binding.emailTil.setHelperText(getString(R.string.email));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
             enableButton(true, binding);
+
+            return true;
         }
+        return false;
     }
 
-    private void handlePasswordTextChanged(String text, ActivitySignupBinding binding) {
+    private boolean handlePasswordTextChanged(String text, ActivitySignupBinding binding) {
         if (text.isEmpty()) {
             binding.passwordTil.setHelperText(getString(R.string.password_is_empty));
             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             enableButton(false, binding);
             binding.passwordEt.requestFocus();
+
+            return false;
         } else if (text.length() < 8) {
             binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             enableButton(false, binding);
             binding.passwordEt.requestFocus();
+
+            return false;
         } else {
             binding.passwordTil.setHelperText(getString(R.string.password));
             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
             enableButton(true, binding);
+
+            return true;
         }
+
     }
 
     private void enableButton(Boolean check, ActivitySignupBinding binding) {
@@ -277,4 +392,8 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isEmailExist(String email) {
+        userDAO = new UserDAO(this);
+        return userDAO.checkEmail(email);
+    }
 }

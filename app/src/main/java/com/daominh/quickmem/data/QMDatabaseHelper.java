@@ -26,10 +26,10 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
 
     //create sql query
     public static final String CREATE_TABLE_USERS = COMMAND_CREATE_TABLE + TABLE_USERS + " (" +
-            "id TEXT PRIMARY KEY, " +
+            "id TEXT PRIMARY KEY UNIQUE, " +
             "name TEXT NOT NULL, " +
             "email TEXT NOT NULL UNIQUE, " +
-            "username TEXT NOT NULL UNIQUE, " +
+            "username TEXT NOT NULL, " +
             "password TEXT NOT NULL, " +
             "avatar TEXT, " +
             "role INTEGER NOT NULL, " +
@@ -98,17 +98,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "FOREIGN KEY(folder_id) REFERENCES " + TABLE_FOLDERS + "(id)" +
             ");";
 
-    //create instance
-    private static QMDatabaseHelper instance;
-
-    //create instance method
-    public static synchronized QMDatabaseHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new QMDatabaseHelper(context.getApplicationContext());
-        }
-        return instance;
-    }
-
+    //constructor
     public QMDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
