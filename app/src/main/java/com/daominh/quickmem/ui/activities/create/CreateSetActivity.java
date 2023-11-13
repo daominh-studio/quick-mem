@@ -147,11 +147,12 @@ public class CreateSetActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
                 Drawable icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete);
                 View itemView = viewHolder.itemView;
+                assert icon != null;
                 int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
                 int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
                 int iconBottom = iconTop + icon.getIntrinsicHeight();

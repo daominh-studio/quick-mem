@@ -64,5 +64,7 @@
     <string name="subject_chapter_topic">Subject, chapter, topic</string>
     <string name="description">+ Description</string>
     <string name="provide_a_description_of_your_set">Provide a description of your set</string>
+    <string name="folder_name">Folder name</string>
+    <string name="description_optional">Description (optional)</string>
 
 </resources>
