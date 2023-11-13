@@ -15,8 +15,8 @@ import com.daominh.quickmem.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,14 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         setupNavigation();
+
     }
 
     private void setupNavigation() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.homeFragment,
-                R.id.bookFragment,
-                R.id.libraryFragment,
-                R.id.profileFragment,
-                R.id.createFragment
-        ).build();
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+
     }
 
     @Override

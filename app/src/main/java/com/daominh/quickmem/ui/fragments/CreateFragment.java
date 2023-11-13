@@ -1,31 +1,68 @@
 package com.daominh.quickmem.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.daominh.quickmem.R;
+import com.daominh.quickmem.databinding.FragmentCreateBinding;
+import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
+import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
+import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import org.jetbrains.annotations.NotNull;
 
 public class CreateFragment extends BottomSheetDialogFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private FragmentCreateBinding binding;
 
+
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // Set the enter transition animation
         setEnterTransition(new CustomEnterTransition().setDuration(500));
         // Set the exit transition animation
         setExitTransition(new CustomExitTransition().setDuration(500));
-
     }
 
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        binding = FragmentCreateBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create, container, false);
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.llCreateClass.setOnClickListener(v ->{
+            Toast.makeText(requireContext(), "Hello class", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), CreateClassActivity.class));
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            //call ondismiss to close the bottom sheet
+            dismiss();
+        });
+
+        binding.llCreateFolder.setOnClickListener(v ->{
+            Toast.makeText(requireContext(), "Hello folder", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), CreateFolderActivity.class));
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            dismiss();
+        });
+
+        binding.llCreateSet.setOnClickListener(v ->{
+            Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), CreateSetActivity.class));
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            dismiss();
+        });
     }
 
     // Define your custom enter transition class
@@ -41,4 +78,5 @@ public class CreateFragment extends BottomSheetDialogFragment {
             setSlideEdge(android.view.Gravity.BOTTOM);
         }
     }
+
 }

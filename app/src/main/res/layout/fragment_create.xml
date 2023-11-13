@@ -15,6 +15,7 @@
 
         <LinearLayout
                 android:paddingBottom="@dimen/_30ssp"
+                android:id="@+id/bottom_sheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -28,6 +29,7 @@
 
 
             <LinearLayout
+                    android:id="@+id/ll_create_set"
                     android:layout_margin="@dimen/_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,6 +53,7 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/ll_create_folder"
                     android:layout_margin="@dimen/_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,12 +71,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_20ssp"
-                        android:text="@string/create_set"
+                        android:text="@string/create_folder"
                         android:textStyle="bold"/>
 
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/ll_create_class"
                     android:layout_margin="@dimen/_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_20ssp"
-                        android:text="@string/create_set"
+                        android:text="@string/create_class"
                         android:textStyle="bold"/>
 
             </LinearLayout>

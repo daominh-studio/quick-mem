@@ -39,7 +39,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     public static final String CREATE_TABLE_CLASSES = COMMAND_CREATE_TABLE + TABLE_CLASSES + " (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "id TEXT PRIMARY KEY, " +
             "name TEXT NOT NULL, " +
             "description TEXT, " +
             "user_id TEXT NOT NULL, " +
@@ -49,7 +49,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     public static final String CREATE_TABLE_FOLDERS = COMMAND_CREATE_TABLE + TABLE_FOLDERS + " (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "id TEXT PRIMARY KEY , " +
             "name TEXT NOT NULL, " +
             "description TEXT, " +
             "user_id TEXT NOT NULL, " +
@@ -58,7 +58,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     public static final String CREATE_TABLE_FLASHCARDS = COMMAND_CREATE_TABLE + TABLE_FLASHCARDS + " (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "id TEXT PRIMARY KEY , " +
             "name TEXT NOT NULL, " +
             "description TEXT, " +
             "user_id TEXT NOT NULL, " +
@@ -68,10 +68,10 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     public static final String CREATE_TABLE_CARDS = COMMAND_CREATE_TABLE + TABLE_CARDS + " (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "id TEXT PRIMARY KEY , " +
             "front TEXT NOT NULL, " +
             "back TEXT NOT NULL, " +
-            "flashcard_id INTEGER NOT NULL, " +
+            "flashcard_id TEXT NOT NULL, " +
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL" +
             ");";

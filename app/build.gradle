@@ -56,4 +56,7 @@ dependencies {
 
     //date picker
     implementation 'com.github.swnishan:materialdatetimepicker:1.0.0'
+
+    //swipe to delete
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
 }

@@ -187,8 +187,9 @@ public class SignUpActivity extends AppCompatActivity {
                 if (userDAO.insertUser(user) > 0) {
                     userSharePreferences = new UserSharePreferences(this);
                     userSharePreferences.setLogin(true);
+                    userSharePreferences.saveUser(user);
                     intentToMain();
-                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, user.getId(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
                 }

@@ -33,7 +33,7 @@ public class UserSharePreferences {
 
     //get id
     public String getId() {
-        return sharedPreferences.getString(KEY_ID, "");
+        return sharedPreferences.getString(KEY_ID, "sdfsafsd");
     }
 
     public void saveUser(User user) {

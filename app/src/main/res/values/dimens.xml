@@ -7,4 +7,6 @@
     <dimen name="_12ssp">12sp</dimen>
     <dimen name="_8ssp">8sp</dimen>
     <dimen name="_10ssp">10sp</dimen>
+    <dimen name="_80ssp">80sp</dimen>
+    <dimen name="_120ssp">120dp</dimen>
 </resources>

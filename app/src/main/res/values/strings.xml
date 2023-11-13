@@ -57,5 +57,12 @@
     <string name="profile">Profile</string>
     <string name="add">Add</string>
     <string name="create_set">Create study set</string>
+    <string name="done">Done</string>
+    <string name="custom_set">Custom Set</string>
+    <string name="create_folder">Create folder</string>
+    <string name="create_class">Create class</string>
+    <string name="subject_chapter_topic">Subject, chapter, topic</string>
+    <string name="description">+ Description</string>
+    <string name="provide_a_description_of_your_set">Provide a description of your set</string>
 
 </resources>

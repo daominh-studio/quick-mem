@@ -10,9 +10,6 @@
             android:name="com.daominh.quickmem.ui.fragments.HomeFragment"
             android:label="fragment_home"
             tools:layout="@layout/fragment_home">
-        <action
-                android:id="@+id/action_homeFragment_to_createFragment"
-                app:destination="@id/createFragment"/>
     </fragment>
     <fragment
             android:id="@+id/bookFragment"
@@ -34,8 +31,5 @@
             android:name="com.daominh.quickmem.ui.fragments.CreateFragment"
             android:label="fragment_create"
             tools:layout="@layout/fragment_create">
-        <action
-                android:id="@+id/action_createFragment_to_homeFragment"
-                app:destination="@id/homeFragment"/>
     </dialog>
 </navigation>
