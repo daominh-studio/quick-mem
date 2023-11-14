@@ -26,17 +26,17 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             android:layout_marginHorizontal="@dimen/_10dp"
             app:helperTextEnabled="true"
-            android:id="@+id/folder_til"
+            android:id="@+id/class_til"
             app:helperTextTextColor="@color/red"
             app:hintTextColor="@color/light_gray"
-            android:hint="@string/folder_name">
+            android:hint="@string/class_name">
 
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
                 android:imeOptions="actionNext"
-                android:id="@+id/folder_et"/>
+                android:id="@+id/class_et"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
-            app:layout_constraintTop_toBottomOf="@id/folder_til"
+            app:layout_constraintTop_toBottomOf="@id/class_til"
             android:layout_marginHorizontal="@dimen/_10dp"
             app:helperTextEnabled="true"
             android:id="@+id/description_til"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/description_til"
             android:layout_marginTop="@dimen/_10dp"
-            android:id="@+id/switch1"
+            android:id="@+id/private_st"
             android:text="Private"
             android:textColor="@color/gray"
             android:textSize="@dimen/_15ssp"
