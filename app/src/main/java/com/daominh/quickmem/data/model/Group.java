@@ -1,23 +1,25 @@
 package com.daominh.quickmem.data.model;
 
-public class Class {
+public class Group {
     String id;
     String name;
     String description;
     String user_id;
     String created_at;
     String updated_at;
+    int status;
 
-    public Class() {
+    public Group() {
     }
 
-    public Class(String id, String name, String description, String user_id, String created_at, String updated_at) {
+    public Group(String id, String name, String description, String user_id, String created_at, String updated_at, int status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.user_id = user_id;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.status = status;
     }
 
     public String getId() {
@@ -66,5 +68,13 @@ public class Class {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
