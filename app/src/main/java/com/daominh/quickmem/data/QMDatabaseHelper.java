@@ -45,6 +45,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "user_id TEXT NOT NULL, " +
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL, " +
+            "status INTEGER NOT NULL, " +
             "FOREIGN KEY(user_id) REFERENCES " + TABLE_USERS + "(id)" +
             ");";
 
