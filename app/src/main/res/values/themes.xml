@@ -20,8 +20,13 @@
 
     <style name="Theme.QuickMem" parent="Base.Theme.QuickMem"/>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Các thuộc tính tối ở đây -->
+        <item name="colorPrimary">@color/celestial_blue</item>
+        <item name="colorPrimaryDark">@color/celestial_blue</item>
+        <item name="colorAccent">@color/celestial_blue</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/celestial_blue</item>
     </style>
 
 </resources>

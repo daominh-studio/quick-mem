@@ -28,7 +28,7 @@
         <activity
                 android:name=".ui.activities.auth.signup.SignUpActivity"
                 android:exported="false"
-                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"/>
+                android:theme="@style/AppBottomSheetDialogTheme"/>
         <activity
                 android:name=".ui.activities.auth.signin.SignInActivity"
                 android:exported="false"
