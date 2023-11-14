@@ -66,49 +66,15 @@ public class CreateFragment extends BottomSheetDialogFragment {
         });
 
         binding.llCreateFolder.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            final DialogCreateFolderBinding dialogBinding = DialogCreateFolderBinding.inflate(getLayoutInflater());
-            builder.setView(dialogBinding.getRoot());
-            AlertDialog dialog = builder.create();
-            dialogBinding.folderEt.requestFocus();
-            dialogBinding.cancelTv.setOnClickListener(v1 -> {
-                dialog.dismiss();
-                dismiss();
-            });
-            dialogBinding.okTv.setOnClickListener(v1 -> {
-                final String folderName = dialogBinding.folderEt.getText().toString().trim();
-                final String folderDescription = dialogBinding.descriptionEt.getText().toString().trim();
-
-                if (folderName.isEmpty()) {
-                    dialogBinding.folderTil.setError("");
-                    dialogBinding.folderTil.setHelperText("Folder name cannot be empty");
-                    dialogBinding.folderEt.requestFocus();
-                    return;
-                } else {
-                    final String folderId = genUUID();
-                    final String userId = getUser_id();
-                    final String createdAt = getCurrentDate();
-                    final String updatedAt = getCurrentDate();
-
-                    Folder folder = new Folder(folderId, folderName, folderDescription, userId, createdAt, updatedAt);
-                    folderDAO = new FolderDAO(requireContext());
-                    if (folderDAO.insertFolder(folder) > 0) {
-                        Toast.makeText(requireContext(), "Folder created", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        dismiss();
-                    } else {
-                        Toast.makeText(requireContext(), "Folder not created", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-            });
-            dialog.show();
+            Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), CreateFolderActivity.class));
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            dismiss();
         });
 
         binding.llCreateSet.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(requireContext(), CreateFolderActivity.class));
+            startActivity(new Intent(requireContext(), CreateSetActivity.class));
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
             dismiss();
         });
@@ -126,29 +92,6 @@ public class CreateFragment extends BottomSheetDialogFragment {
         public CustomExitTransition() {
             setSlideEdge(android.view.Gravity.BOTTOM);
         }
-    }
-
-    private String getCurrentDate() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return currentDate.format(formatter);
-        } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(new Date());
-        }
-    }
-
-    private String genUUID() {
-        return java.util.UUID.randomUUID().toString();
-    }
-
-    private String getUser_id() {
-
-        return userSharePreferences.getId();
     }
 
 }
