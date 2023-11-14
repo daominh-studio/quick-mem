@@ -1,8 +1,11 @@
 package com.daominh.quickmem.ui.activities.create;
 
 import android.annotation.SuppressLint;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.R;
@@ -28,15 +31,25 @@ public class CreateFolderActivity extends AppCompatActivity {
         final View view = binding.getRoot();
         setContentView(view);
 
-        binding.cancelTv.setOnClickListener(v -> onBackPressed());
-        binding.saveTv.setOnClickListener(v -> {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tick, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == R.id.done) {
             final String folderName = binding.folderEt.getText().toString().trim();
             final String description = binding.descriptionEt.getText().toString().trim();
             if (folderName.isEmpty()) {
                 binding.folderTil.setError("");
                 binding.folderTil.setHelperText("Folder name cannot be empty");
                 binding.folderEt.requestFocus();
-                return;
+                return false;
             } else {
                 final String folderId = genUUID();
                 final String userId = getUser_id();
@@ -53,7 +66,8 @@ public class CreateFolderActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getCurrentDate() {
