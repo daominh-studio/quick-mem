@@ -6,15 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activities.create.CreateFolderActivity">
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
             android:background="@color/white_gray"
-            android:elevation="@dimen/_8ssp"
-            android:navigationIcon="@drawable/ic_arrow_back"
-            android:title="@string/new_folder"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/_10dp"
+            app:title="Create Folder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     <com.google.android.material.textfield.TextInputLayout
