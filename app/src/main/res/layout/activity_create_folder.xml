@@ -12,48 +12,11 @@
             android:id="@+id/toolbar"
             android:background="@color/white_gray"
             android:elevation="@dimen/_8ssp"
+            android:navigationIcon="@drawable/ic_arrow_back"
+            android:title="@string/new_folder"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Cancel"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="@dimen/_20ssp"
-                    android:id="@+id/cancel_tv"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Create Folder"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_20ssp"
-                    android:id="@+id/create_folder_tv"
-                    app:layout_constraintEnd_toStartOf="@id/save_tv"
-                    app:layout_constraintStart_toEndOf="@id/cancel_tv"
-                    app:layout_constraintTop_toTopOf="parent"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Save"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="@dimen/_20ssp"
-                    android:id="@+id/save_tv"
-                    android:layout_marginEnd="@dimen/_20ssp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </Toolbar>
+            app:layout_constraintEnd_toEndOf="parent"/>
     <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
