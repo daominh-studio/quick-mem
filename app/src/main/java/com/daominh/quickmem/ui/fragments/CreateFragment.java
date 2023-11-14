@@ -71,7 +71,10 @@ public class CreateFragment extends BottomSheetDialogFragment {
             builder.setView(dialogBinding.getRoot());
             AlertDialog dialog = builder.create();
             dialogBinding.folderEt.requestFocus();
-            dialogBinding.cancelTv.setOnClickListener(v1 -> dialog.dismiss());
+            dialogBinding.cancelTv.setOnClickListener(v1 -> {
+                dialog.dismiss();
+                dismiss();
+            });
             dialogBinding.okTv.setOnClickListener(v1 -> {
                 final String folderName = dialogBinding.folderEt.getText().toString().trim();
                 final String folderDescription = dialogBinding.descriptionEt.getText().toString().trim();
@@ -105,7 +108,7 @@ public class CreateFragment extends BottomSheetDialogFragment {
 
         binding.llCreateSet.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(requireContext(), CreateSetActivity.class));
+            startActivity(new Intent(requireContext(), CreateFolderActivity.class));
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
             dismiss();
         });
