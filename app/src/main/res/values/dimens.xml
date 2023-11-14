@@ -9,4 +9,5 @@
     <dimen name="_10ssp">10sp</dimen>
     <dimen name="_80ssp">80sp</dimen>
     <dimen name="_120ssp">120dp</dimen>
+    <dimen name="_15ssp">15sp</dimen>
 </resources>
