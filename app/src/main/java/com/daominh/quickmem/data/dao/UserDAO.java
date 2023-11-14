@@ -45,7 +45,7 @@ public class UserDAO {
         } catch (SQLException e) {
             Log.e("UserDAO", "insertUser: " + e);
         } finally {
-//            sqLiteDatabase.close();
+            sqLiteDatabase.close();
         }
         return result;
     }
