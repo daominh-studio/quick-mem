@@ -67,5 +67,6 @@
     <string name="folder_name">Folder name</string>
     <string name="description_optional">Description (optional)</string>
     <string name="new_folder">New Folder</string>
+    <string name="class_name">Class name</string>
 
 </resources>
