@@ -127,6 +127,8 @@ public class SignInActivity extends AppCompatActivity {
                 userSharePreferences = new UserSharePreferences(SignInActivity.this);
                 userSharePreferences.saveUser(user);
                 userSharePreferences.setLogin(true);
+                userSharePreferences.setUserName(user.getUsername());
+                userSharePreferences.setAvatar(user.getAvatar());
                 intentToMain();
                 Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
 

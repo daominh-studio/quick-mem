@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         app:cardCornerRadius="@dimen/_10dp"
         android:elevation="@dimen/_8ssp"
+        android:background="@color/white_gray"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_20ssp"
+        android:layout_marginHorizontal="@dimen/_10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
+            android:background="@color/white_gray"
             android:layout_height="wrap_content"
             xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -58,6 +59,8 @@
                 android:id="@+id/created_date_tv"/>
 
         <ImageView
+                android:background="@color/white_gray"
+                android:layout_marginTop="@dimen/_10dp"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@mipmap/ic_avatar_test"

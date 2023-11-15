@@ -9,6 +9,9 @@ public class UserSharePreferences {
     //create variables
     public static final String KEY_LOGIN = "login";
     public static final String KEY_ID = "id";
+    private static final String KEY_AVATAR = "avatar";
+
+    private static final String KEY_USER_NAME = "user_name";
 
     private final SharedPreferences sharedPreferences;
 
@@ -33,12 +36,32 @@ public class UserSharePreferences {
 
     //get id
     public String getId() {
-        return sharedPreferences.getString(KEY_ID, "sdfsafsd");
+        return sharedPreferences.getString(KEY_ID, "");
     }
 
     public void saveUser(User user) {
         setId(user.getId());
         setLogin(true);
+    }
+
+    //set avatar
+    public void setAvatar(String avatar) {
+        sharedPreferences.edit().putString(KEY_AVATAR, avatar).apply();
+    }
+
+    //get avatar
+    public String getAvatar() {
+        return sharedPreferences.getString(KEY_AVATAR, "");
+    }
+
+    //set user name
+    public void setUserName(String userName) {
+        sharedPreferences.edit().putString(KEY_USER_NAME, userName).apply();
+    }
+
+    //get user name
+    public String getUserName() {
+        return sharedPreferences.getString(KEY_USER_NAME, "");
     }
 
     //clear

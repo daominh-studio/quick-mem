@@ -213,6 +213,8 @@ public class SignUpActivity extends AppCompatActivity {
                     userSharePreferences = new UserSharePreferences(this);
                     userSharePreferences.setLogin(true);
                     userSharePreferences.saveUser(user);
+                    userSharePreferences.setAvatar(linkAvatar);
+                    userSharePreferences.setUserName(username);
                     intentToMain();
                 } else {
                     Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();

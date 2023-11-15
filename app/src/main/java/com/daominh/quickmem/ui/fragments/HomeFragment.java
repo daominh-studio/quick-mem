@@ -14,16 +14,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.daominh.quickmem.adapter.SetsAdapter;
+import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
+import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signup.SignUpActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
+
+    SetsAdapter setsAdapter;
+    ArrayList<FlashCard> flashCards;
+    FlashCardDAO flashCardDAO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,34 @@ public class HomeFragment extends Fragment {
             requireActivity().finish();
         });
 
+        //get all sets by idUser
+        flashCardDAO = new FlashCardDAO(requireActivity());
+        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
 
+
+        // Initialize adapter before setting it to RecyclerView
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+
+        binding.setsRv.setAdapter(setsAdapter);
+        binding.setsRv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.setsRv.setLayoutManager(linearLayoutManager);
+
+        setsAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

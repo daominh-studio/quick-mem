@@ -2,6 +2,7 @@ package com.daominh.quickmem.data.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -38,8 +39,27 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "insertCard: " + e);
         } finally {
-//            sqLiteDatabase.close();
+            sqLiteDatabase.close();
         }
         return result;
+    }
+
+    //count card by flashcard_id
+    public int countCardByFlashCardId(String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CARDS + " WHERE flashcard_id = '" + flashcard_id + "'";
+
+        int count = 0;
+
+        try {
+            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            count = cursor.getCount();
+        } catch (SQLException e) {
+            Log.e("CardDAO", "countCardByFlashCardId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return count;
     }
 }
