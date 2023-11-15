@@ -3,7 +3,11 @@ package com.daominh.quickmem.ui.activities.auth.signup;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,9 +25,17 @@ import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
+import com.squareup.picasso.Picasso;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -34,6 +46,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -170,14 +184,41 @@ public class SignUpActivity extends AppCompatActivity {
                 String createdAt = getCurrentDate();
                 String updatedAt = getCurrentDate();
                 int status = 1;
-
+                String link = "https://avatar-nqm.koyeb.app";
                 user = new User();
+                //convert picasso to bitmap
+                // Ensure that this code is executed on a background thread.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Load the image asynchronously
+                        try {
+                            Bitmap avatar = Picasso.get().load(link).get();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+
+                            if (avatar != null) {
+                                avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byte[] byteArray = stream.toByteArray();
+                                Toast.makeText(SignUpActivity.this, byteArray.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+                                // ... rest of your code ...
+                            } else {
+                                // Handle the case when the avatar is null
+                                Log.e("SignUpActivity", "Avatar is null");
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }).start();
+
+
                 user.setId(uuid);
                 user.setName("");
                 user.setEmail(email);
                 user.setUsername(username);
                 user.setPassword(hashedPassword);
-                user.setAvatar("");
                 user.setRole(role);
                 user.setCreated_at(createdAt);
                 user.setUpdated_at(updatedAt);
@@ -401,6 +442,7 @@ public class SignUpActivity extends AppCompatActivity {
         userDAO = new UserDAO(this);
         return userDAO.checkEmail(email);
     }
+
 
     @Override
     public void onBackPressed() {
