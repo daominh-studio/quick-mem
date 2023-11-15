@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
         binding.searchCl.setOnClickListener(v -> {
             userSharePreferences = new UserSharePreferences(requireActivity());
             userSharePreferences.setLogin(false);
+
             userSharePreferences.clear();
             startActivity(new Intent(requireActivity(), SignUpActivity.class));
             requireActivity().finish();
