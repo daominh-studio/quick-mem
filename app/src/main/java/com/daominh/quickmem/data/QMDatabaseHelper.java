@@ -31,7 +31,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "email TEXT NOT NULL UNIQUE, " +
             "username TEXT NOT NULL UNIQUE, " +
             "password TEXT NOT NULL, " +
-            "avatar TEXT, " +
+            "avatar BLOB, " +
             "role INTEGER NOT NULL, " +
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL, " +
