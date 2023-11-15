@@ -5,15 +5,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.utils.PasswordHasher;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.ByteArrayOutputStream;
 
 public class UserDAO {
+    private static final String TABLE_USER = "users";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_AVATAR = "avatar";
+
+
+    //radom 1 - 30
+
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;
 
@@ -23,6 +33,8 @@ public class UserDAO {
 
     //insert user
     public long insertUser(User user) {
+        // First image load
+
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
         long result = 0;
@@ -157,7 +169,7 @@ public class UserDAO {
                     String id = cursor.getString(idIndex);
                     String name = cursor.getString(nameIndex);
                     String username = cursor.getString(usernameIndex);
-                    byte avatar[] = cursor.getBlob(avatarIndex);
+                    String avatar = cursor.getString(avatarIndex);
                     int role = cursor.getInt(roleIndex);
                     String created_at = cursor.getString(createdAtIndex);
                     String updated_at = cursor.getString(updatedAtIndex);
@@ -196,20 +208,19 @@ public class UserDAO {
     }
 
     //get avatar by id user
-    public Bitmap getAvatarUser(String userID) {
+    public String getAvatarUser(String id) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
 
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + userID + "'";
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
 
         try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 int avatarIndex = cursor.getColumnIndex("avatar");
                 if (avatarIndex != -1) {
-                    byte[] avatar = cursor.getBlob(avatarIndex);
-
-                    // Convert the byte array to a Bitmap
-                    return BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                    String avatar = cursor.getString(avatarIndex);
+                    Log.e("UserDAO", "getAvatarUser: " + avatar);
+                    return avatar;
                 }
             }
         } catch (SQLException e) {
@@ -217,6 +228,5 @@ public class UserDAO {
         }
         return null;
     }
-
 
 }

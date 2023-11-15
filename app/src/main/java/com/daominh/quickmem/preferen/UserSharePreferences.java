@@ -40,4 +40,9 @@ public class UserSharePreferences {
         setId(user.getId());
         setLogin(true);
     }
+
+    //clear
+    public void clear() {
+        sharedPreferences.edit().clear().apply();
+    }
 }
