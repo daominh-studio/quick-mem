@@ -49,6 +49,7 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
 
         holder.binding.setNameTv.setText(set.getName());
         holder.binding.termCountTv.setText(count + " cards");
+        holder.binding.userNameTv.setText(userNames);
         Picasso.get().load(avatar).into(holder.binding.avatarIv);
         holder.binding.createdDateTv.setText(set.getCreated_at());
 

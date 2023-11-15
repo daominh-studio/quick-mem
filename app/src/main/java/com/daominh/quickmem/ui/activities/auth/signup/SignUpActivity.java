@@ -171,7 +171,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 String uuid = UUID.randomUUID().toString();
                 String username = email.split("@")[0];
-                if (username.length() > 18) {
+                if (username.length() > 18 || username.length() < 6) {
                     username = "quickmem" + new Random().nextInt(1000000);
                 } else if (userDAO.checkUsername(username)) {
                     username = username + new Random().nextInt(100);

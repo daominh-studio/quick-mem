@@ -54,12 +54,12 @@ public class UserSharePreferences {
         return sharedPreferences.getString(KEY_AVATAR, "");
     }
 
-    //set user name
+    //set username
     public void setUserName(String userName) {
         sharedPreferences.edit().putString(KEY_USER_NAME, userName).apply();
     }
 
-    //get user name
+    //get username
     public String getUserName() {
         return sharedPreferences.getString(KEY_USER_NAME, "");
     }
