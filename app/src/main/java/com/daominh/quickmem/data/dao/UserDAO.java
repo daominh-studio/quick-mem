@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.User;
@@ -155,7 +157,7 @@ public class UserDAO {
                     String id = cursor.getString(idIndex);
                     String name = cursor.getString(nameIndex);
                     String username = cursor.getString(usernameIndex);
-                    String avatar = cursor.getString(avatarIndex);
+                    byte avatar[] = cursor.getBlob(avatarIndex);
                     int role = cursor.getInt(roleIndex);
                     String created_at = cursor.getString(createdAtIndex);
                     String updated_at = cursor.getString(updatedAtIndex);
@@ -192,5 +194,29 @@ public class UserDAO {
         }
         return null;
     }
+
+    //get avatar by id user
+    public Bitmap getAvatarUser(String userID) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + userID + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int avatarIndex = cursor.getColumnIndex("avatar");
+                if (avatarIndex != -1) {
+                    byte[] avatar = cursor.getBlob(avatarIndex);
+
+                    // Convert the byte array to a Bitmap
+                    return BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getAvatarUser: " + e);
+        }
+        return null;
+    }
+
 
 }
