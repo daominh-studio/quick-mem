@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     private User user;
     private UserDAO userDAO;
     private UserSharePreferences userSharePreferences;
-    private static final String MAX_LEGHT = "30";
+    private static final String MAX_LEGHT = "90";
     private static final String link = "https://avatar-nqm.koyeb.app";
 
     @Override
