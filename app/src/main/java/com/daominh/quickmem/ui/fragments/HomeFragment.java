@@ -15,10 +15,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.daominh.quickmem.adapter.ClassAdapter;
+import com.daominh.quickmem.adapter.FolderAdapter;
 import com.daominh.quickmem.adapter.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
+import com.daominh.quickmem.data.dao.FolderDAO;
+import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.FlashCard;
+import com.daominh.quickmem.data.model.Folder;
+import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signup.SignUpActivity;
@@ -32,13 +39,28 @@ public class HomeFragment extends Fragment {
     private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
 
-    SetsAdapter setsAdapter;
-    ArrayList<FlashCard> flashCards;
-    FlashCardDAO flashCardDAO;
+    private SetsAdapter setsAdapter;
+    private FolderAdapter folderAdapter;
+    private ClassAdapter classAdapter;
+    private ArrayList<FlashCard> flashCards;
+    private ArrayList<Folder> folders;
+    private ArrayList<Group> classes;
+    private FlashCardDAO flashCardDAO;
+    private FolderDAO folderDAO;
+    private GroupDAO groupDAO;
+
+    private String idUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userSharePreferences = new UserSharePreferences(requireActivity());
+        idUser = userSharePreferences.getId();
+        userDAO = new UserDAO(requireActivity());
+        flashCardDAO = new FlashCardDAO(requireActivity());
+        folderDAO = new FolderDAO(requireActivity());
+        groupDAO = new GroupDAO(requireActivity());
     }
 
     @Override
@@ -52,44 +74,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Get user ID from SharedPreferences
         userSharePreferences = new UserSharePreferences(requireActivity());
-        String idUser = userSharePreferences.getId();
-        userDAO = new UserDAO(requireActivity());
-        String avatar = userDAO.getAvatarUser(idUser);
-        Picasso.get().load(avatar).into(binding.notificationIv);
-        binding.searchCl.setOnClickListener(v -> {
-            userSharePreferences = new UserSharePreferences(requireActivity());
-            userSharePreferences.setLogin(false);
+        idUser = userSharePreferences.getId();
 
-            userSharePreferences.clear();
-            startActivity(new Intent(requireActivity(), SignUpActivity.class));
-            requireActivity().finish();
-        });
-
-        //get all sets by idUser
-        flashCardDAO = new FlashCardDAO(requireActivity());
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-
-
-        // Initialize adapter before setting it to RecyclerView
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
-
-        binding.setsRv.setAdapter(setsAdapter);
-        binding.setsRv.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 
+        folderAdapter = new FolderAdapter(requireActivity(), folders);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        setsAdapter.notifyDataSetChanged();
+
     }
 
     @Override

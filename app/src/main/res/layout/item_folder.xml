@@ -6,8 +6,8 @@
 
     <ImageView
             android:id="@+id/folder_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@mipmap/ic_folder"
             android:layout_marginStart="@dimen/_16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:layout_marginStart="@dimen/_10dp"
             android:maxLines="2"
+            android:layout_marginStart="@dimen/_8ssp"
             android:text="@string/folder_name"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/_16sp"
@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8ssp"
             android:text="@string/user_name"
+            android:layout_marginBottom="@dimen/_16dp"
             android:textColor="@color/celestial_blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
