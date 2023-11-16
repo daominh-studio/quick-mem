@@ -43,10 +43,10 @@ public class SignInActivity extends AppCompatActivity {
 
         //sign in by social
         binding.googleBtn.setOnClickListener(v -> {
-            intentToMain();
+//            intentToMain();
         });
         binding.facebookBtn.setOnClickListener(v -> {
-            intentToMain();
+//            intentToMain();
         });
 
 

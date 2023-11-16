@@ -3,13 +3,7 @@ package com.daominh.quickmem.ui.activities.auth.signup;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,18 +21,9 @@ import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -49,8 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -75,16 +58,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         //login by social
         binding.facebookBtn.setOnClickListener(v -> {
-            intentToMain();
+//            intentToMain();
         });
 
         binding.googleBtn.setOnClickListener(v -> {
-            intentToMain();
+//            intentToMain();
         });
 
-        binding.dateEt.setOnClickListener(v -> {
-            openDialogDatePicker(binding.dateEt::setText);
-        });
+        binding.dateEt.setOnClickListener(v -> openDialogDatePicker(binding.dateEt::setText));
 
         binding.dateEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -190,8 +171,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String updatedAt = getCurrentDate();
                 int status = 1;
                 user = new User();
-                int random = (int) (Math.random() * (Integer.parseInt(MAX_LEGHT) - 1 + 1) + 1);
-                final int finalRandom = random;
+                final int finalRandom = (int) (Math.random() * (Integer.parseInt(MAX_LEGHT) - 1 + 1) + 1);
 
                 //save link avatar + random
                 String linkAvatar = link + "/images/" + finalRandom + ".png";
