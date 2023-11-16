@@ -75,5 +75,7 @@
     <string name="_12_07_2023">12/07/2023</string>
     <string name="sets">Sets</string>
     <string name="view_all">View all</string>
+    <string name="folder">Folder</string>
+    <string name="group">Class</string>
 
 </resources>

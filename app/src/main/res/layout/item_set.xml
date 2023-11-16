@@ -6,7 +6,7 @@
         android:elevation="@dimen/_8ssp"
         android:background="@color/white_gray"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_10dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
