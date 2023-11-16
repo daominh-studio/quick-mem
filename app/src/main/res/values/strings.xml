@@ -77,5 +77,9 @@
     <string name="view_all">View all</string>
     <string name="folder">Folder</string>
     <string name="group">Class</string>
-
+    <string name="name_profile">hadao1204</string>
+    <string name="courses">Your courses</string>
+    <string name="settings">Your settings</string>
+    <string name="add_course">Add a course</string>
+    <string name="text_in_course_profile">Add course so we can get the best study content to you</string>
 </resources>
