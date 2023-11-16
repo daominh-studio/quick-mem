@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
-    private UserSharePreferences userSharePreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -39,7 +38,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userSharePreferences = new UserSharePreferences(requireActivity());
+        UserSharePreferences userSharePreferences = new UserSharePreferences(requireActivity());
         binding.nameProfileTv.setText(userSharePreferences.getUserName());
         Picasso.get().load(userSharePreferences.getAvatar()).into(binding.profileIv);
 

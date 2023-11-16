@@ -163,23 +163,4 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
     }
 
-    public void removeItem(int position) {
-        // Xóa item từ data set
-        cards.remove(position);
-        // Thông báo cho adapter về sự thay đổi
-        notifyItemRemoved(position);
-    }
-
-    public void restoreItem(Card card, int position) {
-        cards.add(position, card);
-        // Thông báo cho adapter về sự thay đổi
-        notifyItemInserted(position);
-    }
-
-    //thêm một item mới ngay sau item đang được chọn
-    public void addItem(Card card, int position) {
-        cards.add(position + 1, card);
-        // Thông báo cho adapter về sự thay đổi
-        notifyItemInserted(position + 1);
-    }
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnboardingAdapter extends PagerAdapter {
 
-    private Context context;
+    private final Context context;
 
     public OnboardingAdapter(Context context) {
         this.context = context;

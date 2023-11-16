@@ -21,8 +21,6 @@ import java.util.Date;
 
 public class CreateFolderActivity extends AppCompatActivity {
     private ActivityCreateFolderBinding binding;
-    private UserSharePreferences userSharePreferences;
-    private FolderDAO folderDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,7 @@ public class CreateFolderActivity extends AppCompatActivity {
                 final String updatedAt = getCurrentDate();
 
                 Folder folder = new Folder(folderId, folderName, description, userId, createdAt, updatedAt);
-                folderDAO = new FolderDAO(this);
+                FolderDAO folderDAO = new FolderDAO(this);
                 if (folderDAO.insertFolder(folder) > 0) {
                     Toast.makeText(this, "Folder created", Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -94,7 +92,7 @@ public class CreateFolderActivity extends AppCompatActivity {
     }
 
     private String getUser_id() {
-        userSharePreferences = new UserSharePreferences(this);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
     }
 

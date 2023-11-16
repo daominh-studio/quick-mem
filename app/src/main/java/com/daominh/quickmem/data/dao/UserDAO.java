@@ -5,24 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.utils.PasswordHasher;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.ByteArrayOutputStream;
 
 public class UserDAO {
-    private static final String TABLE_USER = "users";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_AVATAR = "avatar";
-
-
-    //radom 1 - 30
 
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;

@@ -9,14 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.CardAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
@@ -26,8 +30,8 @@ import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ActivityCreateSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
-import com.daominh.quickmem.utils.OnItemClickListener;
 import com.google.android.material.snackbar.Snackbar;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -60,17 +64,12 @@ public class CreateSetActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
 
-        String currentDate = getCurrentDate();
-
-
         if (binding.subjectEt.getText().toString().isEmpty()) {
             binding.subjectEt.requestFocus();
         }
 
 
-        binding.descriptionTv.setOnClickListener(v -> {
-            binding.descriptionTil.setVisibility(View.VISIBLE);
-        });
+        binding.descriptionTv.setOnClickListener(v -> binding.descriptionTil.setVisibility(View.VISIBLE));
 
         //create list two set
         cards = new ArrayList<>();
@@ -84,12 +83,9 @@ public class CreateSetActivity extends AppCompatActivity {
         cardAdapter.notifyDataSetChanged();
 
 
-        cardAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                selectedPosition = position;
-                updateToolbarTitle();
-            }
+        cardAdapter.setOnItemClickListener(position -> {
+            selectedPosition = position;
+            updateToolbarTitle();
         });
 
 
@@ -129,7 +125,7 @@ public class CreateSetActivity extends AppCompatActivity {
                 cards.remove(position);
                 cardAdapter.notifyItemRemoved(position);
 
-                // Showing Snackbar with Undo option
+                // Showing Snack bar with Undo option
                 Snackbar snackbar = Snackbar.make(binding.getRoot(), "Item was removed from the list.", Snackbar.LENGTH_LONG);
                 snackbar.setAction("UNDO", view -> {
 
@@ -243,6 +239,7 @@ public class CreateSetActivity extends AppCompatActivity {
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
             if (cardDAO.insertCard(card) > 0) {
+                Toast.makeText(this, "Insert card successfully", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(this, "Insert card failed" + id, Toast.LENGTH_SHORT).show();
@@ -275,7 +272,9 @@ public class CreateSetActivity extends AppCompatActivity {
             int positionToShow = selectedPosition + 1;
             int totalItems = cards.size();
             String title = positionToShow + "/" + totalItems;
-            getSupportActionBar().setTitle(title);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(title);
+            }
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle(title);

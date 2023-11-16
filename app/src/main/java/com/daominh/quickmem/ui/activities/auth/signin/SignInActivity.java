@@ -18,7 +18,6 @@ import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ActivitySigninBinding;
-import com.daominh.quickmem.databinding.ActivitySignupBinding;
 import com.daominh.quickmem.databinding.DialogForGotPasswordBinding;
 import com.daominh.quickmem.databinding.DialogForgotUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
