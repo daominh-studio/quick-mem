@@ -20,17 +20,18 @@
         android:id="@+id/ll_personal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/_20ssp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Personal info"
-            android:textStyle="bold"
-            android:textSize="@dimen/_16dp"/>
+            android:textSize="@dimen/_16dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"

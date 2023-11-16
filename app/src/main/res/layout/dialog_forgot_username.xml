@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/forgot_username"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_16dp"
-            android:textSize="@dimen/_20ssp"
-            android:id="@+id/forgot_username"/>
+        android:id="@+id/forgot_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:text="@string/forgot_username"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
-            app:layout_constraintTop_toBottomOf="@id/forgot_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColorHint="@color/light_gray"
-            android:hint="@string/enter_your_email"
-            android:layout_marginHorizontal="@dimen/_16dp"
-            android:inputType="textEmailAddress"
-            android:id="@+id/email_et"/>
+        android:id="@+id/email_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:hint="@string/enter_your_email"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:textColorHint="@color/light_gray"
+        app:layout_constraintTop_toBottomOf="@id/forgot_username" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ok"
-            android:textColor="@color/celestial_blue"
-            android:textStyle="bold"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_et"
-            android:layout_margin="@dimen/_16dp"
-            android:paddingVertical="@dimen/_8ssp"
-            android:id="@+id/ok_tv"/>
+        android:id="@+id/ok_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:paddingVertical="@dimen/_8ssp"
+        android:text="@string/ok"
+        android:textColor="@color/celestial_blue"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_et" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:textColor="@color/celestial_blue"
-            android:textStyle="bold"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintEnd_toStartOf="@+id/ok_tv"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_et"
-            android:layout_margin="@dimen/_16dp"
-            android:paddingVertical="@dimen/_8ssp"
-            android:id="@+id/cancel_tv"/>
+        android:id="@+id/cancel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:paddingVertical="@dimen/_8ssp"
+        android:text="@string/cancel"
+        android:textColor="@color/celestial_blue"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ok_tv"
+        app:layout_constraintTop_toBottomOf="@+id/email_et" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
