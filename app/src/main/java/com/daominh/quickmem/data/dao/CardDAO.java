@@ -9,6 +9,8 @@ import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.Card;
 
+import java.util.ArrayList;
+
 public class CardDAO {
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;
@@ -61,5 +63,36 @@ public class CardDAO {
             sqLiteDatabase.close();
         }
         return count;
+    }
+
+    //get cards by flashcard_id
+    public ArrayList<Card> getCardsByFlashCardId(String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<Card> cards = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CARDS + " WHERE flashcard_id = '" + flashcard_id + "'";
+
+        try {
+            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Card card = new Card();
+                    card.setId(cursor.getString(0));
+                    card.setFront(cursor.getString(1));
+                    card.setBack(cursor.getString(2));
+                    card.setFlashcard_id(cursor.getString(3));
+                    card.setCreated_at(cursor.getString(4));
+                    card.setUpdated_at(cursor.getString(5));
+
+                    cards.add(card);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("CardDAO", "getCardsByFlashCardId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return cards;
     }
 }
