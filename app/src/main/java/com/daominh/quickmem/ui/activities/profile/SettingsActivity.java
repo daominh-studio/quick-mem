@@ -19,9 +19,12 @@ import com.daominh.quickmem.databinding.BottomSheetAddCourseBinding;
 import com.daominh.quickmem.databinding.BottomSheetChangeEmailBinding;
 import com.daominh.quickmem.databinding.BottomSheetChangeUsernameBinding;
 import com.daominh.quickmem.databinding.BottomSheetCreatePasswordBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
+    private UserSharePreferences userSharePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,13 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 openDialogChangePassword();
             }
+        });
+
+        binding.logOutBtn.setOnClickListener(v -> {
+            userSharePreferences = new UserSharePreferences(SettingsActivity.this);
+            userSharePreferences.clear();
+            startActivity(new Intent(SettingsActivity.this, SignInActivity.class));
+
         });
     }
 

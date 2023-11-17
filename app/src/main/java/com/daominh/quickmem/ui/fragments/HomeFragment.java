@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.daominh.quickmem.adapter.ClassAdapter;
 import com.daominh.quickmem.adapter.FolderAdapter;
 import com.daominh.quickmem.adapter.SetsAdapter;
@@ -38,7 +39,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
-
     private SetsAdapter setsAdapter;
     private FolderAdapter folderAdapter;
     private ClassAdapter classAdapter;
@@ -48,6 +48,8 @@ public class HomeFragment extends Fragment {
     private FlashCardDAO flashCardDAO;
     private FolderDAO folderDAO;
     private GroupDAO groupDAO;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private String idUser;
 
@@ -77,6 +79,7 @@ public class HomeFragment extends Fragment {
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
 
+
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
@@ -102,12 +105,93 @@ public class HomeFragment extends Fragment {
         binding.classesRv.setLayoutManager(linearLayoutManager2);
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
+
+        if (flashCards.size() == 0) {
+            binding.setsCl.setVisibility(View.GONE);
+        } else {
+            binding.setsCl.setVisibility(View.VISIBLE);
+        }
+        if (folders.size() == 0) {
+            binding.folderCl.setVisibility(View.GONE);
+        } else {
+            binding.folderCl.setVisibility(View.VISIBLE);
+        }
+        if (classes.size() == 0) {
+            binding.classCl.setVisibility(View.GONE);
+        } else {
+            binding.classCl.setVisibility(View.VISIBLE);
+        }
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void refreshData() {
+        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        binding.setsRv.setAdapter(setsAdapter);
+        setsAdapter.notifyDataSetChanged();
+
+        // Assuming folderDAO has a method getAllFoldersByUserId() to get all folders for a user
+        folders = folderDAO.getAllFolderByUserId(idUser);
+
+        folderAdapter = new FolderAdapter(requireActivity(), folders);
+        binding.foldersRv.setAdapter(folderAdapter);
+        folderAdapter.notifyDataSetChanged();
+
+        classes = groupDAO.getClassesOwnedByUser(idUser);
+        classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
+        Log.d("classesz", classes.size() + " " + classes.toString());
+
+        classAdapter = new ClassAdapter(requireActivity(), classes);
+        binding.classesRv.setAdapter(classAdapter);
+        classAdapter.notifyDataSetChanged();
+
+        if (flashCards.size() == 0) {
+            binding.setsCl.setVisibility(View.GONE);
+        } else {
+            binding.setsCl.setVisibility(View.VISIBLE);
+        }
+        if (folders.size() == 0) {
+            binding.folderCl.setVisibility(View.GONE);
+        } else {
+            binding.folderCl.setVisibility(View.VISIBLE);
+        }
+        if (classes.size() == 0) {
+            binding.classCl.setVisibility(View.GONE);
+        } else {
+            binding.classCl.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (flashCards.size() == 0) {
+            binding.setsCl.setVisibility(View.GONE);
+        } else {
+            binding.setsCl.setVisibility(View.VISIBLE);
+        }
+        if (folders.size() == 0) {
+            binding.folderCl.setVisibility(View.GONE);
+        } else {
+            binding.folderCl.setVisibility(View.VISIBLE);
+        }
+        if (classes.size() == 0) {
+            binding.classCl.setVisibility(View.GONE);
+        } else {
+            binding.classCl.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
