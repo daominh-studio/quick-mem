@@ -92,6 +92,16 @@ public class HomeFragment extends Fragment {
         binding.foldersRv.setLayoutManager(linearLayoutManager1);
         binding.foldersRv.setAdapter(folderAdapter);
         folderAdapter.notifyDataSetChanged();
+
+        classes = groupDAO.getClassesOwnedByUser(idUser);
+        classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
+        Log.d("classesz", classes.size() + " " + classes.toString());
+
+        classAdapter = new ClassAdapter(requireActivity(), classes);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
+        binding.classesRv.setLayoutManager(linearLayoutManager2);
+        binding.classesRv.setAdapter(classAdapter);
+        classAdapter.notifyDataSetChanged();
     }
 
     @Override

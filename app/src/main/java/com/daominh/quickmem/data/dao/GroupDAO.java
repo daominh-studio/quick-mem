@@ -43,7 +43,7 @@ public class GroupDAO {
         return result;
     }
 
-    //get classes owner by user_id
+    //get a classes owner by user_id
     public ArrayList<Group> getClassesOwnedByUser(String id) {
         ArrayList<Group> groups = new ArrayList<>();
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
@@ -92,6 +92,38 @@ public class GroupDAO {
         sqLiteDatabase.close();
         return classes;
 
+    }
+
+    //get number member in class by id class
+    public int getNumberMemberInClass(String id) {
+        int number = 0;
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        String query = "SELECT COUNT(*) FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE " + QMDatabaseHelper.TABLE_CLASSES_USERS + ".class_id = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{id});
+        if (cursor.moveToFirst()) {
+            do {
+                number = cursor.getInt(0);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return number;
+    }
+
+    //get number flashcard in class by id class
+    public int getNumberFlashCardInClass(String id) {
+        int number = 0;
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        String query = "SELECT COUNT(*) FROM " + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + " WHERE " + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + ".class_id = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{id});
+        if (cursor.moveToFirst()) {
+            do {
+                number = cursor.getInt(0);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return number;
     }
 
 
