@@ -2,29 +2,31 @@ package com.daominh.quickmem.ui.activities.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.databinding.ActivityCoursesBinding;
+
 import com.daominh.quickmem.databinding.ActivitySettingsBinding;
-import com.daominh.quickmem.databinding.BottomSheetAddCourseBinding;
-import com.daominh.quickmem.databinding.BottomSheetChangeEmailBinding;
-import com.daominh.quickmem.databinding.BottomSheetChangeUsernameBinding;
-import com.daominh.quickmem.databinding.BottomSheetCreatePasswordBinding;
+
+import com.daominh.quickmem.databinding.DialogChangeEmailBinding;
+import com.daominh.quickmem.databinding.DialogChangeUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
     private UserSharePreferences userSharePreferences;
+    private AlertDialog detailDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,86 +70,44 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void openDialogChangePassword() {
-        final Dialog dialog = new Dialog(SettingsActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        BottomSheetCreatePasswordBinding layoutBinding = BottomSheetCreatePasswordBinding.inflate(getLayoutInflater());
-        dialog.setContentView(layoutBinding.getRoot());
-
-        // code here
-        layoutBinding.continueGGBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        layoutBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     private void openDialogChangeEmail() {
-        final Dialog dialog = new Dialog(SettingsActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DialogChangeEmailBinding changeUsernameBinding = DialogChangeEmailBinding.inflate(LayoutInflater.from(SettingsActivity.this));
+        View view = changeUsernameBinding.getRoot();
 
-        BottomSheetChangeEmailBinding layoutBinding = BottomSheetChangeEmailBinding.inflate(getLayoutInflater());
-        dialog.setContentView(layoutBinding.getRoot());
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+        builder.setView(view);
+        detailDialog = builder.create();
+        detailDialog.setCanceledOnTouchOutside(false);
+        detailDialog.show();
+        detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        // code here
-        layoutBinding.continueGGBtn.setOnClickListener(new View.OnClickListener() {
+        changeUsernameBinding.cancelChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                detailDialog.dismiss();
             }
         });
-        layoutBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     private void openDialogChangeUsername() {
-        final Dialog dialog = new Dialog(SettingsActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DialogChangeUsernameBinding changeUsernameBinding = DialogChangeUsernameBinding.inflate(LayoutInflater.from(SettingsActivity.this));
+        View view = changeUsernameBinding.getRoot();
 
-        BottomSheetChangeUsernameBinding layoutBinding = BottomSheetChangeUsernameBinding.inflate(getLayoutInflater());
-        dialog.setContentView(layoutBinding.getRoot());
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+        builder.setView(view);
+        detailDialog = builder.create();
+        detailDialog.setCanceledOnTouchOutside(false);
+        detailDialog.show();
+        detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        // code here
-        layoutBinding.continueGGBtn.setOnClickListener(new View.OnClickListener() {
+        changeUsernameBinding.cancelChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                detailDialog.dismiss();
             }
         });
-        layoutBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 }
