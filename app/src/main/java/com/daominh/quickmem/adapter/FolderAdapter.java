@@ -11,6 +11,7 @@ import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemFolderBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         String username = userSharePreferences.getUserName();
 
         holder.binding.folderNameTv.setText(folder.getName());
-        holder.binding.avatarIv.setImageResource(Integer.parseInt(avatar));
+        Picasso.get().load(avatar).into(holder.binding.avatarIv);
         holder.binding.userNameTv.setText(username);
     }
 

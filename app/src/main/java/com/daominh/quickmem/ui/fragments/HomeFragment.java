@@ -84,9 +84,14 @@ public class HomeFragment extends Fragment {
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 
+        // Assuming folderDAO has a method getAllFoldersByUserId() to get all folders for a user
+        folders = folderDAO.getAllFolderByUserId(idUser);
+
         folderAdapter = new FolderAdapter(requireActivity(), folders);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
-
+        binding.foldersRv.setLayoutManager(linearLayoutManager1);
+        binding.foldersRv.setAdapter(folderAdapter);
+        folderAdapter.notifyDataSetChanged();
     }
 
     @Override
