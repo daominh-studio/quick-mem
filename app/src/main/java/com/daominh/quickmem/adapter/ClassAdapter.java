@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ItemClassBinding;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
-    UserSharePreferences userSharePreferences;
+    GroupDAO groupDAO;
     private final Context context;
     private final ArrayList<Group> classes;
 
@@ -35,6 +36,13 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ClassAdapter.ClassViewHolder holder, int position) {
+        Group group = classes.get(position);
+        holder.binding.classNameTv.setText(group.getName());
+        groupDAO = new GroupDAO(context);
+        int numberMember = groupDAO.getNumberMemberInClass(group.getId()) + 1;
+        int numberSet = groupDAO.getNumberFlashCardInClass(group.getId());
+        holder.binding.numberUserTv.setText(numberMember + " members");
+        holder.binding.numberSetTv.setText(numberSet + " sets");
 
     }
 
