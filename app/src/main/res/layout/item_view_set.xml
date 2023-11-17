@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:layout_width="370dp"
-                                   android:layout_height="250dp"
+                                   android:layout_width="350dp"
+                                   android:layout_height="220dp"
                                    android:elevation="@dimen/_8ssp"
+                                   android:layout_marginHorizontal="@dimen/_8ssp"
                                    android:layout_marginEnd="@dimen/_16dp"
                                    app:cardCornerRadius="@dimen/_16dp"
-                                   background="@color/white_gray"
-
                                    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:id="@+id/card_view_set"
+            android:elevation="@dimen/_8ssp"
+            android:background="@color/white_gray"
             android:layout_height="match_parent">
 
         <TextView

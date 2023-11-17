@@ -1,8 +1,8 @@
 package com.daominh.quickmem.ui.activities.set;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,35 +19,90 @@ import java.util.ArrayList;
 public class ViewSetActivity extends AppCompatActivity {
     private ActivityViewSetBinding binding;
     CardDAO cardDAO;
-    FlashCardDAO flashCardDAO;
     ArrayList<Card> cards;
     ViewSetAdapter viewSetAdapter;
+    LinearLayoutManager linearLayoutManager;
+    private static final String LIST_POSITION = "list_position";
+    int listPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityViewSetBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
 
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+        setupRecyclerView(savedInstanceState);
+        setupCardData();
+        setupNavigationListener();
+        setupScrollListeners();
 
-        binding.toolbar.setNavigationOnClickListener(v -> {
-            onBackPressed();
+        binding.recyclerViewSet.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int centerPosition = linearLayoutManager.findFirstVisibleItemPosition() + 1;
+                binding.centerTv.setText(String.valueOf(centerPosition));
+                binding.previousTv.setText(centerPosition > 1 ? String.valueOf(centerPosition - 1) : "");
+                binding.nextTv.setText(centerPosition < cards.size() ? String.valueOf(centerPosition + 1) : "");
+            }
         });
+    }
 
-        CardDAO cardDAO = new CardDAO(this);
-        cards = cardDAO.getCardsByFlashCardId(id);
-        Toast.makeText(this, cards.size() + "", Toast.LENGTH_SHORT).show();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    private void setupRecyclerView(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            listPosition = savedInstanceState.getInt(LIST_POSITION);
+        }
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.recyclerViewSet.setLayoutManager(linearLayoutManager);
+        binding.recyclerViewSet.scrollToPosition(listPosition);
+    }
 
+    private void setupCardData() {
+        String id = getIntent().getStringExtra("id");
+        cardDAO = new CardDAO(this);
+        cards = cardDAO.getCardsByFlashCardId(id);
         viewSetAdapter = new ViewSetAdapter(this, cards);
         binding.recyclerViewSet.setAdapter(viewSetAdapter);
         viewSetAdapter.notifyDataSetChanged();
+    }
+
+    private void setupNavigationListener() {
+        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    private void setupScrollListeners() {
+        binding.previousIv.setOnClickListener(v -> {
+            int currentPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+            if (currentPosition > 0) {
+                binding.recyclerViewSet.scrollToPosition(currentPosition - 1);
+            }
+        });
+
+        binding.nextIv.setOnClickListener(v -> {
+            int currentPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+            if (currentPosition < cards.size() - 1) {
+                binding.recyclerViewSet.scrollToPosition(currentPosition + 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(LIST_POSITION, linearLayoutManager.findFirstVisibleItemPosition());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_view_set, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

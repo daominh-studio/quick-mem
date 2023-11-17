@@ -9,30 +9,83 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white_gray"
+                android:elevation="@dimen/_8ssp"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 android:id="@+id/toolbar"/>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="222dp"
                 android:id="@+id/recycler_view_set"
+                android:layout_marginStart="@dimen/_16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"/>
 
-        <me.relex.circleindicator.CircleIndicator
-                android:layout_width="40dp"
-                android:layout_height="10dp"
-                app:ci_orientation="horizontal"
-                app:ci_gravity="center"
-                app:ci_drawable_unselected="@drawable/shape_circle_indicator_unselected"
-                app:ci_drawable="@color/celestial_blue"
-                android:id="@+id/circle_indicator"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10dp"
+                    android:src="@drawable/previous"
+                    android:id="@+id/previous_iv"/>
+
+            <TextView
+                    android:id="@+id/previous_tv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16dp"
+                    android:text="1"
+                    android:layout_marginHorizontal="@dimen/_8ssp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bold"/>
+
+            <TextView
+                    android:id="@+id/center_tv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16dp"
+                    android:text="2"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bold_gray"/>
+
+            <TextView
+                    android:id="@+id/next_tv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16dp"
+                    android:text="3"
+                    android:layout_marginHorizontal="@dimen/_8ssp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bold_light"/>
+
+            <ImageView
+                    android:layout_marginHorizontal="@dimen/_10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/next"
+                    android:id="@+id/next_iv"/>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
