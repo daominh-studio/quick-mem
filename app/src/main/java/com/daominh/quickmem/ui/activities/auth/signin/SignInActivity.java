@@ -92,6 +92,7 @@ public class SignInActivity extends AppCompatActivity {
             if (handleEmailTextChanged(email, binding) && handlePasswordTextChanged(password, binding)) {
                 userDAO = new UserDAO(SignInActivity.this);
 
+                //username or email check
                 int number = 0;
 //                password = PasswordHasher.hashPassword(password);
 
@@ -123,13 +124,18 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 }
                 user = getUser(number, email);
+                if (user.getStatus() == 0) {
+                    Toast.makeText(this, "Account disable", Toast.LENGTH_SHORT).show();
+                } else {
+                    userSharePreferences.saveUser(user);
+                    userSharePreferences.setLogin(true);
+                    userSharePreferences.setUserName(user.getUsername());
+                    userSharePreferences.setAvatar(user.getAvatar());
+                    intentToMain();
+                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+                }
                 userSharePreferences = new UserSharePreferences(SignInActivity.this);
-                userSharePreferences.saveUser(user);
-                userSharePreferences.setLogin(true);
-                userSharePreferences.setUserName(user.getUsername());
-                userSharePreferences.setAvatar(user.getAvatar());
-                intentToMain();
-                Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+
 
             }
         });
