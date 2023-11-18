@@ -95,4 +95,20 @@ public class CardDAO {
         }
         return cards;
     }
+
+    //delete card by id
+    public long deleteCardById(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        try {
+            result = sqLiteDatabase.delete(QMDatabaseHelper.TABLE_CARDS, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("CardDAO", "deleteCardById: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 }
