@@ -21,12 +21,12 @@
                 android:id="@+id/toolbar"/>
 
         <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="222dp"
-                android:id="@+id/recycler_view_set"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"/>
+            android:id="@+id/recycler_view_set"
+            android:layout_width="match_parent"
+            android:layout_height="222dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:src="@drawable/previous"
                     android:id="@+id/previous_iv"/>
 
-            <TextView
+            <Button
                     android:id="@+id/previous_tv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -53,7 +53,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/bold"/>
 
-            <TextView
+            <Button
                     android:id="@+id/center_tv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -64,7 +64,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/bold_gray"/>
 
-            <TextView
+            <Button
                     android:id="@+id/next_tv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

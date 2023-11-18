@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetViewHolder> {
     private final Context context;
     private final ArrayList<Card> cards;
+    private boolean isFlipped = false;
 
     public ViewSetAdapter(Context context, ArrayList<Card> cards) {
         this.context = context;
@@ -36,18 +37,41 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
         holder.binding.termTv.setText(card.getFront());
         holder.binding.definitionTv.setText(card.getBack());
 
-
-        holder.binding.cardViewSet.setOnClickListener(v -> {
-            boolean isFront = holder.binding.termTv.getVisibility() == View.VISIBLE;
-            boolean isBack = holder.binding.definitionTv.getVisibility() == View.VISIBLE;
-            if (isFront) {
-                holder.binding.termTv.setVisibility(View.GONE);
-                holder.binding.definitionTv.setVisibility(View.VISIBLE);
-            } else if (isBack) {
-                holder.binding.termTv.setVisibility(View.VISIBLE);
-                holder.binding.definitionTv.setVisibility(View.GONE);
+        holder.binding.cardView.setOnClickListener(v -> {
+            if (!isFlipped) {
+                // If not flipped, perform a 180-degree rotation animation
+                holder.binding.cardView.animate()
+                        .rotationXBy(180)
+                        .setDuration(350)
+                        .withEndAction(() -> {
+                            // When the animation is complete, display the back content
+                            holder.binding.termTv.setVisibility(View.GONE);
+                            holder.binding.definitionTv.setVisibility(View.VISIBLE);
+                            holder.binding.definitionTv.setRotationX(-180); // Reverse the rotation of the text
+                            isFlipped = true; // Update the flipped state to true
+                        })
+                        .start();
+            } else {
+                // If already flipped, perform a rotation animation to return to the original position
+                holder.binding.cardView.animate()
+                        .rotationXBy(-180)
+                        .setDuration(350)
+                        .withEndAction(() -> {
+                            // When the animation is complete, display the front content
+                            holder.binding.termTv.setVisibility(View.VISIBLE);
+                            holder.binding.definitionTv.setVisibility(View.GONE);
+                            holder.binding.termTv.setRotationX(0); // Reset the rotation of the text
+                            isFlipped = false; // Update the flipped state to false
+                        })
+                        .start();
             }
         });
+
+        holder.binding.termTv.setVisibility(View.VISIBLE);
+        holder.binding.definitionTv.setVisibility(View.GONE);
+        holder.binding.termTv.setRotationX(0); // Reset the rotation of the text
+        holder.binding.definitionTv.setRotationX(-180); // Reverse the rotation of the text
+        isFlipped = false;
     }
 
     @Override
