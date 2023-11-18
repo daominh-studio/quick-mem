@@ -169,7 +169,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 String createdAt = getCurrentDate();
                 String updatedAt = getCurrentDate();
-                int status = 1;
                 user = new User();
                 final int finalRandom = (int) (Math.random() * (Integer.parseInt(MAX_LEGHT) - 1 + 1) + 1);
 
@@ -186,7 +185,7 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setAvatar(linkAvatar);
                 user.setCreated_at(createdAt);
                 user.setUpdated_at(updatedAt);
-                user.setStatus(status);
+                user.setStatus(1);
 
 
                 if (userDAO.insertUser(user) > 0) {
