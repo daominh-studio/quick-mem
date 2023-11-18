@@ -217,4 +217,115 @@ public class UserDAO {
         return null;
     }
 
+    //get password by id user
+    public String getPasswordUser(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int passwordIndex = cursor.getColumnIndex("password");
+                if (passwordIndex != -1) {
+                    String password = cursor.getString(passwordIndex);
+                    Log.e("UserDAO", "getPasswordUser: " + password);
+                    return password;
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getPasswordUser: " + e);
+        }
+        return null;
+    }
+
+    //update status user by id
+    public long updateStatusUser(String id, int status) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("status", status);
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_USERS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("UserDAO", "updateStatusUser: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+
+    //update email by id user
+    public long updateEmailUser(String id, String email) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("email", email);
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_USERS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("UserDAO", "updateEmailUser: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+    //update username by id user
+    public long updateUsernameUser(String id, String username) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("username", username);
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_USERS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("UserDAO", "updateUsernameUser: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+    //update password by id user
+    public long updatePasswordUser(String id, String password) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("password", password);
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_USERS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("UserDAO", "updatePasswordUser: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
 }
