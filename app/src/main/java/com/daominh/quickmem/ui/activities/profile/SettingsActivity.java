@@ -16,17 +16,20 @@ import android.view.Window;
 
 import com.daominh.quickmem.R;
 
+import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.databinding.ActivitySettingsBinding;
 
 import com.daominh.quickmem.databinding.DialogChangeEmailBinding;
 import com.daominh.quickmem.databinding.DialogChangeUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
+import com.daominh.quickmem.utils.PasswordHasher;
 
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
     private UserSharePreferences userSharePreferences;
     private AlertDialog detailDialog;
+    UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void openDialogChangeEmail() {
+        userDAO = new UserDAO(SettingsActivity.this);
         DialogChangeEmailBinding changeUsernameBinding = DialogChangeEmailBinding.inflate(LayoutInflater.from(SettingsActivity.this));
         View view = changeUsernameBinding.getRoot();
 
@@ -84,11 +88,23 @@ public class SettingsActivity extends AppCompatActivity {
         detailDialog.show();
         detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        changeUsernameBinding.cancelChangeEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detailDialog.dismiss();
+        changeUsernameBinding.cancelChangeEmailBtn.setOnClickListener(view1 -> detailDialog.dismiss());
+
+        changeUsernameBinding.submitChangeEmailBtn.setOnClickListener(v -> {
+
+            String password = changeUsernameBinding.passwordEt.getText().toString().trim();
+            userSharePreferences = new UserSharePreferences(SettingsActivity.this);
+            String id = userSharePreferences.getId();
+            if (password.isEmpty()) {
+                changeUsernameBinding.textIL.setHelperText("Please enter your password");
+                return;
+            } else if (!PasswordHasher.hashPassword(password).equals(userDAO.getPasswordUser(id))) {
+                changeUsernameBinding.textIL.setHelperText("Password is incorrect");
+                return;
+            } else {
+                changeUsernameBinding.textIL.setHelperText("");
             }
+
         });
     }
 
