@@ -1,69 +1,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/dialog_settings_change"
-    android:orientation="vertical"
-    android:padding="16dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_settings_change"
+              android:orientation="vertical"
+              android:padding="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update email"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_25ssp"
-        android:textStyle="bold" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update email"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_25ssp"
+            android:textStyle="bold"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="To confirm it's really you, please verify your Quickmem password." />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="To confirm it's really you, please verify your Quickmem password."/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textIL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        app:passwordToggleEnabled="true">
+            android:id="@+id/textIL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:helperTextTextColor="@color/red"
+            android:layout_marginVertical="20dp"
+            app:passwordToggleEnabled="true">
 
         <EditText
-            android:id="@+id/password_et"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/round_edittext_setting_change"
-            android:hint="Password"
-            android:inputType="textVisiblePassword"
-            android:paddingLeft="@dimen/_15ssp" />
+                android:id="@+id/password_et"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/round_edittext_setting_change"
+                android:hint="Password"
+                android:inputType="textVisiblePassword"
+                android:paddingLeft="@dimen/_15ssp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/submit_change_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_button_course"
-            android:paddingHorizontal="20dp"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_20ssp" />
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
         <Button
-            android:id="@+id/cancel_change_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_15ssp"
-            android:background="@drawable/background_courses_setting"
-            android:paddingHorizontal="20dp"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_20ssp" />
+                android:id="@+id/submit_change_email_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_course"
+                android:paddingHorizontal="20dp"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"/>
+
+        <Button
+                android:id="@+id/cancel_change_email_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_15ssp"
+                android:background="@drawable/background_courses_setting"
+                android:paddingHorizontal="20dp"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"/>
     </LinearLayout>
 </LinearLayout>
