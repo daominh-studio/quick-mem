@@ -127,6 +127,7 @@ public class SignInActivity extends AppCompatActivity {
                 if (user.getStatus() == 0) {
                     Toast.makeText(this, "Account disable", Toast.LENGTH_SHORT).show();
                 } else {
+                    userSharePreferences.setRole(user.getRole());
                     userSharePreferences.saveUser(user);
                     userSharePreferences.setLogin(true);
                     userSharePreferences.setUserName(user.getUsername());
