@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupNavigation() {
 
         userSharePreferences = new UserSharePreferences(MainActivity.this);
-        int role = userSharePreferences.getRole();
+        int role = 0;
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
