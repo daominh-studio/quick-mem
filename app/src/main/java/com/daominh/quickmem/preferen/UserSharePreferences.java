@@ -12,6 +12,7 @@ public class UserSharePreferences {
     private static final String KEY_AVATAR = "avatar";
 
     private static final String KEY_USER_NAME = "user_name";
+    private static final String KEY_ROLE = "role_user";
 
     private final SharedPreferences sharedPreferences;
 
@@ -37,6 +38,13 @@ public class UserSharePreferences {
     //get id
     public String getId() {
         return sharedPreferences.getString(KEY_ID, "");
+    }
+    // get, set role user
+    public void setRole(int role){
+        sharedPreferences.edit().putInt(KEY_ROLE, role).apply();
+    }
+    public int getRole() {
+        return sharedPreferences.getInt(KEY_ROLE, -1);
     }
 
     public void saveUser(User user) {
