@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   android:background="?attr/selectableItemBackground"
+                                   android:foreground="?attr/selectableItemBackground"
+                                   app:cardBackgroundColor="@android:color/white"
+                                   app:cardCornerRadius="8dp"
+                                   app:cardPreventCornerOverlap="false"
+                                   app:cardUseCompatPadding="true">
+
+    <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/gradation_black"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <TextView
+                android:id="@+id/item_font"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="26sp"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:id="@+id/item_back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+            android:id="@+id/left_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay_black">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/skip_white_120dp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/right_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay_black">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/like_white_120dp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/top_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <FrameLayout
+            android:id="@+id/bottom_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</androidx.cardview.widget.CardView>
