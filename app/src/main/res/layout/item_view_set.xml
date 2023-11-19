@@ -4,6 +4,8 @@
     android:layout_width="350dp"
     android:layout_height="180dp"
     android:id="@+id/card_view"
+                                   app:cardPreventCornerOverlap="false"
+                                   app:cardUseCompatPadding="true"
     android:layout_marginHorizontal="@dimen/_8ssp"
     android:layout_marginEnd="@dimen/_16dp"
     android:elevation="@dimen/_8ssp"

@@ -4,6 +4,8 @@
                                    android:layout_width="350dp"
                                    android:layout_height="wrap_content"
                                    android:layout_marginEnd="@dimen/_10dp"
+                                   app:cardPreventCornerOverlap="false"
+                                   app:cardUseCompatPadding="true"
                                    android:background="@color/white_gray"
                                    android:elevation="@dimen/_8ssp"
                                    app:cardCornerRadius="@dimen/_10dp">

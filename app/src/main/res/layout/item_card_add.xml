@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_10dp"
-    android:layout_marginVertical="@dimen/_10dp"
-    android:background="@color/white_gray"
-    android:elevation="@dimen/_10dp">
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginHorizontal="@dimen/_10dp"
+                                   android:layout_marginVertical="@dimen/_10dp"
+                                   app:cardPreventCornerOverlap="false"
+                                   app:cardUseCompatPadding="true"
+                                   android:background="@color/white_gray"
+                                   android:elevation="@dimen/_10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/term_til"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_10dp"
-            app:helperText="Term"
-            app:helperTextEnabled="true"
-            app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:helperTextTextColor="@color/gray"
-            app:hintTextColor="@color/light_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/term_til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                app:helperText="Term"
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/gray"
+                app:hintTextColor="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/term_et"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start|top"
-                android:inputType="text|textMultiLine" />
+                    android:id="@+id/term_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|top"
+                    android:inputType="text|textMultiLine"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/definition_til"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_10dp"
-            app:helperText="Definition"
-            app:helperTextEnabled="true"
-            app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:helperTextTextColor="@color/gray"
-            app:hintTextColor="@color/light_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/term_til">
+                android:id="@+id/definition_til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_10dp"
+                app:helperText="Definition"
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/gray"
+                app:hintTextColor="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/term_til">
 
             <EditText
-                android:id="@+id/definition_et"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start|top"
-                android:inputType="text|textMultiLine" />
+                    android:id="@+id/definition_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|top"
+                    android:inputType="text|textMultiLine"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
