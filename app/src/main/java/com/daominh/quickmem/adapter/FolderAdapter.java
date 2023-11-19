@@ -52,7 +52,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         return folders.size();
     }
 
-    public class FolderViewHolder extends RecyclerView.ViewHolder {
+    public static class FolderViewHolder extends RecyclerView.ViewHolder {
         private final ItemFolderBinding binding;
 
         public FolderViewHolder(@NonNull @NotNull View itemView) {

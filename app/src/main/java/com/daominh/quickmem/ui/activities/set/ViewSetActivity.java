@@ -62,7 +62,9 @@ public class ViewSetActivity extends AppCompatActivity {
 
 
         binding.reviewCl.setOnClickListener(v -> {
-            startActivity(new Intent(this, LearnActivity.class));
+            Intent intent = new Intent(this, LearnActivity.class);
+            intent.putExtra("id", getIntent().getStringExtra("id"));
+            startActivity(intent);
         });
 
     }
