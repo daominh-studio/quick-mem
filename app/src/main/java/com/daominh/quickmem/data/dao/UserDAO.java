@@ -10,6 +10,8 @@ import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.utils.PasswordHasher;
 
+import java.util.ArrayList;
+
 public class UserDAO {
 
     QMDatabaseHelper qmDatabaseHelper;
@@ -326,6 +328,51 @@ public class UserDAO {
             sqLiteDatabase.close();
         }
         return result;
+    }
+
+    //get all user not contain password
+    public ArrayList<User> getAllUser() {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+
+        ArrayList<User> users = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS;
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    int idIndex = cursor.getColumnIndex("id");
+                    int nameIndex = cursor.getColumnIndex("name");
+                    int emailIndex = cursor.getColumnIndex("email");
+                    int usernameIndex = cursor.getColumnIndex("username");
+                    int avatarIndex = cursor.getColumnIndex("avatar");
+                    int roleIndex = cursor.getColumnIndex("role");
+                    int createdAtIndex = cursor.getColumnIndex("created_at");
+                    int updatedAtIndex = cursor.getColumnIndex("updated_at");
+                    int statusIndex = cursor.getColumnIndex("status");
+
+                    if (idIndex != -1 && nameIndex != -1 && emailIndex != -1 && usernameIndex != -1 && avatarIndex != -1 && roleIndex != -1 && createdAtIndex != -1 && updatedAtIndex != -1 && statusIndex != -1) {
+                        String id = cursor.getString(idIndex);
+                        String name = cursor.getString(nameIndex);
+                        String email = cursor.getString(emailIndex);
+                        String username = cursor.getString(usernameIndex);
+                        String avatar = cursor.getString(avatarIndex);
+                        int role = cursor.getInt(roleIndex);
+                        String created_at = cursor.getString(createdAtIndex);
+                        String updated_at = cursor.getString(updatedAtIndex);
+                        int status = cursor.getInt(statusIndex);
+                        Log.e("UserDAO", "getAllUser: " + id + " " + name + " " + email + " " + username + " " + avatar + " " + role + " " + created_at + " " + updated_at + " " + status);
+
+                        users.add(new User(id, name, email, username, null, avatar, role, created_at, updated_at, status));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getAllUser: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return users;
     }
 
 }
