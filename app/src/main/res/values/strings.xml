@@ -88,4 +88,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="number_set">number set</string>
     <string name="number_memeber">number memmber</string>
+    <string name="flashcards">Flashcards</string>
+    <string name="flashcards_description">Review terms and definitions</string>
 </resources>

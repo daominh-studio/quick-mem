@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.set;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -13,6 +14,9 @@ import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.databinding.ActivityViewSetBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.learn.LearnActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,7 @@ public class ViewSetActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     private static final String LIST_POSITION = "list_position";
     int listPosition = 0;
+    UserSharePreferences userSharePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,18 @@ public class ViewSetActivity extends AppCompatActivity {
                 binding.nextTv.setText(centerPosition < cards.size() ? String.valueOf(centerPosition + 1) : "");
             }
         });
+
+        userSharePreferences = new UserSharePreferences(this);
+        Picasso.get().load(userSharePreferences.getAvatar()).into(binding.avatarIv);
+        binding.userNameTv.setText(userSharePreferences.getUserName());
+        cardDAO = new CardDAO(this);
+        binding.termCountTv.setText(String.valueOf(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id"))) + " " + getString(R.string.term));
+
+
+        binding.reviewCl.setOnClickListener(v -> {
+            startActivity(new Intent(this, LearnActivity.class));
+        });
+
     }
 
     private void setupRecyclerView(Bundle savedInstanceState) {

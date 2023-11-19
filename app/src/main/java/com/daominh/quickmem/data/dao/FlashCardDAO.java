@@ -42,12 +42,12 @@ public class FlashCardDAO {
         } catch (SQLException e) {
             Log.e("FlashCardDAO", "insertFlashCard: " + e);
         } finally {
-//            sqLiteDatabase.close();
+            sqLiteDatabase.close();
         }
         return result;
     }
 
-    //get all flashcard by user_id
+    //get all flashcards by user_id
     @SuppressLint("Range")
     public ArrayList<FlashCard> getAllFlashCardByUserId(String user_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();

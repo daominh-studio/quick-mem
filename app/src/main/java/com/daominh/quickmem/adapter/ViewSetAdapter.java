@@ -60,35 +60,17 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
 
         holder.binding.cardView.setOnClickListener(v -> {
             if (!isAnimationRunning) { // Check if animation is not running
-                boolean currentFlippedState = flippedStates.get(position);
-
-                if (!currentFlippedState) {
-                    isAnimationRunning = true; // Set animation state as true
-                    holder.binding.cardView.animate()
-                            .rotationXBy(180)
-                            .setDuration(350)
-                            .withEndAction(() -> {
-                                flippedStates.set(position, true);
-                                holder.binding.termTv.setVisibility(View.GONE);
-                                holder.binding.definitionTv.setVisibility(View.VISIBLE);
-                                holder.binding.definitionTv.setRotationX(-180);
-                                isAnimationRunning = false; // Reset animation state to false
-                            })
-                            .start();
-                } else {
-                    isAnimationRunning = true; // Set animation state as true
-                    holder.binding.cardView.animate()
-                            .rotationXBy(-180)
-                            .setDuration(350)
-                            .withEndAction(() -> {
-                                flippedStates.set(position, false);
-                                holder.binding.termTv.setVisibility(View.VISIBLE);
-                                holder.binding.definitionTv.setVisibility(View.GONE);
-                                holder.binding.termTv.setRotationX(0);
-                                isAnimationRunning = false; // Reset animation state to false
-                            })
-                            .start();
-                }
+                flipCard(holder, position);
+            }
+        });
+        holder.binding.definitionTv.setOnClickListener(v2 -> {
+            if (!isAnimationRunning) { // Check if animation is not running
+                flipCard(holder, position);
+            }
+        });
+        holder.binding.termTv.setOnClickListener(v1 -> {
+            if (!isAnimationRunning) { // Check if animation is not running
+                flipCard(holder, position);
             }
         });
     }
@@ -98,12 +80,43 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
         return cards.size();
     }
 
-    public class ViewSetViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewSetViewHolder extends RecyclerView.ViewHolder {
         private final ItemViewSetBinding binding;
 
         public ViewSetViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             binding = ItemViewSetBinding.bind(itemView);
+        }
+    }
+
+    private void flipCard(ViewSetAdapter.ViewSetViewHolder holder, int position) {
+        boolean currentFlippedState = flippedStates.get(position);
+
+        isAnimationRunning = true; // Set animation state as true
+        if (!currentFlippedState) {
+            holder.binding.cardView.animate()
+                    .rotationXBy(180)
+                    .setDuration(350)
+                    .withEndAction(() -> {
+                        flippedStates.set(position, true);
+                        holder.binding.termTv.setVisibility(View.GONE);
+                        holder.binding.definitionTv.setVisibility(View.VISIBLE);
+                        holder.binding.definitionTv.setRotationX(-180);
+                        isAnimationRunning = false; // Reset animation state to false
+                    })
+                    .start();
+        } else {
+            holder.binding.cardView.animate()
+                    .rotationXBy(-180)
+                    .setDuration(350)
+                    .withEndAction(() -> {
+                        flippedStates.set(position, false);
+                        holder.binding.termTv.setVisibility(View.VISIBLE);
+                        holder.binding.definitionTv.setVisibility(View.GONE);
+                        holder.binding.termTv.setRotationX(0);
+                        isAnimationRunning = false; // Reset animation state to false
+                    })
+                    .start();
         }
     }
 }
