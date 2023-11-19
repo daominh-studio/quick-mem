@@ -25,7 +25,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     private val adapter by lazy { CardLeanAdapter(createCards()) }
     private val cardDAO by lazy { CardDAO(this) }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -70,16 +69,10 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardAppeared(view: View?, position: Int) {
         Log.d("CardStackView", "onCardAppeared: ($position)")
-        binding.skipButton.visibility = View.VISIBLE
-        binding.rewindButton.visibility = View.VISIBLE
-        binding.likeButton.visibility = View.VISIBLE
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
         Log.d("CardStackView", "onCardDisappeared: ($position)")
-        binding.skipButton.visibility = View.GONE
-        binding.rewindButton.visibility = View.GONE
-        binding.likeButton.visibility = View.GONE
     }
 
     private fun setupButton() {
@@ -119,14 +112,15 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun createCards(): List<Card> {
-        val id: String = intent.getStringExtra("id").toString()
-        return cardDAO.getCardsByFlashCardId(id)
+        val id: String? = intent.getStringExtra("id")
+        return id?.let { cardDAO.getCardsByFlashCardId(it) } ?: emptyList()
     }
 
-    private fun creatCard(): Card {
-        return createCards().first()
+    private fun createCard(): Card {
+        //return random position
+        val position = (1..createCards().size).random()
+        return createCards()[position - 1]
     }
-
 
     private fun initialize() {
         manager.setStackFrom(StackFrom.Bottom)
@@ -169,10 +163,13 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     private fun addFirst(size: Int) {
         val old = adapter.getCards()
+        if (old.isEmpty()) {
+            return
+        }
         val new = mutableListOf<Card>().apply {
             addAll(old)
             for (i in 0 until size) {
-                add(manager.topPosition, creatCard())
+                add(manager.topPosition, createCard())
             }
         }
         val callback = CardDiffCallback(old, new)
@@ -185,7 +182,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         val old = adapter.getCards()
         val new = mutableListOf<Card>().apply {
             addAll(old)
-            addAll(List(size) { creatCard() })
+            addAll(List(size) { createCard() })
         }
         val callback = CardDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
@@ -234,7 +231,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         val new = mutableListOf<Card>().apply {
             addAll(old)
             removeAt(manager.topPosition)
-            add(manager.topPosition, creatCard())
+            add(manager.topPosition, createCard())
         }
         adapter.setCards(new)
         adapter.notifyItemChanged(manager.topPosition)
@@ -254,5 +251,4 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         adapter.setCards(new)
         result.dispatchUpdatesTo(adapter)
     }
-
 }
