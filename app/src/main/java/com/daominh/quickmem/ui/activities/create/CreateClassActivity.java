@@ -21,8 +21,6 @@ import java.util.Date;
 
 public class CreateClassActivity extends AppCompatActivity {
     ActivityCreateClassBinding binding;
-    private GroupDAO groupDAO;
-    private UserSharePreferences userSharePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,7 @@ public class CreateClassActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        binding.toolbar.setNavigationOnClickListener(v -> {
-            onBackPressed();
-        });
+        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
 
     }
@@ -61,7 +57,7 @@ public class CreateClassActivity extends AppCompatActivity {
                 String created_at = getCurrentDate();
                 String updated_at = getCurrentDate();
 
-                groupDAO = new GroupDAO(this);
+                GroupDAO groupDAO = new GroupDAO(this);
                 Group group = new Group();
                 group.setName(name);
                 group.setDescription(description);
@@ -113,7 +109,7 @@ public class CreateClassActivity extends AppCompatActivity {
     }
 
     private String getUser_id() {
-        userSharePreferences = new UserSharePreferences(this);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
     }
 }

@@ -1,5 +1,6 @@
 package com.daominh.quickmem.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.dao.GroupDAO;
-import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ItemClassBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -34,6 +33,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         return new ClassViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull ClassAdapter.ClassViewHolder holder, int position) {
         Group group = classes.get(position);
@@ -51,7 +51,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         return classes.size();
     }
 
-    public class ClassViewHolder extends RecyclerView.ViewHolder {
+    public static class ClassViewHolder extends RecyclerView.ViewHolder {
         private final ItemClassBinding binding;
 
         public ClassViewHolder(@NonNull @NotNull View itemView) {

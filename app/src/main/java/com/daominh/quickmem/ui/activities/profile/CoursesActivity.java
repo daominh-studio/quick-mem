@@ -16,12 +16,11 @@ import com.daominh.quickmem.databinding.ActivityCoursesBinding;
 import com.daominh.quickmem.databinding.BottomSheetAddCourseBinding;
 
 public class CoursesActivity extends AppCompatActivity {
-    private ActivityCoursesBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCoursesBinding.inflate(getLayoutInflater());
+        com.daominh.quickmem.databinding.ActivityCoursesBinding binding = ActivityCoursesBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         setContentView(view);
 

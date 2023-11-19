@@ -1,5 +1,6 @@
 package com.daominh.quickmem.data.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -55,7 +56,7 @@ public class CardDAO {
         int count = 0;
 
         try {
-            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
             count = cursor.getCount();
         } catch (SQLException e) {
             Log.e("CardDAO", "countCardByFlashCardId: " + e);
@@ -74,7 +75,7 @@ public class CardDAO {
         String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CARDS + " WHERE flashcard_id = '" + flashcard_id + "'";
 
         try {
-            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
                     Card card = new Card();

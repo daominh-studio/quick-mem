@@ -140,14 +140,10 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         //forgot username
-        binding.usernameTv.setOnClickListener(v -> {
-            openDialogUsername();
-        });
+        binding.usernameTv.setOnClickListener(v -> openDialogUsername());
 
         //forgot password
-        binding.passwordTv.setOnClickListener(v -> {
-            openDialogPassword();
-        });
+        binding.passwordTv.setOnClickListener(v -> openDialogPassword());
     }
 
     private void intentToMain() {
@@ -209,9 +205,7 @@ public class SignInActivity extends AppCompatActivity {
         builder.setCancelable(true);
 
         AlertDialog alertDialog = builder.create();
-        binding.cancelTv.setOnClickListener(v -> {
-            alertDialog.dismiss();
-        });
+        binding.cancelTv.setOnClickListener(v -> alertDialog.dismiss());
 
         //show keyboard automatically
         binding.emailEt.postDelayed(() -> {
@@ -264,9 +258,7 @@ public class SignInActivity extends AppCompatActivity {
         builder.setCancelable(true);
         AlertDialog alertDialog = builder.create();
 
-        binding.cancelTv.setOnClickListener(v -> {
-            alertDialog.dismiss();
-        });
+        binding.cancelTv.setOnClickListener(v -> alertDialog.dismiss());
 
         binding.emailOrUsernameEt.addTextChangedListener(new TextWatcher() {
             @Override

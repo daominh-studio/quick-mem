@@ -56,10 +56,7 @@ public class FlashCardDAO {
 
         String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FLASHCARDS + " WHERE user_id = '" + user_id + "' ORDER BY created_at DESC";
 
-        Cursor cursor = null;
-
-        try {
-            cursor = sqLiteDatabase.rawQuery(query, null);
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
 
             if (cursor.moveToFirst()) {
                 do {
@@ -77,9 +74,6 @@ public class FlashCardDAO {
         } catch (SQLException e) {
             Log.e("FlashCardDAO", "getAllFlashCardByUserId: " + e);
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
             sqLiteDatabase.close();
         }
         return flashCards;

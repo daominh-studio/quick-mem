@@ -53,6 +53,7 @@ public class CreateSetActivity extends AppCompatActivity {
 
     final String id = genUUID();
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

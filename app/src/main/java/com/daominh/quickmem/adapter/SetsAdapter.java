@@ -1,5 +1,6 @@
 package com.daominh.quickmem.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ItemSetBinding;
@@ -43,6 +43,7 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
         return new SetsViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull SetsAdapter.SetsViewHolder holder, int position) {
         FlashCard set = sets.get(position);

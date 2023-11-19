@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.set;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
-import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.databinding.ActivityViewSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
@@ -30,6 +30,7 @@ public class ViewSetActivity extends AppCompatActivity {
     int listPosition = 0;
     UserSharePreferences userSharePreferences;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class ViewSetActivity extends AppCompatActivity {
         Picasso.get().load(userSharePreferences.getAvatar()).into(binding.avatarIv);
         binding.userNameTv.setText(userSharePreferences.getUserName());
         cardDAO = new CardDAO(this);
-        binding.termCountTv.setText(String.valueOf(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id"))) + " " + getString(R.string.term));
+        binding.termCountTv.setText(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) + " " + getString(R.string.term));
 
 
         binding.reviewCl.setOnClickListener(v -> {
@@ -89,7 +90,7 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
     private void setupNavigationListener() {
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher());
     }
 
     private void setupScrollListeners() {

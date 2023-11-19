@@ -3,18 +3,11 @@ package com.daominh.quickmem.ui.activities.profile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-
-import com.daominh.quickmem.R;
 
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.databinding.ActivitySettingsBinding;
@@ -24,6 +17,8 @@ import com.daominh.quickmem.databinding.DialogChangeUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
+
+import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
@@ -45,24 +40,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void onClickItemSetting() {
-        binding.usernameCl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogChangeUsername();
-            }
-        });
-        binding.emailCl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogChangeEmail();
-            }
-        });
-        binding.passwordCl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogChangePassword();
-            }
-        });
+        binding.usernameCl.setOnClickListener(view -> openDialogChangeUsername());
+        binding.emailCl.setOnClickListener(view -> openDialogChangeEmail());
+        binding.passwordCl.setOnClickListener(view -> openDialogChangePassword());
 
         binding.logOutBtn.setOnClickListener(v -> {
             userSharePreferences = new UserSharePreferences(SettingsActivity.this);
@@ -97,10 +77,8 @@ public class SettingsActivity extends AppCompatActivity {
             String id = userSharePreferences.getId();
             if (password.isEmpty()) {
                 changeUsernameBinding.textIL.setHelperText("Please enter your password");
-                return;
-            } else if (!PasswordHasher.hashPassword(password).equals(userDAO.getPasswordUser(id))) {
+            } else if (!Objects.equals(PasswordHasher.hashPassword(password), userDAO.getPasswordUser(id))) {
                 changeUsernameBinding.textIL.setHelperText("Password is incorrect");
-                return;
             } else {
                 changeUsernameBinding.textIL.setHelperText("");
             }
@@ -119,11 +97,6 @@ public class SettingsActivity extends AppCompatActivity {
         detailDialog.show();
         detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        changeUsernameBinding.cancelChangeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detailDialog.dismiss();
-            }
-        });
+        changeUsernameBinding.cancelChangeName.setOnClickListener(view1 -> detailDialog.dismiss());
     }
 }

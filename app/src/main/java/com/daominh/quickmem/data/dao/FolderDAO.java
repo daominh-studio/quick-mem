@@ -56,10 +56,7 @@ public class FolderDAO {
 
         String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FOLDERS + " WHERE user_id = '" + user_id + "' ORDER BY created_at DESC";
 
-        Cursor cursor = null;
-
-        try {
-            cursor = sqLiteDatabase.rawQuery(query, null);
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
@@ -76,9 +73,6 @@ public class FolderDAO {
         } catch (SQLException e) {
             Log.e("FolderDAO", "getAllFolderByUserId: " + e);
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
             sqLiteDatabase.close();
         }
         return folders;
