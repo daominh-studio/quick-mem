@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_gray"
+        android:paddingHorizontal="17dp"
         android:paddingBottom="@dimen/_16dp">
 
         <ImageView
@@ -37,6 +38,7 @@
             android:layout_marginHorizontal="@dimen/_8ssp"
             android:layout_marginBottom="@dimen/_16dp"
             android:text="@string/user_name"
+            android:textSize="@dimen/_16sp"
             android:textColor="@color/celestial_blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/avatar_iv"
@@ -58,6 +60,7 @@
             android:layout_marginStart="@dimen/_8ssp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:layout_marginTop="10dp"
             android:text="Email"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/_16sp"
@@ -72,6 +75,7 @@
             android:layout_marginStart="@dimen/_8ssp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:layout_marginTop="5dp"
             android:text="Role"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/_16sp"

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemUsersAdminBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             holder.binding.getRoot().setVisibility(View.VISIBLE);
 
             // Load avatar using Picasso
-            // Picasso.get().load(avatar).into(holder.binding.avatarIv);
+            Picasso.get().load(user.getAvatar()).into(holder.binding.avatarIv);
 
             holder.binding.userNameTv.setText(user.getUsername());
             Toast.makeText(context, "hi" + user.getUsername(), Toast.LENGTH_SHORT).show();
