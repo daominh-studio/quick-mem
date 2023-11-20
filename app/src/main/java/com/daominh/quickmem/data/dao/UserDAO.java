@@ -375,4 +375,44 @@ public class UserDAO {
         return users;
     }
 
+    //get user by id not contain password
+    public User getUserById(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                int nameIndex = cursor.getColumnIndex("name");
+                int emailIndex = cursor.getColumnIndex("email");
+                int usernameIndex = cursor.getColumnIndex("username");
+                int avatarIndex = cursor.getColumnIndex("avatar");
+                int roleIndex = cursor.getColumnIndex("role");
+                int createdAtIndex = cursor.getColumnIndex("created_at");
+                int updatedAtIndex = cursor.getColumnIndex("updated_at");
+                int statusIndex = cursor.getColumnIndex("status");
+
+                if (nameIndex != -1 && emailIndex != -1 && usernameIndex != -1 && avatarIndex != -1 && roleIndex != -1 && createdAtIndex != -1 && updatedAtIndex != -1 && statusIndex != -1) {
+                    String name = cursor.getString(nameIndex);
+                    String email = cursor.getString(emailIndex);
+                    String username = cursor.getString(usernameIndex);
+                    String avatar = cursor.getString(avatarIndex);
+                    int role = cursor.getInt(roleIndex);
+                    String created_at = cursor.getString(createdAtIndex);
+                    String updated_at = cursor.getString(updatedAtIndex);
+                    int status = cursor.getInt(statusIndex);
+                    Log.e("UserDAO", "getUserById: " + id + " " + name + " " + email + " " + username + " " + avatar + " " + role + " " + created_at + " " + updated_at + " " + status);
+
+                    return new User(id, name, email, username, null, avatar, role, created_at, updated_at, status);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getUserById: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return null;
+    }
+
 }

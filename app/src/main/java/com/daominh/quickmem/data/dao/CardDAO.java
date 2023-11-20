@@ -32,6 +32,7 @@ public class CardDAO {
         contentValues.put("id", card.getId());
         contentValues.put("front", card.getFront());
         contentValues.put("back", card.getBack());
+        contentValues.put("status", card.getStatus());
         contentValues.put("flashcard_id", card.getFlashcard_id());
         contentValues.put("created_at", card.getCreated_at());
         contentValues.put("updated_at", card.getUpdated_at());
@@ -82,15 +83,48 @@ public class CardDAO {
                     card.setId(cursor.getString(0));
                     card.setFront(cursor.getString(1));
                     card.setBack(cursor.getString(2));
-                    card.setFlashcard_id(cursor.getString(3));
-                    card.setCreated_at(cursor.getString(4));
-                    card.setUpdated_at(cursor.getString(5));
+                    card.setStatus(cursor.getInt(3));
+                    card.setFlashcard_id(cursor.getString(4));
+                    card.setCreated_at(cursor.getString(5));
+                    card.setUpdated_at(cursor.getString(6));
 
                     cards.add(card);
                 } while (cursor.moveToNext());
             }
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardsByFlashCardId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return cards;
+    }
+
+    //get all card have status = 0 or 2
+    public ArrayList<Card> getAllCardByStatus(String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<Card> cards = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CARDS + " WHERE flashcard_id = '" + flashcard_id + "' AND status != 1";
+
+        try {
+            @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Card card = new Card();
+                    card.setId(cursor.getString(0));
+                    card.setFront(cursor.getString(1));
+                    card.setBack(cursor.getString(2));
+                    card.setStatus(cursor.getInt(3));
+                    card.setFlashcard_id(cursor.getString(4));
+                    card.setCreated_at(cursor.getString(5));
+                    card.setUpdated_at(cursor.getString(6));
+
+                    cards.add(card);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("CardDAO", "getAllCardByStatus: " + e);
         } finally {
             sqLiteDatabase.close();
         }
@@ -109,6 +143,26 @@ public class CardDAO {
             Log.e("CardDAO", "deleteCardById: " + e);
         } finally {
             sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+    //update card status by id
+    public long updateCardStatusById(String id, int status) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("status", status);
+
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("CardDAO", "updateCardStatusById: " + e);
+        } finally {
+//            sqLiteDatabase.close();
         }
         return result;
     }

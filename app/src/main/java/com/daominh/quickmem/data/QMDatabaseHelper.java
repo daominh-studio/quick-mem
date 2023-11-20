@@ -73,6 +73,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "front TEXT NOT NULL, " +
             "back TEXT NOT NULL, " +
             "flashcard_id TEXT NOT NULL, " +
+            "status INTEGER NOT NULL," + //0: not yet, 1 done, 2 studying
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL" +
             ");";

@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.learn
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import com.daominh.quickmem.R
@@ -25,24 +27,23 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     private val adapter by lazy { CardLeanAdapter(createCards()) }
     private val cardDAO by lazy { CardDAO(this) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+
+        binding.timelineProgress.max = createCards().size
+        binding.timelineProgress.progress = 1
+
+
         setupCardStackView()
         setupButton()
 
-        binding.skipButton.setOnClickListener {
-            binding.cardStackView.swipe()
-        }
-
-        binding.rewindButton.setOnClickListener {
-            binding.cardStackView.rewind()
-        }
-
-        binding.likeButton.setOnClickListener {
-            binding.cardStackView.swipe()
-        }
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -51,16 +52,46 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        if (manager.topPosition == adapter.itemCount - 5) {
-            paginate()
-        }
-        if (manager.topPosition == adapter.itemCount) {
-            addLast(1)
+        if (manager.topPosition  > adapter.itemCount + 1) {
+//        val intent = Intent(this, FinishActivity::class.java)
+//        startActivity(intent)
+            Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
+            // Update progress bar and toolbar title after each swipe
+            binding.timelineProgress.progress = manager.topPosition + 1
+            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
+        } else {
+            val card = adapter.getCards()[manager.topPosition - 1]
+            if (direction == Direction.Right) {
+                val learnValue = binding.learnTv.text.toString().toInt() + 1
+                binding.learnTv.text = learnValue.toString()
+                card.status = 1
+                cardDAO.updateCardStatusById(card.id, card.status)
+            } else if (direction == Direction.Left) {
+                val learnValue = binding.studyTv.text.toString().toInt() + 1
+                binding.studyTv.text = learnValue.toString()
+                card.status = 2
+                cardDAO.updateCardStatusById(card.id, card.status)
+            }
+
         }
     }
 
     override fun onCardRewound() {
         Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
+        if (manager.topPosition < adapter.itemCount) {
+            val card = adapter.getCards()[manager.topPosition]
+            if (card.status == 1) {
+                val learnValue = binding.learnTv.text.toString().toInt() - 1
+                binding.learnTv.text = learnValue.toString()
+                card.status = 0
+                cardDAO.updateCardStatusById(card.id, card.status)
+            } else if (card.status == 2) {
+                val studyValue = binding.studyTv.text.toString().toInt() - 1
+                binding.studyTv.text = studyValue.toString()
+                card.status = 0
+                cardDAO.updateCardStatusById(card.id, card.status)
+            }
+        }
     }
 
     override fun onCardCanceled() {
@@ -84,6 +115,9 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             binding.cardStackView.swipe()
+            // Update progress bar and toolbar title after each swipe
+            binding.timelineProgress.progress = manager.topPosition + 1
+            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
 
         binding.rewindButton.setOnClickListener {
@@ -94,6 +128,9 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setRewindAnimationSetting(setting)
             binding.cardStackView.rewind()
+            // Update progress bar and toolbar title after each swipe
+            binding.timelineProgress.progress = manager.topPosition + 1
+            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
 
         binding.likeButton.setOnClickListener {
@@ -104,6 +141,9 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             binding.cardStackView.swipe()
+            // Update progress bar and toolbar title after each swipe
+            binding.timelineProgress.progress = manager.topPosition + 1
+            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
     }
 
@@ -113,7 +153,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     private fun createCards(): List<Card> {
         val id: String? = intent.getStringExtra("id")
-        return id?.let { cardDAO.getCardsByFlashCardId(it) } ?: emptyList()
+        return id?.let { cardDAO.getAllCardByStatus(it) } ?: emptyList()
     }
 
     private fun createCard(): Card {

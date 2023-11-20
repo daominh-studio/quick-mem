@@ -133,6 +133,7 @@ public class SignInActivity extends AppCompatActivity {
                     userSharePreferences.setLogin(true);
                     userSharePreferences.setUserName(user.getUsername());
                     userSharePreferences.setAvatar(user.getAvatar());
+                    userSharePreferences.setEmail(user.getEmail());
                     intentToMain();
                     Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
                 }

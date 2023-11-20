@@ -236,6 +236,7 @@ public class CreateSetActivity extends AppCompatActivity {
             card.setId(genUUID());
             card.setFront(front);
             card.setBack(back);
+            card.setStatus(0);
             card.setFlashcard_id(id);
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
@@ -289,7 +290,7 @@ public class CreateSetActivity extends AppCompatActivity {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             return currentDate.format(formatter);
         } else {
-            // Handle case for Android versions less than Oreo
+            // Handle a case for Android versions less than Oreo
             // Here we're using SimpleDateFormat which is available on all Android versions
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

@@ -32,6 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         setContentView(view);
+        userSharePreferences = new UserSharePreferences(SettingsActivity.this);
+        binding.usernameTv.setText(userSharePreferences.getUserName());
+        binding.emailTv.setText(userSharePreferences.getEmail());
 
         onClickItemSetting();
 

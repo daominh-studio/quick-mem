@@ -166,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
                     } else {
                         role = 2;
                     }
-                }else {
+                } else {
                     role = 2;
                 }
 
@@ -198,6 +198,7 @@ public class SignUpActivity extends AppCompatActivity {
                     userSharePreferences.setAvatar(linkAvatar);
                     userSharePreferences.setUserName(username);
                     userSharePreferences.setRole(role);
+                    userSharePreferences.setEmail(email);
                     intentToMain();
                 } else {
                     Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
@@ -244,8 +245,8 @@ public class SignUpActivity extends AppCompatActivity {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             return currentDate.format(formatter);
         } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
+            // Handle a case for Android versions less than Oreo
+            // Here we're using SimpleDateFormat, which is available on all Android versions
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return sdf.format(new Date());
