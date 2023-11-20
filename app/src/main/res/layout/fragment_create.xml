@@ -80,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10dp"
+                android:visibility="visible"
                 android:background="@drawable/background_bottom_sheet"
                 android:gravity="center"
                 android:orientation="horizontal">

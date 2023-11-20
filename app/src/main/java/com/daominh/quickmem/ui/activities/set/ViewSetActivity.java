@@ -68,6 +68,8 @@ public class ViewSetActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
     }
 
     private void setupRecyclerView(Bundle savedInstanceState) {

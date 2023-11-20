@@ -159,14 +159,17 @@ public class SignUpActivity extends AppCompatActivity {
                 }
 
                 String hashedPassword = PasswordHasher.hashPassword(password);
-                int role = 0;
+                int role;
                 if (binding.teacherLl.getVisibility() == View.VISIBLE) {
                     if (binding.radioYes.isChecked()) {
                         role = 1;
                     } else {
                         role = 2;
                     }
+                }else {
+                    role = 2;
                 }
+
                 String createdAt = getCurrentDate();
                 String updatedAt = getCurrentDate();
                 user = new User();
@@ -194,6 +197,7 @@ public class SignUpActivity extends AppCompatActivity {
                     userSharePreferences.saveUser(user);
                     userSharePreferences.setAvatar(linkAvatar);
                     userSharePreferences.setUserName(username);
+                    userSharePreferences.setRole(role);
                     intentToMain();
                 } else {
                     Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();

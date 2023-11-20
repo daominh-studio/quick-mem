@@ -56,6 +56,12 @@ public class CreateFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
+        if (userSharePreferences.getRole() == 1) { // student
+            binding.llCreateClass.setVisibility(View.GONE);
+        }
+        Toast.makeText(requireContext(), userSharePreferences.getRole() + "", Toast.LENGTH_SHORT).show();
+
+
 
         binding.llCreateClass.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Hello class", Toast.LENGTH_SHORT).show();
