@@ -52,11 +52,11 @@ class CardLeanAdapter(
             if (flippedStates[position]) {
                 binding.itemFont.visibility = View.GONE
                 binding.itemBack.visibility = View.VISIBLE
-                binding.itemBack.rotationX = -180f
+                binding.itemBack.rotationY = -180f
             } else {
                 binding.itemFont.visibility = View.VISIBLE
                 binding.itemBack.visibility = View.GONE
-                binding.itemFont.rotationX = 0f
+                binding.itemFont.rotationY = 0f
             }
 
             binding.cardView.setOnClickListener {
@@ -79,7 +79,7 @@ class CardLeanAdapter(
                     flippedStates[position] = true
                     binding.itemFont.visibility = View.GONE
                     binding.itemBack.visibility = View.VISIBLE
-                    binding.itemBack.rotationX = -180f
+                    binding.itemBack.rotationY = -180f
                     binding.cardView.animate()
                         .rotationYBy(90f)
                         .setDuration(350)
@@ -100,7 +100,7 @@ class CardLeanAdapter(
                     flippedStates[position] = false
                     binding.itemFont.visibility = View.VISIBLE
                     binding.itemBack.visibility = View.GONE
-                    binding.itemFont.rotationX = 0f
+                    binding.itemFont.rotationY = 0f
                     binding.cardView.animate()
                         .rotationYBy(-90f)
                         .setDuration(350)
