@@ -63,26 +63,18 @@
         <FrameLayout
                 android:id="@+id/left_overlay"
                 android:layout_width="match_parent"
+                android:background="@drawable/overlay_orange"
                 android:layout_height="match_parent">
 
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/skip_white_120dp"/>
 
         </FrameLayout>
 
         <FrameLayout
                 android:id="@+id/right_overlay"
                 android:layout_width="match_parent"
+                android:background="@drawable/overlay_green"
                 android:layout_height="match_parent">
 
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/like_white_120dp"/>
 
         </FrameLayout>
 
