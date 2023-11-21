@@ -8,17 +8,16 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="8dp">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                       xmlns:app="http://schemas.android.com/apk/res-auto"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="match_parent"
-                                       android:background="?attr/selectableItemBackground"
-                                       android:foreground="?attr/selectableItemBackground"
-                                       app:cardBackgroundColor="@android:color/white"
-                                       app:cardCornerRadius="8dp"
-                                       android:id="@+id/card_view"
-                                       app:cardPreventCornerOverlap="false"
-                                       app:cardUseCompatPadding="true">
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="8dp"
+            android:id="@+id/card_view"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
 
         <ImageView
                 android:id="@+id/item_image"
