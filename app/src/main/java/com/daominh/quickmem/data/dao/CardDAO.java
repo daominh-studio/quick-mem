@@ -166,4 +166,37 @@ public class CardDAO {
         }
         return result;
     }
+
+    //get card have status = 0
+    public int getCardByStatus(String flashcard_id, int status) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<Card> cards = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CARDS + " WHERE flashcard_id = '" + flashcard_id + "' AND status = " + status;
+
+        try {
+            @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Card card = new Card();
+                    card.setId(cursor.getString(0));
+                    card.setFront(cursor.getString(1));
+                    card.setBack(cursor.getString(2));
+                    card.setStatus(cursor.getInt(3));
+                    card.setFlashcard_id(cursor.getString(4));
+                    card.setCreated_at(cursor.getString(5));
+                    card.setUpdated_at(cursor.getString(6));
+
+                    cards.add(card);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("CardDAO", "getCardByStatus: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return cards.size();
+    }
+
 }

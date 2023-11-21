@@ -1,6 +1,6 @@
 package com.daominh.quickmem.ui.activities.learn
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +10,11 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DiffUtil
-import com.daominh.quickmem.R
+import at.grabner.circleprogress.UnitPosition
 import com.daominh.quickmem.adapter.CardLeanAdapter
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityLearnBinding
-import com.daominh.quickmem.utils.CardDiffCallback
 import com.yuyakaido.android.cardstackview.*
 
 class LearnActivity : AppCompatActivity(), CardStackListener {
@@ -31,6 +29,11 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        if (createCards().isEmpty()) {
+            showHide()
+            Toast.makeText(this, "No card to learn", Toast.LENGTH_SHORT).show()
+        }
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -50,30 +53,29 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         Log.d("CardStackView", "onCardDragging: d = $direction, r = $ratio")
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCardSwiped(direction: Direction?) {
-        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        if (manager.topPosition  > adapter.itemCount + 1) {
-//        val intent = Intent(this, FinishActivity::class.java)
-//        startActivity(intent)
+        val card = adapter.getCards()[manager.topPosition - 1]
+        if (direction == Direction.Right) {
+            val learnValue = binding.learnTv.text.toString().toInt() + 1
+            binding.learnTv.text = learnValue.toString()
+            card.status = 1
+            cardDAO.updateCardStatusById(card.id, card.status)
+        } else if (direction == Direction.Left) {
+            val learnValue = binding.studyTv.text.toString().toInt() + 1
+            binding.studyTv.text = learnValue.toString()
+            card.status = 2
+            cardDAO.updateCardStatusById(card.id, card.status)
+        }
+        if (manager.topPosition == adapter.getCount()) {
+            showHide()
             Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
             // Update progress bar and toolbar title after each swipe
             binding.timelineProgress.progress = manager.topPosition + 1
             binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
-        } else {
-            val card = adapter.getCards()[manager.topPosition - 1]
-            if (direction == Direction.Right) {
-                val learnValue = binding.learnTv.text.toString().toInt() + 1
-                binding.learnTv.text = learnValue.toString()
-                card.status = 1
-                cardDAO.updateCardStatusById(card.id, card.status)
-            } else if (direction == Direction.Left) {
-                val learnValue = binding.studyTv.text.toString().toInt() + 1
-                binding.studyTv.text = learnValue.toString()
-                card.status = 2
-                cardDAO.updateCardStatusById(card.id, card.status)
-            }
-
         }
+
+
     }
 
     override fun onCardRewound() {
@@ -95,17 +97,15 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     }
 
     override fun onCardCanceled() {
-        Log.d("CardStackView", "onCardCanceled: ${manager.topPosition}")
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
-        Log.d("CardStackView", "onCardAppeared: ($position)")
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
-        Log.d("CardStackView", "onCardDisappeared: ($position)")
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupButton() {
         binding.skipButton.setOnClickListener {
             val setting = SwipeAnimationSetting.Builder()
@@ -183,112 +183,41 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         }
     }
 
-    private fun paginate() {
-        val old = adapter.getCards()
-        val new = old.plus(createCards())
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
+    private fun showHide() {
+        val learn = binding.learnTv.visibility == View.VISIBLE
+        val cardSlack = binding.cardStackView.visibility == View.VISIBLE
+        val button = binding.buttonContainer.visibility == View.VISIBLE
+        val reviewContainer = binding.reviewContainer.visibility == View.VISIBLE
+
+        if (learn && cardSlack && button) {
+            binding.leanLl.visibility = View.GONE
+            binding.cardStackView.visibility = View.GONE
+            binding.buttonContainer.visibility = View.GONE
+            binding.reviewContainer.visibility = View.VISIBLE
+            preview()
+        } else if (!learn && !cardSlack && !button && reviewContainer) {
+            binding.learnTv.visibility = View.VISIBLE
+            binding.cardStackView.visibility = View.VISIBLE
+            binding.buttonContainer.visibility = View.VISIBLE
+            binding.reviewContainer.visibility = View.GONE
+        }
     }
 
-    private fun reload() {
-        val old = adapter.getCards()
-        val new = createCards()
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
+    override fun onStart() {
+        super.onStart()
     }
 
-    private fun addFirst(size: Int) {
-        val old = adapter.getCards()
-        if (old.isEmpty()) {
-            return
-        }
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            for (i in 0 until size) {
-                add(manager.topPosition, createCard())
-            }
-        }
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
+    private fun preview() {
+        binding.knowNumberTv.text = getCardStatus(1).toString()
+        binding.stillLearnNumberTv.text = getCardStatus(2).toString()
+        val sum = (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))).toFloat() * 100
+        binding.reviewProgress.setUnitPosition(UnitPosition.BOTTOM)
+        binding.reviewProgress.setSpinningBarLength(sum)
+        binding.reviewProgress.setValueAnimated(sum, 1000)
     }
 
-    private fun addLast(size: Int) {
-        val old = adapter.getCards()
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            addAll(List(size) { createCard() })
-        }
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
-    }
-
-    private fun removeFirst(size: Int) {
-        if (adapter.getCards().isEmpty()) {
-            return
-        }
-
-        val old = adapter.getCards()
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            for (i in 0 until size) {
-                removeAt(manager.topPosition)
-            }
-        }
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
-    }
-
-    private fun removeLast(size: Int) {
-        if (adapter.getCards().isEmpty()) {
-            return
-        }
-
-        val old = adapter.getCards()
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            for (i in 0 until size) {
-                removeAt(this.size - 1)
-            }
-        }
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
-    }
-
-    private fun replace() {
-        val old = adapter.getCards()
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            removeAt(manager.topPosition)
-            add(manager.topPosition, createCard())
-        }
-        adapter.setCards(new)
-        adapter.notifyItemChanged(manager.topPosition)
-    }
-
-    private fun swap() {
-        val old = adapter.getCards()
-        val new = mutableListOf<Card>().apply {
-            addAll(old)
-            val first = removeAt(manager.topPosition)
-            val last = removeAt(this.size - 1)
-            add(manager.topPosition, last)
-            add(first)
-        }
-        val callback = CardDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        adapter.setCards(new)
-        result.dispatchUpdatesTo(adapter)
+    private fun getCardStatus(status: Int): Int {
+        val id = intent.getStringExtra("id")
+        return cardDAO.getCardByStatus(id, status)
     }
 }

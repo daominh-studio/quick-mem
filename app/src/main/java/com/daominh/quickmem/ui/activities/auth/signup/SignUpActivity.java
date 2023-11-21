@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -256,9 +257,14 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isDateGreaterThanCurrentDate(String dateStr) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-            LocalDate date = LocalDate.parse(dateStr, formatter);
-            LocalDate currentDate = LocalDate.now();
-            return date.isAfter(currentDate);
+            try {
+                LocalDate date = LocalDate.parse(dateStr, formatter);
+                LocalDate currentDate = LocalDate.now();
+                return date.isAfter(currentDate);
+            } catch (DateTimeParseException e) {
+                Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date", e);
+                return false;
+            }
         } else {
             // Handle case for Android versions less than Oreo
             // Here we're using SimpleDateFormat which is available on all Android versions
@@ -270,41 +276,52 @@ public class SignUpActivity extends AppCompatActivity {
                 assert date != null;
                 return date.after(currentDate);
             } catch (ParseException e) {
-                Log.e("SignupActivity", "isDateGreaterThanCurrentDate: ", e);
+                Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date", e);
                 return false;
             }
         }
     }
 
+
     private boolean isAgeGreaterThan18(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            // Handle the case where the date string is empty
+            return false;
+        }
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-            LocalDate birthday = LocalDate.parse(dateStr, formatter);
-            LocalDate today = LocalDate.now();
-            Period period = Period.between(birthday, today);
-            return period.getYears() >= 18;
+            try {
+                LocalDate date = LocalDate.parse(dateStr, formatter);
+                LocalDate currentDate = LocalDate.now();
+                LocalDate eighteenYearsAgo = currentDate.minusYears(18);
+                return date.isBefore(eighteenYearsAgo);
+            } catch (DateTimeParseException e) {
+                Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date", e);
+                return false;
+            }
         } else {
             // Handle case for Android versions less than Oreo
-            // Here we're using Calendar which is available on all Android versions
+            // Here we're using SimpleDateFormat which is available on all Android versions
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
             try {
-                Date birthday = sdf.parse(dateStr);
-                Calendar birthdate = Calendar.getInstance();
-                Calendar today = Calendar.getInstance();
-                assert birthday != null;
-                birthdate.setTime(birthday);
-                int age = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
-                if (today.get(Calendar.DAY_OF_YEAR) < birthdate.get(Calendar.DAY_OF_YEAR)) {
-                    age--;
-                }
-                return age >= 18;
+                Date date = sdf.parse(dateStr);
+                Date currentDate = new Date();
+                // Calculate 18 years ago
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                calendar.add(Calendar.YEAR, -18);
+                Date eighteenYearsAgo = calendar.getTime();
+                assert date != null;
+                return date.before(eighteenYearsAgo);
             } catch (ParseException e) {
-                Log.e("SignupActivity", "isAgeGreaterThan18: ", e);
+                Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date", e);
                 return false;
             }
         }
     }
+
 
     private boolean handleDateTextChanged(String text, ActivitySignupBinding binding) {
         String currentDate = getCurrentDate();

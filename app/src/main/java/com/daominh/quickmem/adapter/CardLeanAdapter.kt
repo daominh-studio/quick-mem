@@ -27,6 +27,10 @@ class CardLeanAdapter(
         return cardList.size
     }
 
+    fun getCount(): Int {
+        return cardList.size
+    }
+
     fun setCards(cards: List<Card>) {
         this.cardList = cards
     }

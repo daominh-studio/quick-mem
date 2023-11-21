@@ -89,8 +89,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="number_set">number set</string>
-    <string name="number_memeber">number memmber</string>
+    <string name="number_memeber">number member</string>
     <string name="flashcards">Flashcards</string>
     <string name="flashcards_description">Review terms and definitions</string>
     <string name="learn">Learn</string>
+    <string name="review">You\'re doing great!\n Keep focusing on \n your tough terms</string>
+    <string name="know">Know</string>
+    <string name="still_learning">Still learning</string>
+    <string name="terms_left">Terms left</string>
+    <string name="keep_learning">Keep Learning</string>
+    <string name="reset_learning">Restart FlashCards</string>
 </resources>
