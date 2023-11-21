@@ -39,9 +39,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         }
 
 
-        binding.timelineProgress.max = createCards().size
-        binding.timelineProgress.progress = 1
-
+        setUpProgressBar()
 
         setupCardStackView()
         setupButton()
@@ -53,6 +51,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 showContainer()
                 adapter.setCards(createCards())
                 adapter.notifyDataSetChanged()
+               setUpProgressBar()
             }
         }
 
@@ -61,6 +60,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             showContainer()
             adapter.setCards(createCards())
             adapter.notifyDataSetChanged()
+            setUpProgressBar()
         }
     }
 
@@ -76,11 +76,13 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.learnTv.text = learnValue.toString()
             card.status = 1
             cardDAO.updateCardStatusById(card.id, card.status)
+            binding.timelineProgress.progress = manager.topPosition + 1
         } else if (direction == Direction.Left) {
             val learnValue = binding.studyTv.text.toString().toInt() + 1
             binding.studyTv.text = learnValue.toString()
             card.status = 2
             cardDAO.updateCardStatusById(card.id, card.status)
+            binding.timelineProgress.progress = manager.topPosition + 1
         }
         if (manager.topPosition == adapter.getCount()) {
             showHide()
@@ -94,13 +96,9 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         if (manager.topPosition < adapter.itemCount) {
             val card = adapter.getCards()[manager.topPosition]
             if (card.status == 1) {
-                val learnValue = binding.learnTv.text.toString().toInt() - 1
-                binding.learnTv.text = learnValue.toString()
                 card.status = 0
                 cardDAO.updateCardStatusById(card.id, card.status)
             } else if (card.status == 2) {
-                val studyValue = binding.studyTv.text.toString().toInt() - 1
-                binding.studyTv.text = studyValue.toString()
                 card.status = 0
                 cardDAO.updateCardStatusById(card.id, card.status)
             }
@@ -128,7 +126,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.cardStackView.swipe()
             // Update progress bar and toolbar title after each swipe
             binding.timelineProgress.progress = manager.topPosition + 1
-            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
 
         binding.rewindButton.setOnClickListener {
@@ -141,7 +138,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.cardStackView.rewind()
             // Update progress bar and toolbar title after each swipe
             binding.timelineProgress.progress = manager.topPosition + 1
-            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
 
         binding.likeButton.setOnClickListener {
@@ -154,7 +150,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.cardStackView.swipe()
             // Update progress bar and toolbar title after each swipe
             binding.timelineProgress.progress = manager.topPosition + 1
-            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
     }
 
@@ -228,5 +223,11 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     private fun getCardStatus(status: Int): Int {
         val id = intent.getStringExtra("id")
         return cardDAO.getCardByStatus(id, status)
+    }
+
+    private fun setUpProgressBar() {
+        binding.timelineProgress.max = createCards().size + 1
+        binding.timelineProgress.progress = 1
+
     }
 }
