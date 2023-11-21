@@ -10,7 +10,6 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
-import at.grabner.circleprogress.UnitPosition
 import com.daominh.quickmem.adapter.CardLeanAdapter
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.model.Card
@@ -47,6 +46,22 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         setupCardStackView()
         setupButton()
 
+        binding.keepLearnBtn.setOnClickListener {
+            if (createCards().isEmpty()) {
+                Toast.makeText(this, "No card to learn", Toast.LENGTH_SHORT).show()
+            } else {
+                showContainer()
+                adapter.setCards(createCards())
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+        binding.resetLearnBtn.setOnClickListener {
+            cardDAO.resetStatusCardByFlashCardId(intent.getStringExtra("id"))
+            showContainer()
+            adapter.setCards(createCards())
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -69,10 +84,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         }
         if (manager.topPosition == adapter.getCount()) {
             showHide()
-            Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
-            // Update progress bar and toolbar title after each swipe
-            binding.timelineProgress.progress = manager.topPosition + 1
-            binding.toolbarTitle.text = "${manager.topPosition}/${adapter.itemCount}"
         }
 
 
@@ -156,15 +167,10 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         return id?.let { cardDAO.getAllCardByStatus(it) } ?: emptyList()
     }
 
-    private fun createCard(): Card {
-        //return random position
-        val position = (1..createCards().size).random()
-        return createCards()[position - 1]
-    }
 
     private fun initialize() {
         manager.setStackFrom(StackFrom.Bottom)
-        manager.setVisibleCount(3)
+        manager.setVisibleCount(1)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
@@ -187,7 +193,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         val learn = binding.learnTv.visibility == View.VISIBLE
         val cardSlack = binding.cardStackView.visibility == View.VISIBLE
         val button = binding.buttonContainer.visibility == View.VISIBLE
-        val reviewContainer = binding.reviewContainer.visibility == View.VISIBLE
 
         if (learn && cardSlack && button) {
             binding.leanLl.visibility = View.GONE
@@ -195,23 +200,27 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.buttonContainer.visibility = View.GONE
             binding.reviewContainer.visibility = View.VISIBLE
             preview()
-        } else if (!learn && !cardSlack && !button && reviewContainer) {
-            binding.learnTv.visibility = View.VISIBLE
-            binding.cardStackView.visibility = View.VISIBLE
-            binding.buttonContainer.visibility = View.VISIBLE
-            binding.reviewContainer.visibility = View.GONE
         }
+
+
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun showContainer() {
+        if (binding.cardStackView.visibility == View.GONE) {
+            binding.cardStackView.visibility = View.VISIBLE
+            binding.buttonContainer.visibility = View.VISIBLE
+            binding.leanLl.visibility = View.VISIBLE
+            binding.reviewContainer.visibility = View.GONE
+            binding.learnTv.text = "0"
+            binding.studyTv.text = "0"
+        }
     }
 
     private fun preview() {
         binding.knowNumberTv.text = getCardStatus(1).toString()
         binding.stillLearnNumberTv.text = getCardStatus(2).toString()
-        val sum = (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))).toFloat() * 100
-        binding.reviewProgress.setUnitPosition(UnitPosition.BOTTOM)
+        val sum =
+            (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))) * 100
         binding.reviewProgress.setSpinningBarLength(sum)
         binding.reviewProgress.setValueAnimated(sum, 1000)
     }

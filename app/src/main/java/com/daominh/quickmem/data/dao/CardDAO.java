@@ -199,4 +199,24 @@ public class CardDAO {
         return cards.size();
     }
 
+    //reset status card by flashcard_id to 2
+    public long resetStatusCardByFlashCardId(String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("status", 2);
+
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "flashcard_id = ?", new String[]{flashcard_id});
+        } catch (SQLException e) {
+            Log.e("CardDAO", "resetStatusCardByFlashCardId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
 }

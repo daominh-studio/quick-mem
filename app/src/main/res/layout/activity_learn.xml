@@ -26,25 +26,23 @@
                 android:layout_gravity="center"
                 android:text="@string/learn"/>
     </androidx.appcompat.widget.Toolbar>
+    <ProgressBar
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/timeline_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lean_ll"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/timeline_progress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-
-
-        <ProgressBar
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/timeline_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
 
         <TextView
@@ -56,7 +54,7 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/timeline_progress"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:padding="8dp"
                 android:id="@+id/study_tv"/>
@@ -69,7 +67,7 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/timeline_progress"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:padding="8dp"
                 android:gravity="center"
@@ -157,7 +155,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginHorizontal="@dimen/_10dp"
             android:id="@+id/review_container"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -171,7 +169,7 @@
                 android:text="@string/review"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_20ssp"
                 android:layout_marginStart="@dimen/_30ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -180,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_party"
+                android:layout_marginTop="@dimen/_20ssp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/review_iv"/>
