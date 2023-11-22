@@ -44,8 +44,6 @@ public class UserDAO {
             return 0;
         } finally {
             sqLiteDatabase.close();
-        }finally{
-            sqLiteDatabase.close();
         }
     }
 
