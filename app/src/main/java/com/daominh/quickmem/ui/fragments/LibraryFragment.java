@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,21 +17,31 @@ import android.widget.Toast;
 
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.MyViewPagerAdapter;
+import com.daominh.quickmem.data.dao.UserDAO;
+import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentClassesBinding;
 import com.daominh.quickmem.databinding.FragmentLibraryBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
+import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
+import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.tabs.TabLayout;
 
 
 public class LibraryFragment extends Fragment {
     private FragmentLibraryBinding binding;
+    private UserSharePreferences userSharePreferences;
     private TabLayout mtabLayout;
     private ViewPager mviewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
+    private int currentTabPosition = 0;
+    private String idUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        userSharePreferences = new UserSharePreferences(requireActivity());
+        idUser = userSharePreferences.getId();
     }
 
     @Override
@@ -51,10 +62,40 @@ public class LibraryFragment extends Fragment {
 
         mtabLayout.setupWithViewPager(mviewPager);
         
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                currentTabPosition = tab.getPosition();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        userSharePreferences = new UserSharePreferences(requireActivity());
+        idUser = userSharePreferences.getId();
+
+        UserDAO userDAO = new UserDAO(getContext());
+        User user = userDAO.getUserById(idUser);
+        if (user.getRole() == 2) {
+            binding.addBtn.setVisibility(View.GONE);
+        }
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Add", Toast.LENGTH_SHORT).show();
+                if (currentTabPosition == 0){
+                    startActivity(new Intent(getActivity(), CreateSetActivity.class));
+                } else if (currentTabPosition == 1){
+                    startActivity(new Intent(getActivity(), CreateFolderActivity.class));
+                } else if (currentTabPosition == 2){
+                    startActivity(new Intent(getActivity(), CreateClassActivity.class));
+                }
             }
         });
     }

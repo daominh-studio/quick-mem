@@ -7,6 +7,7 @@
     tools:context=".ui.fragments.library.StudySetsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/folder_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,7 +42,7 @@
             android:layout_marginTop="@dimen/_50ssp"
             android:background="@drawable/round_button_course"
             android:paddingHorizontal="20dp"
-            android:text="Create a folder"
+            android:text="Create a set"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_20ssp"
@@ -56,6 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
+        tools:listitem="@layout/item_folder"
+        android:layout_marginStart="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
