@@ -66,6 +66,7 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 currentTabPosition = tab.getPosition();
+                updateAddButtonVisibility();
             }
 
             @Override
@@ -84,7 +85,7 @@ public class LibraryFragment extends Fragment {
         UserDAO userDAO = new UserDAO(getContext());
         User user = userDAO.getUserById(idUser);
         if (user.getRole() == 2) {
-            binding.addBtn.setVisibility(View.GONE);
+            updateAddButtonVisibility();
         }
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,5 +99,13 @@ public class LibraryFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void updateAddButtonVisibility() {
+        if (userSharePreferences.getRole() == 2 && currentTabPosition == 2) {
+            binding.addBtn.setVisibility(View.GONE);
+        } else {
+            binding.addBtn.setVisibility(View.VISIBLE);
+        }
     }
 }
