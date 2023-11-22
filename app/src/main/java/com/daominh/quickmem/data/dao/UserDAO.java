@@ -179,6 +179,13 @@ public class UserDAO {
         return updateUser(id, contentValues);
     }
 
+    //update status by id user
+    public long updateStatusUser(String id, int status) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("status", status);
+        return updateUser(id, contentValues);
+    }
+
     @SuppressLint("Range")
     //get all user not contain password
     public ArrayList<User> getAllUser() {
