@@ -59,12 +59,9 @@ public class CreateFragment extends BottomSheetDialogFragment {
         if (userSharePreferences.getRole() == 2) { // student
             binding.llCreateClass.setVisibility(View.GONE);
         }
-        Toast.makeText(requireContext(), userSharePreferences.getRole() + "", Toast.LENGTH_SHORT).show();
-
 
 
         binding.llCreateClass.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Hello class", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), CreateClassActivity.class));
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
             //call ondismiss to close the bottom sheet
@@ -72,14 +69,12 @@ public class CreateFragment extends BottomSheetDialogFragment {
         });
 
         binding.llCreateFolder.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), CreateFolderActivity.class));
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
             dismiss();
         });
 
         binding.llCreateSet.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Hello set", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), CreateSetActivity.class));
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
             dismiss();

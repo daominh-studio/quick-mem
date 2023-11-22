@@ -16,6 +16,7 @@ import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.databinding.ActivityViewSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.learn.LearnActivity;
+import com.daominh.quickmem.ui.activities.learn.QuizActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,8 +68,14 @@ public class ViewSetActivity extends AppCompatActivity {
             intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);
         });
+        binding.learnCl.setOnClickListener(v -> {
+            Intent intent = new Intent(this, QuizActivity.class);
+            intent.putExtra("id", getIntent().getStringExtra("id"));
+            startActivity(intent);
 
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        });
+
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
     }
 

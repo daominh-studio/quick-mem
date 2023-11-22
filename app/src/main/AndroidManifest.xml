@@ -17,6 +17,9 @@
             android:theme="@style/Theme.QuickMem"
             tools:targetApi="31">
         <activity
+                android:name=".ui.activities.learn.QuizActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".ui.activities.learn.LearnActivity"
                 android:exported="false"/>
         <activity

@@ -100,4 +100,5 @@
     <string name="keep_learning">Keep Learning</string>
     <string name="reset_learning">Restart FlashCards</string>
     <string name="culminate">culminate</string>
+    <string name="focus_on_learning">Focus your studying with a path</string>
 </resources>

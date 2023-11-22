@@ -36,8 +36,8 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewSetAdapter.ViewSetViewHolder holder, int position) {
         Card card = cards.get(position);
-        holder.binding.frontTv.setText(card.getFront());
-        holder.binding.backTv.setText(card.getBack());
+        holder.binding.backTv.setText(card.getFront());
+        holder.binding.frontTv.setText(card.getBack());
         holder.binding.cardViewFlip.setFlipDuration(450);
         holder.binding.cardViewFlip.setFlipEnabled(true);
         holder.binding.cardViewFlip.setOnClickListener(v -> {

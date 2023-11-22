@@ -7,6 +7,7 @@ public class Card {
     String front;
     String back;
     int status;
+    int isLearned;
     String flashcard_id;
     String created_at;
     String updated_at;
@@ -14,11 +15,12 @@ public class Card {
     public Card() {
     }
 
-    public Card(String front, String back, int status, String flashcard_id, String created_at, String updated_at) {
+    public Card(String front, String back, int status, int isLearned, String flashcard_id, String created_at, String updated_at) {
         this.id = UUID.randomUUID().toString();
         this.front = front;
         this.back = back;
         this.status = status;
+        this.isLearned = isLearned;
         this.flashcard_id = flashcard_id;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -78,5 +80,13 @@ public class Card {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getIsLearned() {
+        return isLearned;
+    }
+
+    public void setIsLearned(int isLearned) {
+        this.isLearned = isLearned;
     }
 }

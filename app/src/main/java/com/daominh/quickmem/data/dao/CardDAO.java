@@ -33,6 +33,7 @@ public class CardDAO {
         contentValues.put("front", card.getFront());
         contentValues.put("back", card.getBack());
         contentValues.put("status", card.getStatus());
+        contentValues.put("is_learned", card.getIsLearned());
         contentValues.put("flashcard_id", card.getFlashcard_id());
         contentValues.put("created_at", card.getCreated_at());
         contentValues.put("updated_at", card.getUpdated_at());
@@ -84,9 +85,10 @@ public class CardDAO {
                     card.setFront(cursor.getString(1));
                     card.setBack(cursor.getString(2));
                     card.setStatus(cursor.getInt(3));
-                    card.setFlashcard_id(cursor.getString(4));
-                    card.setCreated_at(cursor.getString(5));
-                    card.setUpdated_at(cursor.getString(6));
+                    card.setIsLearned(cursor.getInt(4));
+                    card.setFlashcard_id(cursor.getString(5));
+                    card.setCreated_at(cursor.getString(6));
+                    card.setUpdated_at(cursor.getString(7));
 
                     cards.add(card);
                 } while (cursor.moveToNext());
@@ -116,9 +118,10 @@ public class CardDAO {
                     card.setFront(cursor.getString(1));
                     card.setBack(cursor.getString(2));
                     card.setStatus(cursor.getInt(3));
-                    card.setFlashcard_id(cursor.getString(4));
-                    card.setCreated_at(cursor.getString(5));
-                    card.setUpdated_at(cursor.getString(6));
+                    card.setIsLearned(cursor.getInt(4));
+                    card.setFlashcard_id(cursor.getString(5));
+                    card.setCreated_at(cursor.getString(6));
+                    card.setUpdated_at(cursor.getString(7));
 
                     cards.add(card);
                 } while (cursor.moveToNext());
@@ -184,9 +187,10 @@ public class CardDAO {
                     card.setFront(cursor.getString(1));
                     card.setBack(cursor.getString(2));
                     card.setStatus(cursor.getInt(3));
-                    card.setFlashcard_id(cursor.getString(4));
-                    card.setCreated_at(cursor.getString(5));
-                    card.setUpdated_at(cursor.getString(6));
+                    card.setIsLearned(cursor.getInt(4));
+                    card.setFlashcard_id(cursor.getString(5));
+                    card.setCreated_at(cursor.getString(6));
+                    card.setUpdated_at(cursor.getString(7));
 
                     cards.add(card);
                 } while (cursor.moveToNext());

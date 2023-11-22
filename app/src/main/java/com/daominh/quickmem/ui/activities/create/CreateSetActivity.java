@@ -237,13 +237,11 @@ public class CreateSetActivity extends AppCompatActivity {
             card.setFront(front);
             card.setBack(back);
             card.setStatus(0);
+            card.setIsLearned(0);
             card.setFlashcard_id(id);
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
-            if (cardDAO.insertCard(card) > 0) {
-                Toast.makeText(this, "Insert card successfully", Toast.LENGTH_SHORT).show();
-
-            } else {
+            if (cardDAO.insertCard(card) <= 0) {
                 Toast.makeText(this, "Insert card failed" + id, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -261,7 +259,6 @@ public class CreateSetActivity extends AppCompatActivity {
         flashCard.setId(id);
 
         if (flashCardDAO.insertFlashCard(flashCard) > 0) {
-            Toast.makeText(this, "Insert flashcard successfully", Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this, "Insert flashcard failed", Toast.LENGTH_SHORT).show();
