@@ -13,7 +13,7 @@ public class UserSharePreferences {
 
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ROLE = "role_user";
-    private static final String KEY_NAME = "name";
+    private static final String KEY_STATUS = "status";
     private static final String KEY_EMAIL = "email";
 
     private final SharedPreferences sharedPreferences;
@@ -47,6 +47,14 @@ public class UserSharePreferences {
     }
     public int getRole() {
         return sharedPreferences.getInt(KEY_ROLE, -1);
+    }
+
+    //set,get status
+    public void setStatus(int status){
+        sharedPreferences.edit().putInt(KEY_STATUS, status).apply();
+    }
+    public int getStatus() {
+        return sharedPreferences.getInt(KEY_STATUS, -1);
     }
 
     public void saveUser(User user) {

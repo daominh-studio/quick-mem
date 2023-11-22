@@ -1,16 +1,20 @@
 package com.daominh.quickmem.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemUsersAdminBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,10 +22,12 @@ import java.util.List;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
     private final Context context;
     private final List<User> users;
+    private UserDAO userDAO;
 
     public UsersAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
+        this.userDAO = new UserDAO(context);
     }
 
     @NonNull
@@ -38,7 +44,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         int role = user.getRole();
         if (role != 0) {
             holder.binding.getRoot().setVisibility(View.VISIBLE);
-
+            holder.binding.userCb.setChecked(user.getStatus() == 0);
+            holder.binding.userCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked){
+                        userDAO.updateStatusUser(user.getId(),0);
+                    } else {
+                        userDAO.updateStatusUser(user.getId(),1);
+                    }
+                }
+            });
             // Load avatar using Picasso
             Picasso.get().load(user.getAvatar()).into(holder.binding.avatarIv);
 
