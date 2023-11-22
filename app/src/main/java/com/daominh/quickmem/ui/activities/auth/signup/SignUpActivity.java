@@ -227,13 +227,13 @@ public class SignUpActivity extends AppCompatActivity {
                     .setTitle(getString(R.string.date_picker_title))
                     .setPositiveButtonText("OK")
                     .setNegativeButtonText("Cancel")
-                    .setDate(OffsetDateTime.now().plusDays(10).toInstant().toEpochMilli())
-                    .setDateFormat(MaterialDatePickerView.DateFormat.DD_MMM_YYYY)
+                    .setDate(OffsetDateTime.now().toInstant().toEpochMilli())
+                    .setDateFormat(MaterialDatePickerView.DateFormat.DD_MM_YYYY)
                     .setFadeAnimation(350L, 1050L, .3f, .7f)
                     .build();
 
             builder.setOnDatePickListener(l -> {
-                String date = builder.getDayOfMonth() + "/" + (builder.getMonth() + 1) + "/" + builder.getYear();
+                String date = builder.getDayOfMonth() + "/" + builder.getMonth() + "/" + builder.getYear();
                 callback.onDatePicked(date);
             });
             builder.show(getSupportFragmentManager(), "tag");
@@ -254,71 +254,37 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private boolean isDateGreaterThanCurrentDate(String dateStr) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-            try {
-                LocalDate date = LocalDate.parse(dateStr, formatter);
-                LocalDate currentDate = LocalDate.now();
-                return date.isAfter(currentDate);
-            } catch (DateTimeParseException e) {
-                Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date", e);
-                return false;
-            }
-        } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
-            try {
-                Date date = sdf.parse(dateStr);
-                Date currentDate = new Date();
-                assert date != null;
-                return date.after(currentDate);
-            } catch (ParseException e) {
-                Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date", e);
-                return false;
-            }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = formatter.parse(dateStr);
+            Date currentDate = new Date();
+            return date.after(currentDate);
+        } catch (ParseException e) {
+            Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
+            return false;
         }
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     private boolean isAgeGreaterThan18(String dateStr) {
         if (dateStr == null || dateStr.trim().isEmpty()) {
             // Handle the case where the date string is empty
             return false;
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-            try {
-                LocalDate date = LocalDate.parse(dateStr, formatter);
-                LocalDate currentDate = LocalDate.now();
-                LocalDate eighteenYearsAgo = currentDate.minusYears(18);
-                return date.isBefore(eighteenYearsAgo);
-            } catch (DateTimeParseException e) {
-                Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date", e);
-                return false;
-            }
-        } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
-            try {
-                Date date = sdf.parse(dateStr);
-                Date currentDate = new Date();
-                // Calculate 18 years ago
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(currentDate);
-                calendar.add(Calendar.YEAR, -18);
-                Date eighteenYearsAgo = calendar.getTime();
-                assert date != null;
-                return date.before(eighteenYearsAgo);
-            } catch (ParseException e) {
-                Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date", e);
-                return false;
-            }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = formatter.parse(dateStr);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.YEAR, -18);
+            Date eighteenYearsAgo = calendar.getTime();
+            return date.before(eighteenYearsAgo);
+        } catch (ParseException e) {
+            Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
+            return false;
         }
     }
 
