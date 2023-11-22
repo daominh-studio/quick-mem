@@ -67,8 +67,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         return count;
     }
 
-    public class UsersViewHolder extends RecyclerView.ViewHolder {
-        private ItemUsersAdminBinding binding;
+    public static class UsersViewHolder extends RecyclerView.ViewHolder {
+        private final ItemUsersAdminBinding binding;
 
         public UsersViewHolder(@NonNull View itemView) {
             super(itemView);
