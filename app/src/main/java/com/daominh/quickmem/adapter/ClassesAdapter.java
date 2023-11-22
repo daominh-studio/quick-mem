@@ -1,5 +1,6 @@
 package com.daominh.quickmem.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +23,6 @@ import java.util.List;
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassesViewHolder>{
     private final Context context;
     private final List<Group> classes;
-    private GroupDAO groupDAO;
-    private UserDAO userDAO;
 
     public ClassesAdapter(Context context, List<Group> classes) {
         this.context = context;
@@ -38,18 +37,19 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassesV
         return new ClassesViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ClassesViewHolder holder, int position) {
         Group group = classes.get(position);
 
         holder.binding.classNameTv.setText("Class: "+group.getName());
-        groupDAO = new GroupDAO(context);
+        GroupDAO groupDAO = new GroupDAO(context);
         int numberMember = groupDAO.getNumberMemberInClass(group.getId()) + 1;
         int numberSet = groupDAO.getNumberFlashCardInClass(group.getId());
         holder.binding.numberUserTv.setText(numberMember + " members");
         holder.binding.numberSetTv.setText(numberSet + " sets");
 
-        userDAO = new UserDAO(context);
+        UserDAO userDAO = new UserDAO(context);
         User user = userDAO.getUserById(group.getUser_id());
         Log.d("User_id",group.getUser_id());
         if (user != null){
@@ -64,8 +64,8 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ClassesV
         return classes.size();
     }
 
-    public class ClassesViewHolder extends RecyclerView.ViewHolder {
-        private ItemClassesAdminBinding binding;
+    public static class ClassesViewHolder extends RecyclerView.ViewHolder {
+        private final ItemClassesAdminBinding binding;
 
         public ClassesViewHolder(@NonNull View itemView) {
             super(itemView);

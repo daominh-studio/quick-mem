@@ -109,7 +109,7 @@ public class UserDAO {
     @SuppressLint("Range")
     private User getUserByIdentifier(String identifier) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE email = '" + identifier + "' OR username = '" + identifier + "'";
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE email = '" + identifier + "' OR username = '" + identifier + "'" + "OR WHERE id = '" + identifier + "'";
 
         try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
@@ -180,10 +180,10 @@ public class UserDAO {
     }
 
     //update status by id user
-    public long updateStatusUser(String id, int status) {
+    public void updateStatusUser(String id, int status) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("status", status);
-        return updateUser(id, contentValues);
+        updateUser(id, contentValues);
     }
 
     @SuppressLint("Range")
@@ -213,8 +213,29 @@ public class UserDAO {
         return users;
     }
 
+    @SuppressLint("Range")
     //get user by id not contain password
     public User getUserById(String id) {
-        return getUserByIdentifier(id);
+
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                String email = cursor.getString(cursor.getColumnIndex("email"));
+                String username = cursor.getString(cursor.getColumnIndex("username"));
+                String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
+                int role = cursor.getInt(cursor.getColumnIndex("role"));
+                String created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+                String updated_at = cursor.getString(cursor.getColumnIndex("updated_at"));
+                int status = cursor.getInt(cursor.getColumnIndex("status"));
+
+                return new User(id, name, email, username, null, avatar, role, created_at, updated_at, status);
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getUserById: " + e);
+        }
+        return null;
     }
 }
