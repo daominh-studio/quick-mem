@@ -44,6 +44,8 @@ public class UserDAO {
             return 0;
         } finally {
             sqLiteDatabase.close();
+        }finally{
+            sqLiteDatabase.close();
         }
     }
 
@@ -57,6 +59,8 @@ public class UserDAO {
         } catch (SQLException e) {
             Log.e("UserDAO", "checkEmail: " + e);
             return false;
+        }finally {
+            sqLiteDatabase.close();
         }
     }
 
@@ -91,6 +95,8 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "checkPassword: " + e);
+        }finally {
+            sqLiteDatabase.close();
         }
         return false;
     }
@@ -128,6 +134,9 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserByIdentifier: " + e);
+        }
+        finally {
+            sqLiteDatabase.close();
         }
         return null;
     }
@@ -209,6 +218,8 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getAllUser: " + e);
+        }finally {
+            sqLiteDatabase.close();
         }
         return users;
     }
@@ -235,6 +246,8 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserById: " + e);
+        }finally {
+            sqLiteDatabase.close();
         }
         return null;
     }
