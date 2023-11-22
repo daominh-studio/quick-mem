@@ -59,14 +59,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             Picasso.get().load(user.getAvatar()).into(holder.binding.avatarIv);
 
             holder.binding.userNameTv.setText(user.getUsername());
-            Toast.makeText(context, "hi" + user.getUsername(), Toast.LENGTH_SHORT).show();
             holder.binding.emailTv.setText("Email: "+user.getEmail());
             if (role == 1) {
                 holder.binding.roleTv.setText("Role: Giáo viên");
             } else if (role == 2) {
                 holder.binding.roleTv.setText("Role: Học sinh");
             }
-            Toast.makeText(context, "role" + user.getRole(), Toast.LENGTH_SHORT).show();
         } else {
             holder.binding.getRoot().setVisibility(View.GONE);
         }
