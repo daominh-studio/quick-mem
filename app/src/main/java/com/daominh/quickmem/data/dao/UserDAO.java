@@ -109,7 +109,7 @@ public class UserDAO {
     @SuppressLint("Range")
     private User getUserByIdentifier(String identifier) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE email = '" + identifier + "' OR username = '" + identifier + "'" + "OR WHERE id = '" + identifier + "'";
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE email = '" + identifier + "' OR username = '" + identifier + "'";
 
         try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
             if (cursor.getCount() > 0) {
