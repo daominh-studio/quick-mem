@@ -279,7 +279,7 @@ public class SignUpActivity extends AppCompatActivity {
             Date date = formatter.parse(dateStr);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
-            calendar.add(Calendar.YEAR, -18);
+            calendar.add(Calendar.YEAR, -22);
             Date eighteenYearsAgo = calendar.getTime();
             return date.before(eighteenYearsAgo);
         } catch (ParseException e) {
