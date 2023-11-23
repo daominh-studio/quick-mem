@@ -1,5 +1,7 @@
 package com.daominh.quickmem.ui.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -79,10 +81,20 @@ public class UsersFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.log_out) {
-            //code if choose setting
-            userSharePreferences = new UserSharePreferences(getActivity());
-            userSharePreferences.clear();
-            startActivity(new Intent(getActivity(), SignInActivity.class));
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Đăng xuất");
+            builder.setMessage("Bạn có chắc chắn muốn đăng xuất?");
+            builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    userSharePreferences = new UserSharePreferences(getActivity());
+                    userSharePreferences.clear();
+                    startActivity(new Intent(getActivity(), SignInActivity.class));
+                }
+            });
+            builder.setNegativeButton("Hủy", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return true;
         }
         return super.onOptionsItemSelected(item);
