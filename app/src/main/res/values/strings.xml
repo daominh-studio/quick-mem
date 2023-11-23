@@ -101,4 +101,8 @@
     <string name="reset_learning">Restart FlashCards</string>
     <string name="culminate">culminate</string>
     <string name="focus_on_learning">Focus your studying with a path</string>
+    <string name="create_a_folder">Create a folder</string>
+    <string name="organize_your_study_sets_by_subject_teacher_course_etc">Organize your study sets by subject, teacher, course, etc.</string>
+    <string name="take_the_first_step_towards_better_grades_create_a_study_set">Take the first step towards better grades. Create a study set.</string>
+    <string name="create_a_set">Create a set</string>
 </resources>
