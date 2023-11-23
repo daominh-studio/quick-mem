@@ -112,4 +112,6 @@
     <string name="delete_set_success">Delete set success!</string>
     <string name="error">Uh oh</string>
     <string name="delete_set_error">Please try again late!</string>
+    <string name="create_new_folder">+ Create new folder</string>
+    <string name="create_new_classes">+ Create new class</string>
 </resources>

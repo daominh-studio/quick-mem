@@ -7,4 +7,39 @@
         android:layout_height="match_parent"
         tools:context=".ui.activities.folder.AddToFolderActivity">
 
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_gray"
+            android:elevation="@dimen/_10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="Add to folder"/>
+
+    <TextView
+            android:id="@+id/create_new_folder_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/celestial_blue"
+            android:text="@string/create_new_folder"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:padding="@dimen/_10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/folder_rv"
+            android:layout_marginHorizontal="@dimen/_16dp"
+            app:layout_constraintTop_toBottomOf="@id/create_new_folder_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
