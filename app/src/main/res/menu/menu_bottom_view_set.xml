@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/add_to_folder"
+            android:title="Add to folder"
+            android:icon="@drawable/ic_folder"/>
+    <item
+            android:id="@+id/add_to_class"
+            android:title="Add to class"
+            android:icon="@drawable/ic_group"/>
+    <item
+            android:id="@+id/save_and_edit"
+            android:title="Save and edit"
+            android:icon="@drawable/ic_edit"/>
+    <item
+            android:id="@+id/share"
+            android:title="Share"
+            android:icon="@drawable/ic_share"/>
+    <item
+            android:id="@+id/edit"
+            android:title="Edit"
+            android:icon="@drawable/ic_edit"/>
+    <item
+            android:id="@+id/delete_set"
+            android:title="Delete"
+            android:icon="@drawable/ic_delete"/>
+</menu>

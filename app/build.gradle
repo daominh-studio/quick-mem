@@ -96,6 +96,12 @@ dependencies {
     //lottie
     implementation 'com.airbnb.android:lottie:4.2.2'
 
+    //bottom sheet
+    implementation "com.github.Kennyc1012:BottomSheetMenu:5.1"
+
+    //popup dialog
+    implementation 'com.saadahmedev.popup-dialog:popup-dialog:1.0.5'
+
 
 
 }

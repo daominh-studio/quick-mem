@@ -78,4 +78,27 @@ public class FolderDAO {
         return folders;
     }
 
+    //add flashcard to folder
+    public long addFlashCardToFolder(String folder_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("folder_id", folder_id);
+        contentValues.put("flashcard_id", flashcard_id);
+
+        //insert
+        try {
+            result = sqLiteDatabase.insert(QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS, null, contentValues);
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "addFlashCardToFolder: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
 }

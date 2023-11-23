@@ -94,4 +94,55 @@ public class FlashCardDAO {
         }
         return result;
     }
+
+    public boolean deleteFlashcardAndCards(String flashcardId) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        boolean result = false;
+
+        try {
+            sqLiteDatabase.beginTransaction();
+
+            sqLiteDatabase.delete(QMDatabaseHelper.TABLE_CARDS, "flashcard_id = ?", new String[]{flashcardId});
+            sqLiteDatabase.delete(QMDatabaseHelper.TABLE_FLASHCARDS, "id = ?", new String[]{flashcardId});
+
+            sqLiteDatabase.setTransactionSuccessful();
+            result = true;
+        } catch (SQLException e) {
+            Log.e("FlashCardDAO", "deleteFlashcardAndCards: " + e);
+        } finally {
+            sqLiteDatabase.endTransaction();
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+    //get flashcard by id
+    @SuppressLint("Range")
+    public FlashCard getFlashCardById(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        FlashCard flashCard = new FlashCard();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FLASHCARDS + " WHERE id = '" + id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
+                    flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
+                    flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
+                    flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
+                    flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("FlashCardDAO", "getFlashCardById: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return flashCard;
+    }
 }

@@ -51,7 +51,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 showContainer()
                 adapter.setCards(createCards())
                 adapter.notifyDataSetChanged()
-               setUpProgressBar()
+                setUpProgressBar()
             }
         }
 
@@ -98,9 +98,15 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             if (card.status == 1) {
                 card.status = 0
                 cardDAO.updateCardStatusById(card.id, card.status)
+                if (binding.learnTv.text.toString().toInt() > 0) {
+                    binding.learnTv.text = (binding.learnTv.text.toString().toInt() - 1).toString()
+                }
             } else if (card.status == 2) {
                 card.status = 0
                 cardDAO.updateCardStatusById(card.id, card.status)
+                if (binding.studyTv.text.toString().toInt() > 0) {
+                    binding.studyTv.text = (binding.studyTv.text.toString().toInt() - 1).toString()
+                }
             }
         }
     }
@@ -217,6 +223,8 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         val sum =
             (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))) * 100
         binding.reviewProgress.setSpinningBarLength(sum)
+        binding.reviewProgress.isEnabled = false
+        binding.reviewProgress.isFocusableInTouchMode = false
         binding.reviewProgress.setValueAnimated(sum, 1000)
     }
 

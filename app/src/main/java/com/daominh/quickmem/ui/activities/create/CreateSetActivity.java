@@ -1,6 +1,7 @@
 package com.daominh.quickmem.ui.activities.create;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +31,7 @@ import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ActivityCreateSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -259,6 +261,9 @@ public class CreateSetActivity extends AppCompatActivity {
         flashCard.setId(id);
 
         if (flashCardDAO.insertFlashCard(flashCard) > 0) {
+            Intent intent = new Intent(this, ViewSetActivity.class);
+            intent.putExtra("id", flashCard.getId());
+            startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Insert flashcard failed", Toast.LENGTH_SHORT).show();

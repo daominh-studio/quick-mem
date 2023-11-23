@@ -232,6 +232,7 @@
                 app:cpv_textColor="@color/dark_gray"
                 app:cpv_textScale="1"
                 app:cpv_unit="%"
+                app:cpv_roundToBlock="false"
                 android:elevation="1dp"
                 app:cpv_unitSize="@dimen/_20ssp"
                 app:cpv_unitToTextScale="0.8"

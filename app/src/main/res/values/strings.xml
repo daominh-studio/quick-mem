@@ -105,4 +105,11 @@
     <string name="organize_your_study_sets_by_subject_teacher_course_etc">Organize your study sets by subject, teacher, course, etc.</string>
     <string name="take_the_first_step_towards_better_grades_create_a_study_set">Take the first step towards better grades. Create a study set.</string>
     <string name="create_a_set">Create a set</string>
+    <string name="close">Close</string>
+    <string name="delete_set">Delete this set</string>
+    <string name="delete_set_description">Are you sure you wnat to delete this set permanentily?</string>
+    <string name="success">Success</string>
+    <string name="delete_set_success">Delete set success!</string>
+    <string name="error">Uh oh</string>
+    <string name="delete_set_error">Please try again late!</string>
 </resources>

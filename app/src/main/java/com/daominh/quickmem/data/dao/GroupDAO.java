@@ -149,6 +149,26 @@ public class GroupDAO {
         return classes;
     }
 
+    //add flashcard to class
+    public long addFlashCardToClass(String class_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("class_id", class_id);
+        contentValues.put("flashcard_id", flashcard_id);
+
+        //insert
+        try {
+            result = sqLiteDatabase.insert(QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS, null, contentValues);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 
 
 }
