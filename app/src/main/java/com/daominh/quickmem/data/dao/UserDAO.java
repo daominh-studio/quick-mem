@@ -88,6 +88,7 @@ public class UserDAO {
                 int passwordIndex = cursor.getColumnIndex("password");
                 if (passwordIndex != -1) {
                     String hashedPassword = cursor.getString(passwordIndex);
+                    assert password != null;
                     return password.equals(hashedPassword);
                 }
             }
@@ -146,9 +147,22 @@ public class UserDAO {
     }
 
     //get password by id user
+    @SuppressLint("Range")
     public String getPasswordUser(String id) {
-        User user = getUserByIdentifier(id);
-        return user != null ? user.getPassword() : null;
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                return cursor.getString(cursor.getColumnIndex("password"));
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getPasswordUser: " + e);
+        }finally {
+            sqLiteDatabase.close();
+        }
+        return null;
     }
 
     //update status user by id
