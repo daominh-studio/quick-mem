@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.databinding.ActivitySettingsBinding;
@@ -16,6 +17,9 @@ import com.daominh.quickmem.databinding.DialogChangeEmailBinding;
 import com.daominh.quickmem.databinding.DialogChangeUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
+import com.daominh.quickmem.ui.activities.profile.change.ChangeEmailActivity;
+import com.daominh.quickmem.ui.activities.profile.change.ChangePasswordActivity;
+import com.daominh.quickmem.ui.activities.profile.change.ChangeUsernameActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
 
 import java.util.Objects;
@@ -32,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         setContentView(view);
+
         userSharePreferences = new UserSharePreferences(SettingsActivity.this);
         binding.usernameTv.setText(userSharePreferences.getUserName());
         binding.emailTv.setText(userSharePreferences.getEmail());
@@ -45,7 +50,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void onClickItemSetting() {
         binding.usernameCl.setOnClickListener(view -> openDialogChangeUsername());
         binding.emailCl.setOnClickListener(view -> openDialogChangeEmail());
-        binding.passwordCl.setOnClickListener(view -> openDialogChangePassword());
+        binding.passwordCl.setOnClickListener(view -> {
+            startActivity(new Intent(SettingsActivity.this, ChangePasswordActivity.class));
+        });
 
         binding.logOutBtn.setOnClickListener(v -> {
             userSharePreferences = new UserSharePreferences(SettingsActivity.this);
@@ -55,14 +62,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void openDialogChangePassword() {
-
-    }
-
     private void openDialogChangeEmail() {
         userDAO = new UserDAO(SettingsActivity.this);
-        DialogChangeEmailBinding changeUsernameBinding = DialogChangeEmailBinding.inflate(LayoutInflater.from(SettingsActivity.this));
-        View view = changeUsernameBinding.getRoot();
+        DialogChangeEmailBinding changeEmailBinding = DialogChangeEmailBinding.inflate(LayoutInflater.from(SettingsActivity.this));
+        View view = changeEmailBinding.getRoot();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         builder.setView(view);
@@ -71,25 +74,28 @@ public class SettingsActivity extends AppCompatActivity {
         detailDialog.show();
         detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        changeUsernameBinding.cancelChangeEmailBtn.setOnClickListener(view1 -> detailDialog.dismiss());
+        changeEmailBinding.cancelChangeEmailBtn.setOnClickListener(view1 -> detailDialog.dismiss());
 
-        changeUsernameBinding.submitChangeEmailBtn.setOnClickListener(v -> {
-
-            String password = changeUsernameBinding.passwordEt.getText().toString().trim();
+        changeEmailBinding.submitChangeEmailBtn.setOnClickListener(v -> {
+//            startActivity(new Intent(SettingsActivity.this, ChangeEmailActivity.class));
+            String password = changeEmailBinding.passwordEt.getText().toString().trim();
             userSharePreferences = new UserSharePreferences(SettingsActivity.this);
             String id = userSharePreferences.getId();
             if (password.isEmpty()) {
-                changeUsernameBinding.textIL.setHelperText("Please enter your password");
+                changeEmailBinding.textIL.setHelperText("Please enter your password");
             } else if (!Objects.equals(PasswordHasher.hashPassword(password), userDAO.getPasswordUser(id))) {
-                changeUsernameBinding.textIL.setHelperText("Password is incorrect");
+                Toast.makeText(this, "Pass: "+userDAO.getPasswordUser(id), Toast.LENGTH_SHORT).show();
+                changeEmailBinding.textIL.setHelperText("Password is incorrect");
             } else {
-                changeUsernameBinding.textIL.setHelperText("");
+                changeEmailBinding.textIL.setHelperText("");
+                startActivity(new Intent(SettingsActivity.this, ChangeEmailActivity.class));
+                detailDialog.dismiss();
             }
-
         });
     }
 
     private void openDialogChangeUsername() {
+        userDAO = new UserDAO(SettingsActivity.this);
         DialogChangeUsernameBinding changeUsernameBinding = DialogChangeUsernameBinding.inflate(LayoutInflater.from(SettingsActivity.this));
         View view = changeUsernameBinding.getRoot();
 
@@ -101,5 +107,21 @@ public class SettingsActivity extends AppCompatActivity {
         detailDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         changeUsernameBinding.cancelChangeName.setOnClickListener(view1 -> detailDialog.dismiss());
+
+        changeUsernameBinding.submitChangeName.setOnClickListener(v -> {
+//            startActivity(new Intent(SettingsActivity.this, ChangeUsernameActivity.class));
+            String password = changeUsernameBinding.passwordEt.getText().toString().trim();
+            userSharePreferences = new UserSharePreferences(SettingsActivity.this);
+            String id = userSharePreferences.getId();
+            if (password.isEmpty()) {
+                changeUsernameBinding.textIL.setHelperText("Please enter your password");
+            } else if (!Objects.equals(PasswordHasher.hashPassword(password), userDAO.getPasswordUser(id))) {
+                changeUsernameBinding.textIL.setHelperText("Password is incorrect");
+            } else {
+                changeUsernameBinding.textIL.setHelperText("");
+                startActivity(new Intent(SettingsActivity.this, ChangeUsernameActivity.class));
+                detailDialog.dismiss();
+            }
+        });
     }
 }

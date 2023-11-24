@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="To confirm it's really you, please verify your Quickmem password."/>
+        android:text="To confirm it's really you, please verify your Quickmem password." />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textIL"
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
             android:layout_height="50dp"
             android:background="@drawable/round_edittext_setting_change"
             android:hint="Password"
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:paddingLeft="@dimen/_15ssp" />
     </com.google.android.material.textfield.TextInputLayout>
 
