@@ -62,10 +62,22 @@ public class UserDAO {
         }
     }
 
-    //check if username is existed
+    //check username is exist
     public boolean checkUsername(String username) {
-        return checkEmail(username);
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE username = '" + username + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            return cursor.getCount() > 0;
+        } catch (SQLException e) {
+            Log.e("UserDAO", "checkUsername: " + e);
+            return false;
+        }finally {
+            sqLiteDatabase.close();
+        }
     }
+
+    //check if username is existed
 
     //check password with email
     public boolean checkPasswordEmail(String email, String password) {
