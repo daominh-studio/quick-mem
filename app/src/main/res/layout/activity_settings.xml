@@ -150,7 +150,7 @@
                             android:id="@+id/password_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Create a password"
+                            android:text="Change password"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
