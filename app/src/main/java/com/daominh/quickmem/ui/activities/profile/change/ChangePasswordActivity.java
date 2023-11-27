@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +14,6 @@ import android.widget.Toast;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.databinding.ActivityChangePasswordBinding;
-import com.daominh.quickmem.databinding.ActivityChangeUsernameBinding;
-import com.daominh.quickmem.databinding.ActivitySignupBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.profile.SettingsActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
@@ -26,7 +22,6 @@ import java.util.Objects;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private ActivityChangePasswordBinding binding;
-    private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
     String currentPass, newPass, reNewPass, id;
 
@@ -38,33 +33,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(view);
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
-        userSharePreferences = new UserSharePreferences(this);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         id = userSharePreferences.getId();
 
-        binding.currentPassEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    validCurrentPass();
-                }
+        binding.currentPassEt.setOnFocusChangeListener((view1, b) -> {
+            if (!b) {
+                validCurrentPass();
             }
         });
-        binding.newPassEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    validNewPass();
-                }
+        binding.newPassEt.setOnFocusChangeListener((view12, b) -> {
+            if (!b) {
+                validNewPass();
             }
         });
-        binding.confirmPassEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    validConfirmPass();
-                }
+        binding.confirmPassEt.setOnFocusChangeListener((view13, b) -> {
+            if (!b) {
+                validConfirmPass();
             }
         });
     }
@@ -75,17 +61,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
         validConfirmPass();
 
         if (binding.currentPassIL.getHelperText() == null &&
-            binding.newPassIL.getHelperText() == null &&
-            binding.currentPassIL.getHelperText() == null) {
+                binding.newPassIL.getHelperText() == null &&
+                binding.currentPassIL.getHelperText() == null) {
 
             userDAO = new UserDAO(this);
             String hashedPassword = PasswordHasher.hashPassword(newPass);
-            if (userDAO.updatePasswordUser(id,hashedPassword) > 0){
+            if (userDAO.updatePasswordUser(id, hashedPassword) > 0) {
                 Toast.makeText(this, "Change username SUCCESS", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ChangePasswordActivity.this, SettingsActivity.class));
-                finish();
+                getOnBackPressedDispatcher().onBackPressed();
             } else {
-                Toast.makeText(this, "Change username UNSUCCESS", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Change username UNSUCCESSFUL", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -96,7 +81,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             binding.confirmPassIL.setHelperText("Please enter your new password");
             binding.confirmPassIL.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.confirmPassEt.requestFocus();
-        } else if (!reNewPass.equals(newPass)){
+        } else if (!reNewPass.equals(newPass)) {
             binding.confirmPassIL.setHelperText("Confirm password must be similar new password");
             binding.confirmPassIL.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.confirmPassEt.requestFocus();
@@ -115,7 +100,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             binding.newPassIL.setHelperText(getString(R.string.password_is_invalid));
             binding.newPassIL.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.newPassEt.requestFocus();
-        } else if (newPass.contains(" ")){
+        } else if (newPass.contains(" ")) {
             binding.newPassIL.setHelperText("Password cannot contain spaces");
             binding.newPassIL.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.newPassEt.requestFocus();

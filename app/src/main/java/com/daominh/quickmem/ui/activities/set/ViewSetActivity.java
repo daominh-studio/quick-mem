@@ -23,6 +23,7 @@ import com.daominh.quickmem.ui.activities.folder.AddToFolderActivity;
 import com.daominh.quickmem.ui.activities.group.AddToClassActivity;
 import com.daominh.quickmem.ui.activities.learn.LearnActivity;
 import com.daominh.quickmem.ui.activities.learn.QuizActivity;
+import com.daominh.quickmem.ui.activities.learn.SelectDefineActivity;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
 import com.kennyc.bottomsheet.menu.BottomSheetMenu;
@@ -86,7 +87,7 @@ public class ViewSetActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.learnCl.setOnClickListener(v -> {
-            Intent intent = new Intent(this, QuizActivity.class);
+            Intent intent = new Intent(this, SelectDefineActivity.class);
             intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);
 

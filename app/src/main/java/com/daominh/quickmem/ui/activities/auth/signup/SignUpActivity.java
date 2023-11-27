@@ -28,9 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -41,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     private User user;
     private UserDAO userDAO;
     private UserSharePreferences userSharePreferences;
-    private static final String MAX_LEGHT = "30";
+    private static final String MAX_LENGTH = "30";
     private static final String link = "https://avatar-nqm.koyeb.app";
 
     @Override
@@ -174,7 +172,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String createdAt = getCurrentDate();
                 String updatedAt = getCurrentDate();
                 user = new User();
-                final int finalRandom = (int) (Math.random() * (Integer.parseInt(MAX_LEGHT) - 1 + 1) + 1);
+                final int finalRandom = (int) (Math.random() * (Integer.parseInt(MAX_LENGTH) - 1 + 1) + 1);
 
                 //save link avatar + random
                 String linkAvatar = link + "/images/" + finalRandom + ".png";
@@ -260,6 +258,7 @@ public class SignUpActivity extends AppCompatActivity {
         try {
             Date date = formatter.parse(dateStr);
             Date currentDate = new Date();
+            assert date != null;
             return date.after(currentDate);
         } catch (ParseException e) {
             Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
@@ -281,6 +280,7 @@ public class SignUpActivity extends AppCompatActivity {
             calendar.setTime(new Date());
             calendar.add(Calendar.YEAR, -22);
             Date eighteenYearsAgo = calendar.getTime();
+            assert date != null;
             return date.before(eighteenYearsAgo);
         } catch (ParseException e) {
             Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
@@ -401,4 +401,5 @@ public class SignUpActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(SignUpActivity.this, AuthenticationActivity.class));
     }
+
 }

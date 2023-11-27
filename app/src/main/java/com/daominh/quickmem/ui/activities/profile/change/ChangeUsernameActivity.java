@@ -1,16 +1,12 @@
 package com.daominh.quickmem.ui.activities.profile.change;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -23,7 +19,6 @@ import com.daominh.quickmem.ui.activities.profile.SettingsActivity;
 
 public class ChangeUsernameActivity extends AppCompatActivity {
     private ActivityChangeUsernameBinding binding;
-    private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
     private String oldUsername, newUsername;
 
@@ -35,14 +30,11 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         setContentView(view);
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
-        binding.usernameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b){
-                    validUsername();
-                }
+        binding.usernameEt.setOnFocusChangeListener((view1, b) -> {
+            if (!b){
+                validUsername();
             }
         });
     }
@@ -50,7 +42,7 @@ public class ChangeUsernameActivity extends AppCompatActivity {
     private void updateUsername() {
         userDAO = new UserDAO(this);
         newUsername = binding.usernameEt.getText().toString().trim();
-        userSharePreferences = new UserSharePreferences(ChangeUsernameActivity.this);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(ChangeUsernameActivity.this);
         oldUsername = userSharePreferences.getUserName();
         String id = userSharePreferences.getId();
         validUsername();
@@ -58,10 +50,9 @@ public class ChangeUsernameActivity extends AppCompatActivity {
             if (userDAO.updateUsernameUser(id,newUsername) > 0) {
                 userSharePreferences.setUserName(newUsername);
                 Toast.makeText(this, "Change username SUCCESS", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ChangeUsernameActivity.this, SettingsActivity.class));
-                finish();
+                getOnBackPressedDispatcher().onBackPressed();
             } else {
-                Toast.makeText(this, "Change username UNSUCCESS", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Change username UNSUCCESSFUL", Toast.LENGTH_SHORT).show();
             }
         }
     }

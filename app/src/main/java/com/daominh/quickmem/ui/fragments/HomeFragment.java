@@ -98,7 +98,6 @@ public class HomeFragment extends Fragment {
 
         classes = groupDAO.getClassesOwnedByUser(idUser);
         classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
-        Log.d("classesz", classes.size() + " " + classes.toString());
 
         classAdapter = new ClassAdapter(requireActivity(), classes);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
@@ -106,17 +105,17 @@ public class HomeFragment extends Fragment {
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
         }
-        if (folders.size() == 0) {
+        if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.GONE);
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
         }
-        if (classes.size() == 0) {
+        if (classes.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
@@ -151,17 +150,17 @@ public class HomeFragment extends Fragment {
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
         }
-        if (folders.size() == 0) {
+        if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.GONE);
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
         }
-        if (classes.size() == 0) {
+        if (classes.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
@@ -177,17 +176,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
         }
-        if (folders.size() == 0) {
+        if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.GONE);
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
         }
-        if (classes.size() == 0) {
+        if (classes.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);

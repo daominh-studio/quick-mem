@@ -1,10 +1,13 @@
 package com.daominh.quickmem.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetViewHolder> {
     private final Context context;
     private final ArrayList<Card> cards;
+    TextToSpeech textToSpeech;
 
     public ViewSetAdapter(Context context, ArrayList<Card> cards) {
         this.context = context;
@@ -41,7 +45,31 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
         holder.binding.cardViewFlip.setFlipDuration(450);
         holder.binding.cardViewFlip.setFlipEnabled(true);
         holder.binding.cardViewFlip.setOnClickListener(v -> {
+
             holder.binding.cardViewFlip.flipTheView();
+            if (textToSpeech != null) {
+                textToSpeech.stop();
+                textToSpeech.shutdown();
+            }
+
+        });
+        holder.binding.soundIv.setOnClickListener(v -> {
+            if (!holder.binding.backTv.getText().toString().isEmpty()){
+                textToSpeech = new TextToSpeech(context, status -> {
+                    if (status == TextToSpeech.SUCCESS) {
+                        int result = textToSpeech.setLanguage(textToSpeech.getVoice().getLocale());
+                        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Toast.makeText(context, "Language not supported", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Bundle params = new Bundle();
+                            params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1.0f);
+                            textToSpeech.speak(holder.binding.backTv.getText().toString(), TextToSpeech.QUEUE_FLUSH, params, "UniqueID");
+                        }
+                    } else {
+                        Toast.makeText(context, "Initialization failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
 
     }
@@ -60,4 +88,12 @@ public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetV
         }
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull @NotNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
 }

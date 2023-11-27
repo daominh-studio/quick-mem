@@ -1,6 +1,7 @@
 package com.daominh.quickmem.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.ItemFolderBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.folder.ViewFolderActivity;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +45,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         holder.binding.folderNameTv.setText(folder.getName());
         Picasso.get().load(avatar).into(holder.binding.avatarIv);
         holder.binding.userNameTv.setText(username);
+        holder.binding.folderCl.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewFolderActivity.class);
+            intent.putExtra("id", folder.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override

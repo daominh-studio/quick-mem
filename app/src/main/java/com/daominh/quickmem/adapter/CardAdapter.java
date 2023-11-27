@@ -2,6 +2,7 @@ package com.daominh.quickmem.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -162,5 +163,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             this.binding = ItemCardAddBinding.bind(itemView);
         }
     }
+
 
 }

@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/flash_card_bg"
@@ -40,14 +40,22 @@
                     android:layout_margin="@dimen/_16dp"
                     android:gravity="center"
                     android:textColor="@android:color/black"/>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/flash_card_bg"
                 android:layout_height="match_parent">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_volum"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_margin="@dimen/_16dp"
+                    android:id="@+id/sound_iv"/>
 
             <TextView
                     android:id="@+id/back_tv"
@@ -59,7 +67,7 @@
                     android:layout_margin="@dimen/_16dp"
                     android:gravity="center"
                     android:textColor="@android:color/black"/>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.wajahatkarim3.easyflipview.EasyFlipView>
 

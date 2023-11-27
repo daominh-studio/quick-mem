@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         onClickItemSetting();
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void onClickItemSetting() {
@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (password.isEmpty()) {
                 changeEmailBinding.textIL.setHelperText("Please enter your password");
             } else if (!Objects.equals(PasswordHasher.hashPassword(password), userDAO.getPasswordUser(id))) {
-                Toast.makeText(this, "Pass: "+userDAO.getPasswordUser(id), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Pass: " + userDAO.getPasswordUser(id), Toast.LENGTH_SHORT).show();
                 changeEmailBinding.textIL.setHelperText("Password is incorrect");
             } else {
                 changeEmailBinding.textIL.setHelperText("");

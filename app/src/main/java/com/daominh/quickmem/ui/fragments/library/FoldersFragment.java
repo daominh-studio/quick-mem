@@ -13,14 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.FolderAdapter;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.FragmentFoldersBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
-import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class FoldersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFoldersBinding.inflate(inflater,container,false);
         return binding.getRoot();
@@ -51,16 +50,11 @@ public class FoldersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
-        binding.createSetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateFolderActivity.class));
-            }
-        });
+        binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateFolderActivity.class)));
 
         folders = folderDAO.getAllFolderByUserId(idUser);
 
-        if (folders.size() == 0) {
+        if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.VISIBLE);
             binding.foldersRv.setVisibility(View.GONE);
         } else {
@@ -89,7 +83,7 @@ public class FoldersFragment extends Fragment {
         binding.foldersRv.setAdapter(folderAdapter);
         folderAdapter.notifyDataSetChanged();
 
-        if (folders.size() == 0) {
+        if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.VISIBLE);
             binding.foldersRv.setVisibility(View.GONE);
         } else {

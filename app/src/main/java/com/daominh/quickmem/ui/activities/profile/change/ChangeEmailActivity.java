@@ -26,6 +26,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
     private ActivityChangeEmailBinding binding;
     private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,8 @@ public class ChangeEmailActivity extends AppCompatActivity {
         setContentView(view);
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
         binding.emailEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -53,6 +54,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
             }
         });
     }
+
     private void updateEmail() {
         userDAO = new UserDAO(this);
         userSharePreferences = new UserSharePreferences(this);
@@ -63,15 +65,15 @@ public class ChangeEmailActivity extends AppCompatActivity {
             binding.textIL.setHelperText(getString(R.string.email_is_empty));
             binding.textIL.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.emailEt.requestFocus();
-        } else if ( userDAO.updateEmailUser(id,email) > 0) {
+        } else if (userDAO.updateEmailUser(id, email) > 0) {
             userSharePreferences.setEmail(email);
             Toast.makeText(this, "Change email SUCCESS", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ChangeEmailActivity.this, SettingsActivity.class));
-            finish();
+            getOnBackPressedDispatcher().onBackPressed();
         } else {
             Toast.makeText(this, "Change username UNSUCCESS", Toast.LENGTH_SHORT).show();
         }
     }
+
     private boolean handleEmailTextChanged(String text, ActivityChangeEmailBinding binding) {
         if (text.isEmpty()) {
             binding.textIL.setHelperText(getString(R.string.email_is_empty));
@@ -93,6 +95,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         }
         return false;
     }
+
     private boolean isEmailExist(String email) {
         userDAO = new UserDAO(this);
         return userDAO.checkEmail(email);
@@ -103,6 +106,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.save) {
             // code save

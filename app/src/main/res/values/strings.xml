@@ -114,4 +114,6 @@
     <string name="delete_set_error">Please try again late!</string>
     <string name="create_new_folder">+ Create new folder</string>
     <string name="create_new_classes">+ Create new class</string>
+    <string name="name_folder">Name folder</string>
+    <string name="learn_this_folder">Learn this folder</string>
 </resources>

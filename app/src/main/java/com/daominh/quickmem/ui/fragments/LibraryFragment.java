@@ -31,9 +31,6 @@ import com.google.android.material.tabs.TabLayout;
 public class LibraryFragment extends Fragment {
     private FragmentLibraryBinding binding;
     private UserSharePreferences userSharePreferences;
-    private TabLayout mtabLayout;
-    private ViewPager mviewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private int currentTabPosition = 0;
     private String idUser;
 
@@ -54,10 +51,10 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mtabLayout = binding.tabLayout;
-        mviewPager = binding.viewPager;
+        TabLayout mtabLayout = binding.tabLayout;
+        ViewPager mviewPager = binding.viewPager;
 
-        myViewPagerAdapter = new MyViewPagerAdapter(getFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mviewPager.setAdapter(myViewPagerAdapter);
 
         mtabLayout.setupWithViewPager(mviewPager);
@@ -87,16 +84,13 @@ public class LibraryFragment extends Fragment {
         if (user.getRole() == 2) {
             updateAddButtonVisibility();
         }
-        binding.addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentTabPosition == 0){
-                    startActivity(new Intent(getActivity(), CreateSetActivity.class));
-                } else if (currentTabPosition == 1){
-                    startActivity(new Intent(getActivity(), CreateFolderActivity.class));
-                } else if (currentTabPosition == 2){
-                    startActivity(new Intent(getActivity(), CreateClassActivity.class));
-                }
+        binding.addBtn.setOnClickListener(view1 -> {
+            if (currentTabPosition == 0){
+                startActivity(new Intent(getActivity(), CreateSetActivity.class));
+            } else if (currentTabPosition == 1){
+                startActivity(new Intent(getActivity(), CreateFolderActivity.class));
+            } else if (currentTabPosition == 2){
+                startActivity(new Intent(getActivity(), CreateClassActivity.class));
             }
         });
     }

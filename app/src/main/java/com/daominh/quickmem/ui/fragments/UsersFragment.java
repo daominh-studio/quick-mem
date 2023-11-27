@@ -50,6 +50,7 @@ public class UsersFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentUsersBinding.inflate(inflater, container, false);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
+        assert activity != null;
         activity.setSupportActionBar(binding.toolbar);
         setHasOptionsMenu(true);
         return binding.getRoot();
