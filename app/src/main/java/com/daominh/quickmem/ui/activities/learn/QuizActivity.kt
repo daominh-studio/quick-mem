@@ -73,12 +73,10 @@ class QuizActivity : AppCompatActivity() {
 
         // Lấy 1 câu hỏi chưa hỏi
         val correctCard = unaskedCards.shuffled().take(1)
-        askedCards.add(correctCard[0])  // Thêm vào danh sách câu đã hỏi
+        askedCards.add(correctCard[0])
 
         // Lấy 3 câu trả lời sai từ những câu hỏi
         val wrongCards = cards.filter { it != correctCard[0] }.shuffled().take(3)
-
-        // Đặt đáp án đúng vào biến correctAnswer
         correctAnswer = correctCard[0].back
 
         // Tạo danh sách chứa tất cả câu trả lời và xáo trộn nó

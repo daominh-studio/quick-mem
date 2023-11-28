@@ -163,4 +163,26 @@ public class FolderDAO {
         return folder;
     }
 
+    //check if flashcard is in folder
+    @SuppressLint("Range")
+    public boolean isFlashCardInFolder(String folder_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        boolean result = false;
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS
+                + " WHERE folder_id = '" + folder_id + "'"
+                + " AND flashcard_id = '" + flashcard_id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor != null && cursor.getCount() > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "isFlashCardInFolder: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 }

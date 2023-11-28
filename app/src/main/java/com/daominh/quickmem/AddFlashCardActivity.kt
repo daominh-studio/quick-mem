@@ -10,6 +10,7 @@ import com.daominh.quickmem.adapter.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard
+import com.daominh.quickmem.data.model.Folder
 import com.daominh.quickmem.databinding.ActivityAddFlashCardBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,6 +26,7 @@ class AddFlashCardActivity : AppCompatActivity() {
     private val userSharePreferences by lazy {
         UserSharePreferences(this)
     }
+    private lateinit var folder: Folder
     private lateinit var flashCardDAO: FlashCardDAO
     private lateinit var flashCardList: ArrayList<FlashCard>
 
@@ -32,17 +34,15 @@ class AddFlashCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+
+
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         flashCardDAO = FlashCardDAO(this)
         flashCardList = flashCardDAO.getAllFlashCardByUserId(userSharePreferences.id)
-        adapter = SetFolderViewAdapter(flashCardList, object : SetFolderViewAdapter.OnDoneClickListener {
-            override fun onDoneClick(): ArrayList<FlashCard> {
-                return adapter.getItemSelect()
-            }
-        })
+        adapter = SetFolderViewAdapter(flashCardList)
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.flashcardRv.layoutManager = linearLayoutManager
         binding.flashcardRv.adapter = adapter
@@ -58,25 +58,34 @@ class AddFlashCardActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.done -> {
+                val id = intent.getStringExtra("id_folder")
+
                 val selectedItems = adapter.getItemSelect()
                 if (selectedItems.size == 0) {
                     Toast.makeText(this, "Please select at least one set", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, selectedItems.size.toString(), Toast.LENGTH_SHORT).show()
-                    val folderId = intent.getStringExtra("id")
-                    for (flashcard in selectedItems) {
+                    if (id != null) {
+                        folder = getFolderById(id)
+                        for (flashCard in selectedItems) {
+                            if (folderDAO.addFlashCardToFolder(id, flashCard.id) > 0L) {
+                                Toast.makeText(this, "Add flashcard to folder successfully", Toast.LENGTH_SHORT).show()
+                                onBackPressedDispatcher.onBackPressed()
+                            } else {
+                                Toast.makeText(this, "Add flashcard to folder failed", Toast.LENGTH_SHORT).show()
 
-                       if(folderDAO.addFlashCardToFolder(folderId, flashcard.id) > 0L){
-                           Toast.makeText(this, "Add flashcard to ${folderId} successfully", Toast.LENGTH_SHORT).show()
-                       }else{
-                           Toast.makeText(this, "Add flashcard to ${folderId} failed", Toast.LENGTH_SHORT).show()
-                       }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Folder ID is null", Toast.LENGTH_SHORT).show()
                     }
-                    onBackPressedDispatcher.onBackPressed()
                 }
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getFolderById(id: String): Folder {
+        return folderDAO.getFolderById(id)
     }
 
 

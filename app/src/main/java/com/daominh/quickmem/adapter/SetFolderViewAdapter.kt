@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.UserDAO
 import com.daominh.quickmem.data.model.FlashCard
-import com.daominh.quickmem.data.model.User
 import com.daominh.quickmem.databinding.ItemSetFolderBinding
 import com.squareup.picasso.Picasso
 
 class SetFolderViewAdapter(
-    private val flashcardList: ArrayList<FlashCard>,
-    private val onDoneClickListener: OnDoneClickListener
+    private val flashcardList: ArrayList<FlashCard>
 ) : RecyclerView.Adapter<SetFolderViewAdapter.SetFolderViewHolder>() {
     private val selectedItems = ArrayList<FlashCard>()
 
@@ -23,7 +21,7 @@ class SetFolderViewAdapter(
         return SetFolderViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SetFolderViewAdapter.SetFolderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SetFolderViewHolder, position: Int) {
         val flashcard = flashcardList[position]
         val userDAO = UserDAO(holder.itemView.context)
         val user = userDAO.getUserById(flashcard.user_id)
@@ -56,11 +54,5 @@ class SetFolderViewAdapter(
         return flashcardList.size
     }
 
-    class SetFolderViewHolder(val binding: ItemSetFolderBinding) : RecyclerView.ViewHolder(binding.root) {
-
-
-    }
-    interface OnDoneClickListener {
-        fun onDoneClick(): ArrayList<FlashCard>
-    }
+    class SetFolderViewHolder(val binding: ItemSetFolderBinding) : RecyclerView.ViewHolder(binding.root)
 }

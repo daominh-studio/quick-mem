@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daominh.quickmem.AddFlashCardActivity
 import com.daominh.quickmem.R
@@ -41,11 +42,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.userNameTv.text = userSharePreferences.userName
         binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString()
 
-        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id), object : SetFolderViewAdapter.OnDoneClickListener {
-            override fun onDoneClick(): ArrayList<FlashCard> {
-                return adapter.getItemSelect()
-            }
-        })
+        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id) as ArrayList<FlashCard>)
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
@@ -87,7 +84,11 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
             }
 
             R.id.add_set -> {
-                startActivity(Intent(this, AddFlashCardActivity::class.java))
+                val id = intent.getStringExtra("id")
+                Toast.makeText(this, "Add set$id", Toast.LENGTH_SHORT).show()
+                val newIntent = Intent(this, AddFlashCardActivity::class.java)
+                newIntent.putExtra("id_folder", id)
+                startActivity(newIntent)
 
             }
 
@@ -100,5 +101,6 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     override fun onSheetShown(bottomSheet: BottomSheetMenuDialogFragment, `object`: Any?) {
         Log.d("TAG", "onSheetShown: ")
     }
+
 
 }
