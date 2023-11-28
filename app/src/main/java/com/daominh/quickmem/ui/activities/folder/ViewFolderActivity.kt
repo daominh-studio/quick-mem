@@ -1,33 +1,56 @@
 package com.daominh.quickmem.ui.activities.folder
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.daominh.quickmem.AddFlashCardActivity
 import com.daominh.quickmem.R
+import com.daominh.quickmem.adapter.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ActivityViewFolderBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.daominh.quickmem.preferen.UserSharePreferences
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment
+import com.squareup.picasso.Picasso
 
 class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     private val binding by lazy { ActivityViewFolderBinding.inflate(layoutInflater) }
     private val folderDAO by lazy { FolderDAO(this) }
-    private lateinit var flashcardList: ArrayList<FlashCard>
+    private lateinit var adapter: SetFolderViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
-        // Get folder id from intent
         val id = intent.getStringExtra("id")
-        flashcardList = folderDAO.getAllFlashCardByFolderId(id)
+        val userSharePreferences = UserSharePreferences(this)
+        val folder = folderDAO.getFolderById(id)
+        binding.folderNameTv.text = folder.name
+        Picasso.get().load(userSharePreferences.avatar).into(binding.avatarIv)
+        binding.userNameTv.text = userSharePreferences.userName
+        binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString()
+
+        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id), object : SetFolderViewAdapter.OnDoneClickListener {
+            override fun onDoneClick(): ArrayList<FlashCard> {
+                return adapter.getItemSelect()
+            }
+        })
+        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.setRv.layoutManager = linearLayoutManager
+        binding.setRv.adapter = adapter
+        adapter.notifyDataSetChanged()
+
 
     }
 
@@ -37,24 +60,21 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu -> {
-                BottomSheetMenuDialogFragment.Builder(
-                    context = this,
-                    sheet = R.menu.folder_menu,
-                    title = "Folder Menu",
-                    listener = this
-                ).show(supportFragmentManager, "Menu")
-
-
-            }
+        if (item.itemId == R.id.menu) {
+            BottomSheetMenuDialogFragment.Builder(
+                context = this,
+                sheet = R.menu.folder_menu,
+                title = "Folder Menu",
+                listener = this
+            ).show(supportFragmentManager, "Menu")
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onSheetDismissed(bottomSheet: BottomSheetMenuDialogFragment, `object`: Any?, dismissEvent: Int) {
-        TODO("Not yet implemented")
+        Log.d("TAG", "onSheetDismissed: ")
     }
+
 
     override fun onSheetItemSelected(bottomSheet: BottomSheetMenuDialogFragment, item: MenuItem, `object`: Any?) {
         when (item.itemId) {
@@ -67,6 +87,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
             }
 
             R.id.add_set -> {
+                startActivity(Intent(this, AddFlashCardActivity::class.java))
 
             }
 
@@ -77,8 +98,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     }
 
     override fun onSheetShown(bottomSheet: BottomSheetMenuDialogFragment, `object`: Any?) {
-       Log.d("BottomSheet", "onSheetShown")
+        Log.d("TAG", "onSheetShown: ")
     }
-
 
 }
