@@ -87,7 +87,7 @@ public class ViewSetActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.learnCl.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SelectDefineActivity.class);
+            Intent intent = new Intent(this, QuizActivity.class);
             intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);
 
