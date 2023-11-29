@@ -19,7 +19,7 @@ class CardLeanAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val card = cardList[position]
-        holder.bind(card, position)
+        holder.bind(card)
     }
 
     override fun getItemCount(): Int {
@@ -41,7 +41,7 @@ class CardLeanAdapter(
 
     inner class ViewHolder(private val binding: ItemLearnSetBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(card: Card, position: Int) {
+        fun bind(card: Card) {
             binding.backTv.text = card.front
             binding.frontTv.text = card.back
             binding.cardViewFlip.setFlipTypeFromRight()

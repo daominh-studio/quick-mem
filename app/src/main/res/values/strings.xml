@@ -119,4 +119,5 @@
     <string name="created">Created</string>
     <string name="loginFailed">Login Fail</string>
     <string name="you_are_blocked">You are blocked \n Contact support for more information</string>
+    <string name="log_out">Log out</string>
 </resources>

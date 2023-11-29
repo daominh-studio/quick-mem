@@ -206,4 +206,28 @@ public class FolderDAO {
         return result;
     }
 
+    //update folder
+    public long updateFolder(Folder folder) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("name", folder.getName());
+        contentValues.put("description", folder.getDescription());
+        contentValues.put("updated_at", folder.getUpdated_at());
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_FOLDERS, contentValues, "id = ?", new String[]{folder.getId()});
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "updateFolder: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
 }

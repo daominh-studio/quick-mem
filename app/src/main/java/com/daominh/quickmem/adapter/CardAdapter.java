@@ -2,12 +2,12 @@ package com.daominh.quickmem.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +17,7 @@ import com.daominh.quickmem.utils.OnItemClickListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -68,80 +69,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             }
         });
 
-        holder.binding.termEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                card.setFront(s.toString());
-                card.setBack(holder.binding.definitionEt.getText().toString());
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                card.setFront(s.toString());
-                card.setBack(holder.binding.definitionEt.getText().toString());
-
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                card.setFront(s.toString());
-                card.setBack(holder.binding.definitionEt.getText().toString());
-
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        holder.binding.definitionEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                card.setFront(holder.binding.termEt.getText().toString());
-                card.setBack(s.toString());
-
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                card.setFront(holder.binding.termEt.getText().toString());
-                card.setBack(s.toString());
-
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                card.setFront(holder.binding.termEt.getText().toString());
-                card.setBack(s.toString());
-
-                if (position < cards.size()) {
-                    cards.set(position, card);
-                } else {
-                    Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        holder.binding.termEt.addTextChangedListener(createTextWatcher(card, holder.binding.termEt, Card::setFront));
+        holder.binding.definitionEt.addTextChangedListener(createTextWatcher(card, holder.binding.definitionEt, Card::setBack));
     }
 
     @Override
@@ -161,6 +90,34 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         public CardViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             this.binding = ItemCardAddBinding.bind(itemView);
+        }
+    }
+    private TextWatcher createTextWatcher(Card card, EditText editText, BiConsumer<Card, String> setter) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                updateCard(card, editText, setter);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateCard(card, editText, setter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateCard(card, editText, setter);
+            }
+        };
+    }
+
+    private void updateCard(Card card, EditText editText, BiConsumer<Card, String> setter) {
+        setter.accept(card, editText.getText().toString());
+        int position = cards.indexOf(card);
+        if (position != -1) {
+            cards.set(position, card);
+        } else {
+            Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
         }
     }
 

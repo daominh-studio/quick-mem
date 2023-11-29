@@ -18,16 +18,11 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position){
-            case 0:
-                return new StudySetsFragment();
-            case 1:
-                return new FoldersFragment();
-            case 2:
-                return new MyClassesFragment();
-            default:
-                return new StudySetsFragment();
-        }
+        return switch (position) {
+            case 1 -> new FoldersFragment();
+            case 2 -> new MyClassesFragment();
+            default -> new StudySetsFragment();
+        };
     }
 
     @Override
@@ -38,18 +33,11 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = "";
-        switch (position){
-            case 0:
-                title = "Study sets";
-                break;
-            case 1:
-                title = "Folders";
-                break;
-            case 2:
-                title = "Classes";
-                break;
-        }
-        return title;
+        return switch (position) {
+            case 0 -> "Study sets";
+            case 1 -> "Folders";
+            case 2 -> "Classes";
+            default -> "";
+        };
     }
 }

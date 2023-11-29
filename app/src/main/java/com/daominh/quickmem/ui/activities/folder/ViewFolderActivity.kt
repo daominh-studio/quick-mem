@@ -1,5 +1,7 @@
 package com.daominh.quickmem.ui.activities.folder
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +17,7 @@ import com.daominh.quickmem.adapter.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ActivityViewFolderBinding
+import com.daominh.quickmem.databinding.DialogCreateFolderBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment
@@ -77,12 +80,51 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onSheetItemSelected(bottomSheet: BottomSheetMenuDialogFragment, item: MenuItem, `object`: Any?) {
         when (item.itemId) {
             R.id.edit_folder -> {
+                val builder = AlertDialog.Builder(this)
+                val dialogBinding = DialogCreateFolderBinding.inflate(layoutInflater)
 
+                //set data
+                val id = intent.getStringExtra("id")
+                val folder = folderDAO.getFolderById(id)
+                dialogBinding.folderEt.setText(folder.name)
+                dialogBinding.descriptionEt.setText(folder.description)
+
+                builder.setView(dialogBinding.root)
+                builder.setCancelable(true)
+                val dialog = builder.create()
+
+                dialogBinding.folderEt.requestFocus()
+                dialogBinding.cancelTv.setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialogBinding.okTv.setOnClickListener {
+                    val name = dialogBinding.folderEt.text.toString()
+                    val description = dialogBinding.descriptionEt.text.toString()
+
+                    if (name.isEmpty()) {
+                        Toast.makeText(this, "Please enter folder name", Toast.LENGTH_SHORT).show()
+                    } else {
+                        folder.name = name
+                        folder.description = description
+                        if (folderDAO.updateFolder(folder) > 0L) {
+                            Toast.makeText(this, "Update folder successfully", Toast.LENGTH_SHORT).show()
+                            //refresh data folder
+                            binding.folderNameTv.text = folder.name
+                            binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
+                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(this, "Update folder failed", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                            onBackPressedDispatcher.onBackPressed()
+                        }
+                    }
+                }
+                dialog.show()
             }
-
             R.id.delete_folder -> {
 
                 PopupDialog.getInstance(this)
@@ -95,7 +137,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
                         object : OnDialogButtonClickListener() {
                             override fun onPositiveClicked(dialog: Dialog?) {
                                 super.onPositiveClicked(dialog)
-                                if (folderDAO.deleteFolder(intent.getStringExtra("id"))> 0L) {
+                                if (folderDAO.deleteFolder(intent.getStringExtra("id")) > 0L) {
                                     PopupDialog.getInstance(this@ViewFolderActivity)
                                         .setStyle(Styles.SUCCESS)
                                         .setHeading(getString(R.string.success))
@@ -159,6 +201,9 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
         adapter.notifyDataSetChanged()
+
+
+
     }
 
 

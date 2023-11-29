@@ -1,8 +1,8 @@
 package com.daominh.quickmem.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import java.util.List;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
     private final Context context;
     private final List<User> users;
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
     public UsersAdapter(Context context, List<User> users) {
         this.context = context;
@@ -37,6 +37,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         return new UsersViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
         User user = users.get(position);
@@ -66,7 +67,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
             holder.binding.userNameTv.setText(user.getUsername());
             holder.binding.emailTv.setText("Email: " + user.getEmail());
-            holder.binding.roleTv.setText("Role: " + (role == 1 ? "Giáo viên" : "Học sinh"));
+            holder.binding.roleTv.setText("Role: " + (role == 1 ? "Teacher" : "Student"));
         } else {
             holder.binding.getRoot().setVisibility(View.GONE);
         }

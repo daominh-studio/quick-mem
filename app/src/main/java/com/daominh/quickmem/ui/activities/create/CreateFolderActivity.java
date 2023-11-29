@@ -1,11 +1,14 @@
 package com.daominh.quickmem.ui.activities.create;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.R;
@@ -13,6 +16,7 @@ import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.ActivityCreateFolderBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.folder.ViewFolderActivity;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,7 +35,7 @@ public class CreateFolderActivity extends AppCompatActivity {
 
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
 
     }
@@ -63,7 +67,8 @@ public class CreateFolderActivity extends AppCompatActivity {
                 FolderDAO folderDAO = new FolderDAO(this);
                 if (folderDAO.insertFolder(folder) > 0) {
                     Toast.makeText(this, "Folder created", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                    startActivity(new Intent(this, ViewFolderActivity.class).putExtra("id", folderId));
+                    finish();
                 } else {
                     Toast.makeText(this, "Folder not created", Toast.LENGTH_SHORT).show();
                 }
@@ -75,17 +80,12 @@ public class CreateFolderActivity extends AppCompatActivity {
 
     private String getCurrentDate() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return currentDate.format(formatter);
+            return getCurrentDateNewApi();
         } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(new Date());
+            return getCurrentDateOldApi();
         }
     }
+
 
     private String genUUID() {
         return java.util.UUID.randomUUID().toString();
@@ -94,6 +94,19 @@ public class CreateFolderActivity extends AppCompatActivity {
     private String getUser_id() {
         UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String getCurrentDateNewApi() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return currentDate.format(formatter);
+    }
+
+    private String getCurrentDateOldApi() {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(new Date());
     }
 
 }

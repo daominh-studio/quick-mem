@@ -49,15 +49,10 @@ public class StudySetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
-        binding.createSetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateSetActivity.class));
-            }
-        });
+        binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateSetActivity.class)));
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.VISIBLE);
             binding.setsRv.setVisibility(View.GONE);
         } else {
@@ -78,12 +73,11 @@ public class StudySetsFragment extends Fragment {
     }
 
     private void refreshData() {
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
-        binding.setsRv.setAdapter(setsAdapter);
+        flashCards.clear();
+        flashCards.addAll(flashCardDAO.getAllFlashCardByUserId(idUser));
         setsAdapter.notifyDataSetChanged();
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.VISIBLE);
             binding.setsRv.setVisibility(View.GONE);
         } else {

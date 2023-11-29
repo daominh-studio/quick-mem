@@ -6,12 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,7 +66,7 @@ public class CreateSetActivity extends AppCompatActivity {
         setContentView(view);
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
 
         if (binding.subjectEt.getText().toString().isEmpty()) {
@@ -119,7 +121,7 @@ public class CreateSetActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
+                int position = viewHolder.getBindingAdapterPosition();
 
                 // Backup of removed item for undo purpose
                 Card deletedItem = cards.get(position);
@@ -128,7 +130,7 @@ public class CreateSetActivity extends AppCompatActivity {
                 cards.remove(position);
                 cardAdapter.notifyItemRemoved(position);
 
-                // Showing Snack bar with Undo option
+                // Showing Snack bar with an Undo option
                 Snackbar snackbar = Snackbar.make(binding.getRoot(), "Item was removed from the list.", Snackbar.LENGTH_LONG);
                 snackbar.setAction("UNDO", view -> {
 
@@ -222,13 +224,13 @@ public class CreateSetActivity extends AppCompatActivity {
             String front = card.getFront();
             String back = card.getBack();
 
-            if (front.isEmpty()) {
+            if (front == null || front.isEmpty()) {
                 binding.cardsLv.requestFocus();
                 Toast.makeText(this, "Please enter front", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (back.isEmpty()) {
+            if (back == null || back.isEmpty()) {
                 binding.cardsLv.requestFocus();
                 Toast.makeText(this, "Please enter back", Toast.LENGTH_SHORT).show();
                 return;
@@ -288,15 +290,9 @@ public class CreateSetActivity extends AppCompatActivity {
 
     private String getCurrentDate() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return currentDate.format(formatter);
+            return getCurrentDateNewApi();
         } else {
-            // Handle a case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(new Date());
+            return getCurrentDateOldApi();
         }
     }
 
@@ -308,5 +304,16 @@ public class CreateSetActivity extends AppCompatActivity {
         userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String getCurrentDateNewApi() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return currentDate.format(formatter);
+    }
 
+    private String getCurrentDateOldApi() {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(new Date());
+    }
 }

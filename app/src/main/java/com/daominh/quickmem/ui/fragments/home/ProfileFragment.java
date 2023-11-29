@@ -1,4 +1,4 @@
-package com.daominh.quickmem.ui.fragments;
+package com.daominh.quickmem.ui.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;

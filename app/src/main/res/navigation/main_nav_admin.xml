@@ -6,12 +6,12 @@
     app:startDestination="@id/usersFragment">
     <fragment
         android:id="@+id/usersFragment"
-        android:name="com.daominh.quickmem.ui.fragments.UsersFragment"
+        android:name="com.daominh.quickmem.ui.fragments.manager.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users"/>
     <fragment
         android:id="@+id/classesFragment"
-        android:name="com.daominh.quickmem.ui.fragments.ClassesFragment"
+        android:name="com.daominh.quickmem.ui.fragments.manager.ClassesFragment"
         android:label="fragment_classes"
         tools:layout="@layout/fragment_classes"/>
 </navigation>

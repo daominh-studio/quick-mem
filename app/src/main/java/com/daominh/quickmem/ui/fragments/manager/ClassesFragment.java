@@ -1,4 +1,4 @@
-package com.daominh.quickmem.ui.fragments;
+package com.daominh.quickmem.ui.fragments.manager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -83,13 +83,10 @@ public class ClassesFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("Đăng xuất");
             builder.setMessage("Bạn có chắc chắn muốn đăng xuất?");
-            builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    userSharePreferences = new UserSharePreferences(getActivity());
-                    userSharePreferences.clear();
-                    startActivity(new Intent(getActivity(), SignInActivity.class));
-                }
+            builder.setPositiveButton("Đồng ý", (dialogInterface, i) -> {
+                userSharePreferences = new UserSharePreferences(getActivity());
+                userSharePreferences.clear();
+                startActivity(new Intent(getActivity(), SignInActivity.class));
             });
             builder.setNegativeButton("Hủy", null);
             AlertDialog dialog = builder.create();

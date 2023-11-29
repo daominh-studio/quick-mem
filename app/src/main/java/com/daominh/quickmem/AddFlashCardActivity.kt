@@ -13,7 +13,6 @@ import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.data.model.Folder
 import com.daominh.quickmem.databinding.ActivityAddFlashCardBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
-import com.google.android.material.tabs.TabLayoutMediator
 
 class AddFlashCardActivity : AppCompatActivity() {
     private val binding by lazy {

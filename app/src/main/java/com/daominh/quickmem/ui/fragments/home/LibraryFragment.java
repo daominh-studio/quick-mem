@@ -1,4 +1,4 @@
-package com.daominh.quickmem.ui.fragments;
+package com.daominh.quickmem.ui.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,7 +54,7 @@ public class LibraryFragment extends Fragment {
         mviewPager.setAdapter(myViewPagerAdapter);
 
         mtabLayout.setupWithViewPager(mviewPager);
-        
+
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

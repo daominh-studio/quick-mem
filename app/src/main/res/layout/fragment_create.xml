@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.fragments.CreateFragment">
+        tools:context=".ui.fragments.home.CreateFragment">
 
         <LinearLayout
             android:id="@+id/bottom_sheet"
