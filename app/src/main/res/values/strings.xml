@@ -117,4 +117,6 @@
     <string name="name_folder">Name folder</string>
     <string name="learn_this_folder">Learn this folder</string>
     <string name="created">Created</string>
+    <string name="loginFailed">Login Fail</string>
+    <string name="you_are_blocked">You are blocked \n Contact support for more information</string>
 </resources>
