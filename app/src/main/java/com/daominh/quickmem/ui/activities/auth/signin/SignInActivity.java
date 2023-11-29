@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.auth.signin;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -23,6 +24,10 @@ import com.daominh.quickmem.databinding.DialogForgotUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
+import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 public class SignInActivity extends AppCompatActivity {
     private UserSharePreferences userSharePreferences;
@@ -125,7 +130,20 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 user = getUser(number, email);
                 if (user.getStatus() == 0) {
-                    Toast.makeText(this, "Account disable", Toast.LENGTH_SHORT).show();
+                    PopupDialog.getInstance(SignInActivity.this)
+                            .setStyle(Styles.FAILED)
+                            .setHeading(getString(R.string.loginFailed))
+                            .setDescription(getString(R.string.you_are_blocked))
+                            .setPopupDialogIcon(R.drawable.ic_delete)
+                            .setCancelable(true)
+                            .showDialog(new OnDialogButtonClickListener() {
+                                @Override
+                                public void onDismissClicked(Dialog dialog) {
+                                    super.onDismissClicked(dialog);
+                                    dialog.dismiss();
+                                }
+                            });
+
                 } else {
                     userSharePreferences = new UserSharePreferences(SignInActivity.this);
                     userSharePreferences.setRole(user.getRole());

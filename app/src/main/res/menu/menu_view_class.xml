@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_member"
+        android:title="Add member" />
+    <item
+        android:id="@+id/add_sets"
+        android:title="Add sets" />
+    <item
+        android:id="@+id/delete_class"
+        android:title="Delete class" />
+</menu>
