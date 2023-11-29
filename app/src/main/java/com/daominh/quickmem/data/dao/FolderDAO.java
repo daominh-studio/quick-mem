@@ -83,6 +83,11 @@ public class FolderDAO {
     public long addFlashCardToFolder(String folder_id, String flashcard_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
+        // Check if the record already exists
+        if (isFlashCardInFolder(folder_id, flashcard_id)) {
+            return -1; // or throw an exception
+        }
+
         long result = 0;
 
         ContentValues contentValues = new ContentValues();
@@ -96,8 +101,6 @@ public class FolderDAO {
             result = sqLiteDatabase.insert(QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS, null, contentValues);
         } catch (SQLException e) {
             Log.e("FolderDAO", "addFlashCardToFolder: " + e);
-        } finally {
-            sqLiteDatabase.close();
         }
         return result;
     }
@@ -180,9 +183,27 @@ public class FolderDAO {
             }
         } catch (SQLException e) {
             Log.e("FolderDAO", "isFlashCardInFolder: " + e);
+        }
+        return result;
+    }
+
+
+    //delete folder
+    public long deleteFolder(String folder_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        try {
+            sqLiteDatabase.delete(QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS, "folder_id = ?", new String[]{folder_id});
+            result = sqLiteDatabase.delete(QMDatabaseHelper.TABLE_FOLDERS, "id = ?", new String[]{folder_id});
+
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "deleteFolder: " + e);
         } finally {
             sqLiteDatabase.close();
         }
         return result;
     }
+
 }

@@ -67,7 +67,7 @@ public class StudySetsFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
     }
@@ -79,7 +79,7 @@ public class StudySetsFragment extends Fragment {
 
     private void refreshData() {
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 

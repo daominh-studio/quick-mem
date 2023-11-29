@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.folder
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,9 @@ import com.daominh.quickmem.databinding.ActivityViewFolderBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment
+import com.saadahmedsoft.popupdialog.PopupDialog
+import com.saadahmedsoft.popupdialog.Styles
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import com.squareup.picasso.Picasso
 
 class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
@@ -40,9 +44,9 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.folderNameTv.text = folder.name
         Picasso.get().load(userSharePreferences.avatar).into(binding.avatarIv)
         binding.userNameTv.text = userSharePreferences.userName
-        binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString()
+        binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
 
-        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id) as ArrayList<FlashCard>)
+        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id) as ArrayList<FlashCard>, false)
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
@@ -75,12 +79,55 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
 
     override fun onSheetItemSelected(bottomSheet: BottomSheetMenuDialogFragment, item: MenuItem, `object`: Any?) {
         when (item.itemId) {
-            R.id.edit_set -> {
+            R.id.edit_folder -> {
 
             }
 
-            R.id.delete_set -> {
+            R.id.delete_folder -> {
 
+                PopupDialog.getInstance(this)
+                    .setStyle(Styles.STANDARD)
+                    .setHeading("Delete Folder")
+                    .setDescription("Are you sure you want to delete this folder?")
+                    .setPopupDialogIcon(R.drawable.ic_delete)
+                    .setCancelable(true)
+                    .showDialog(
+                        object : OnDialogButtonClickListener() {
+                            override fun onPositiveClicked(dialog: Dialog?) {
+                                super.onPositiveClicked(dialog)
+                                if (folderDAO.deleteFolder(intent.getStringExtra("id"))> 0L) {
+                                    PopupDialog.getInstance(this@ViewFolderActivity)
+                                        .setStyle(Styles.SUCCESS)
+                                        .setHeading(getString(R.string.success))
+                                        .setDescription(getString(R.string.delete_set_success))
+                                        .setCancelable(false)
+                                        .setDismissButtonText(getString(R.string.ok))
+                                        .showDialog(object : OnDialogButtonClickListener() {
+                                            override fun onDismissClicked(dialog: Dialog) {
+                                                super.onDismissClicked(dialog)
+                                                finish()
+                                            }
+                                        })
+                                } else {
+                                    PopupDialog.getInstance(this@ViewFolderActivity)
+                                        .setStyle(Styles.FAILED)
+                                        .setHeading(getString(R.string.error))
+                                        .setDescription(getString(R.string.delete_set_error))
+                                        .setCancelable(true)
+                                        .showDialog(object : OnDialogButtonClickListener() {
+                                            override fun onPositiveClicked(dialog: Dialog) {
+                                                super.onPositiveClicked(dialog)
+                                            }
+                                        })
+                                }
+                            }
+
+                            override fun onNegativeClicked(dialog: Dialog?) {
+                                super.onNegativeClicked(dialog)
+                                dialog?.dismiss()
+                            }
+                        }
+                    )
             }
 
             R.id.add_set -> {
@@ -100,6 +147,18 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
 
     override fun onSheetShown(bottomSheet: BottomSheetMenuDialogFragment, `object`: Any?) {
         Log.d("TAG", "onSheetShown: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //refresh data adapter
+        val id = intent.getStringExtra("id")
+        adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id) as ArrayList<FlashCard>, false)
+        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.setRv.layoutManager = linearLayoutManager
+        binding.setRv.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
 

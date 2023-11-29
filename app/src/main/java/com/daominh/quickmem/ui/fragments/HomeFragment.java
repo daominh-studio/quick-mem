@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 
@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
 
     private void refreshData() {
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards);
+        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 

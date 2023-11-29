@@ -28,10 +28,12 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
     private final Context context;
     private final ArrayList<FlashCard> sets;
     CardDAO cardDAO;
+    Boolean isLibrary;
 
-    public SetsAdapter(Context context, ArrayList<FlashCard> sets) {
+    public SetsAdapter(Context context, ArrayList<FlashCard> sets, Boolean isLibrary) {
         this.context = context;
         this.sets = sets;
+        this.isLibrary = isLibrary;
     }
 
     @NonNull
@@ -46,6 +48,12 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull SetsAdapter.SetsViewHolder holder, int position) {
+        if (isLibrary){
+            //set weight of card
+            ViewGroup.LayoutParams params = holder.binding.setCv.getLayoutParams();
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        }
         FlashCard set = sets.get(position);
         userSharePreferences = new UserSharePreferences(context);
         cardDAO = new CardDAO(context);

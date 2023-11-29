@@ -6,15 +6,15 @@
             android:icon="@drawable/ic_share"/>
     <item
             android:id="@+id/add_set"
-            android:title="Add set"
+            android:title="Add Flashcard"
             android:icon="@drawable/ic_add"/>
     <item
-            android:id="@+id/edit_set"
-            android:title="Edit set"
+            android:id="@+id/edit_folder"
+            android:title="Edit Folder"
             android:icon="@drawable/ic_edit"/>
     <item
-            android:id="@+id/delete_set"
-            android:title="Delete set"
+            android:id="@+id/delete_folder"
+            android:title="Delete Folder"
             android:icon="@drawable/ic_delete"/>
 
 </menu>

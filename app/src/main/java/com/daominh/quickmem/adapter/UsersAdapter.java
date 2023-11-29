@@ -1,25 +1,19 @@
 package com.daominh.quickmem.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemUsersAdminBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -46,45 +40,33 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
         User user = users.get(position);
+        Picasso.get().load(user.getAvatar()).placeholder(R.drawable.ic_user).into(holder.binding.avatarIv);
         int role = user.getRole();
         if (role != 0) {
             holder.binding.getRoot().setVisibility(View.VISIBLE);
+            holder.binding.userCl.setBackgroundResource(user.getStatus() == 0 ? R.color.gray : R.color.white_gray);
+            holder.binding.blockTv.setText(user.getStatus() == 0 ? "Blocked" : "Block");
             holder.binding.userCb.setChecked(user.getStatus() == 0);
-            if (user.getStatus() == 0) {
-                holder.binding.userCl.setBackgroundResource(R.color.red);
-                holder.binding.userNameTv.setPaintFlags(holder.binding.userNameTv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.binding.emailTv.setPaintFlags(holder.binding.emailTv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.binding.roleTv.setPaintFlags(holder.binding.roleTv.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.binding.blockTv.setText("Blocked");
-            } else {
-                holder.binding.userCl.setBackgroundResource(R.color.white_gray);
-                holder.binding.userNameTv.setPaintFlags(holder.binding.userNameTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.binding.emailTv.setPaintFlags(holder.binding.emailTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.binding.roleTv.setPaintFlags(holder.binding.roleTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.binding.blockTv.setText("Block");
-            }
-            holder.binding.userCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if (isChecked) {
-                        userDAO.updateStatusUser(user.getId(), 0);
-                    } else {
-                        userDAO.updateStatusUser(user.getId(), 1);
-                    }
-                }
+            int paintFlags = holder.binding.emailTv.getPaintFlags();
+            paintFlags = user.getStatus() == 0 ? (paintFlags | Paint.STRIKE_THRU_TEXT_FLAG) : (paintFlags & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.binding.emailTv.setPaintFlags(paintFlags);
+            holder.binding.userNameTv.setPaintFlags(paintFlags);
+            holder.binding.roleTv.setPaintFlags(paintFlags);
+
+            int finalPaintFlags = paintFlags;
+            holder.binding.userCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                userDAO.updateStatusUser(user.getId(), isChecked ? 0 : 1);
+                holder.binding.userCl.setBackgroundResource(isChecked ? R.color.gray : R.color.white_gray);
+                holder.binding.blockTv.setText(isChecked ? "Blocked" : "Block");
+                int flags = isChecked ? (finalPaintFlags | Paint.STRIKE_THRU_TEXT_FLAG) : (finalPaintFlags & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.binding.emailTv.setPaintFlags(flags);
+                holder.binding.userNameTv.setPaintFlags(flags);
+                holder.binding.roleTv.setPaintFlags(flags);
             });
-            // Load avatar using Picasso
-            Glide.with(context)
-                    .load(user.getAvatar())
-                    .transition(DrawableTransitionOptions.withCrossFade(500))
-                    .into(holder.binding.avatarIv);
+
             holder.binding.userNameTv.setText(user.getUsername());
             holder.binding.emailTv.setText("Email: " + user.getEmail());
-            if (role == 1) {
-                holder.binding.roleTv.setText("Role: Giáo viên");
-            } else if (role == 2) {
-                holder.binding.roleTv.setText("Role: Học sinh");
-            }
+            holder.binding.roleTv.setText("Role: " + (role == 1 ? "Giáo viên" : "Học sinh"));
         } else {
             holder.binding.getRoot().setVisibility(View.GONE);
         }

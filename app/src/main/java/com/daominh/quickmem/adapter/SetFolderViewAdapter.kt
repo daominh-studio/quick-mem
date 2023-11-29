@@ -1,16 +1,22 @@
 package com.daominh.quickmem.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.daominh.quickmem.data.dao.CardDAO
+import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.dao.UserDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ItemSetFolderBinding
+import com.daominh.quickmem.ui.activities.set.ViewSetActivity
 import com.squareup.picasso.Picasso
 
 class SetFolderViewAdapter(
-    private val flashcardList: ArrayList<FlashCard>
+    private val flashcardList: ArrayList<FlashCard>,
+    private val isSelect: Boolean = false,
+    private val folderId: String = ""
 ) : RecyclerView.Adapter<SetFolderViewAdapter.SetFolderViewHolder>() {
     private val selectedItems = ArrayList<FlashCard>()
 
@@ -27,20 +33,52 @@ class SetFolderViewAdapter(
         val user = userDAO.getUserById(flashcard.user_id)
         val cardDAO = CardDAO(holder.itemView.context)
         val count = cardDAO.countCardByFlashCardId(flashcard.id)
+        val folderDAO = FolderDAO(holder.itemView.context)
 
         Picasso.get().load(user.avatar).into(holder.binding.avatarIv)
-        holder.binding.userNameTv.text = user.name
+        holder.binding.userNameTv.text = user.username
         holder.binding.setNameTv.text = flashcard.name
-        holder.binding.termCountTv.text = count.toString()
-        holder.binding.setFolderItem.setOnClickListener {
-            if (selectedItems.contains(flashcard)) {
-                selectedItems.remove(flashcard)
+        holder.binding.termCountTv.text = count.toString() + " terms"
+        if (isSelect) {
+
+            if (folderDAO.isFlashCardInFolder(folderId, flashcard.id)) {
                 holder.binding.setFolderItem.background =
-                    holder.binding.setFolderItem.context.getDrawable(com.daominh.quickmem.R.drawable.background_unselect)
-            } else {
+                    AppCompatResources.getDrawable(
+                        holder.itemView.context,
+                        com.daominh.quickmem.R.drawable.background_select
+                    )
                 selectedItems.add(flashcard)
+            } else {
                 holder.binding.setFolderItem.background =
-                    holder.binding.setFolderItem.context.getDrawable(com.daominh.quickmem.R.drawable.background_select)
+                    AppCompatResources.getDrawable(
+                        holder.itemView.context,
+                        com.daominh.quickmem.R.drawable.background_unselect
+                    )
+            }
+
+            holder.binding.setFolderItem.setOnClickListener {
+                if (selectedItems.contains(flashcard)) {
+                    selectedItems.remove(flashcard)
+                    holder.binding.setFolderItem.background =
+                        AppCompatResources.getDrawable(
+                            holder.itemView.context,
+                            com.daominh.quickmem.R.drawable.background_unselect
+                        )
+                } else {
+                    selectedItems.add(flashcard)
+                    holder.binding.setFolderItem.background =
+                        AppCompatResources.getDrawable(
+                            holder.itemView.context,
+                            com.daominh.quickmem.R.drawable.background_select
+                        )
+                }
+            }
+
+        }else{
+            holder.binding.setFolderItem.setOnClickListener {
+                val intent = Intent(holder.itemView.context, ViewSetActivity::class.java)
+                intent.putExtra("id", flashcard.id)
+                holder.itemView.context.startActivity(intent)
             }
         }
     }

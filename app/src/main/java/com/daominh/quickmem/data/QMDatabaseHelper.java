@@ -98,7 +98,8 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "folder_id INTEGER NOT NULL, " +
             "flashcard_id INTEGER NOT NULL ," +
-            "FOREIGN KEY(folder_id) REFERENCES " + TABLE_FOLDERS + "(id)" +
+            "FOREIGN KEY(folder_id) REFERENCES " + TABLE_FOLDERS + "(id)," +
+            "UNIQUE(folder_id, flashcard_id)" +
             ");";
 
     //constructor

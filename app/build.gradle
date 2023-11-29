@@ -94,7 +94,7 @@ dependencies {
     implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 
     //lottie
-    implementation 'com.airbnb.android:lottie:4.2.2'
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
     //bottom sheet
     implementation "com.github.Kennyc1012:BottomSheetMenu:5.1"

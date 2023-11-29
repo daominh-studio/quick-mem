@@ -13,4 +13,6 @@
     <dimen name="_100ssp">100dp</dimen>
     <dimen name="_20sp">20sp</dimen>
     <dimen name="_4ssp">4sp</dimen>
+    <dimen name="_18ssp">18sp</dimen>
+    <dimen name="_24sp">24sp</dimen>
 </resources>
