@@ -148,4 +148,36 @@ public class FlashCardDAO {
         }
         return flashCard;
     }
+    // get all flashcard
+    @SuppressLint("Range")
+    public ArrayList<FlashCard> getAllFlashCard() {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<FlashCard> flashCards = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FLASHCARDS + " ORDER BY created_at DESC";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    FlashCard flashCard = new FlashCard();
+                    flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
+                    flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
+                    flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
+                    flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
+                    flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                    flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
+
+                    flashCards.add(flashCard);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("FlashCardDAO", "getAllFlashCardByUserId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return flashCards;
+    }
 }
