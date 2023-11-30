@@ -1,7 +1,6 @@
 package com.daominh.quickmem.ui.fragments.manager;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,13 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.ClassesAdapter;
-import com.daominh.quickmem.adapter.UsersAdapter;
+import com.daominh.quickmem.adapter.group.ClassesAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
-import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentClassesBinding;
-import com.daominh.quickmem.databinding.FragmentUsersBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
 

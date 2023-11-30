@@ -1,4 +1,4 @@
-package com.daominh.quickmem.adapter;
+package com.daominh.quickmem.adapter.group;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -10,7 +10,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.daominh.quickmem.adapter.CardLeanAdapter
+import com.daominh.quickmem.adapter.card.CardLeanAdapter
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityLearnBinding

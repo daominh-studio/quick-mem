@@ -1,6 +1,5 @@
 package com.daominh.quickmem.ui.activities.classes;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,15 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.SetsAdapter;
+import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentViewSetsBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
-import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 
 import java.util.ArrayList;
 

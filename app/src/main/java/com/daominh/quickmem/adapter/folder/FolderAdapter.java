@@ -1,4 +1,4 @@
-package com.daominh.quickmem.adapter;
+package com.daominh.quickmem.adapter.folder;
 
 import android.content.Context;
 import android.content.Intent;

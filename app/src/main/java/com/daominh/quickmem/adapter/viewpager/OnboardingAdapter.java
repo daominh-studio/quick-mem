@@ -1,4 +1,4 @@
-package com.daominh.quickmem.adapter;
+package com.daominh.quickmem.adapter.viewpager;
 
 import android.content.Context;
 import android.view.LayoutInflater;

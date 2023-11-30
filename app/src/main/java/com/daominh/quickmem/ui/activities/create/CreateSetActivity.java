@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.CardAdapter;
+import com.daominh.quickmem.adapter.card.CardAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.Card;
@@ -250,19 +250,28 @@ public class CreateSetActivity extends AppCompatActivity {
                 return;
             }
         }
-        int is_public = binding.privateSwitch.isChecked() ? 0 : 1;
-
         //save flashcard
         flashCardDAO = new FlashCardDAO(this);
         FlashCard flashCard = new FlashCard();
         flashCard.setName(subject);
-        flashCard.setIs_public(is_public);
+
         flashCard.setDescription(description);
         userSharePreferences = new UserSharePreferences(this);
         flashCard.setUser_id(userSharePreferences.getId());
         flashCard.setCreated_at(getCurrentDate());
         flashCard.setUpdated_at(getCurrentDate());
         flashCard.setId(id);
+        binding.privateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(this, "Public", Toast.LENGTH_SHORT).show();
+                flashCard.setIs_public(1);
+            } else {
+                Toast.makeText(this, "Private", Toast.LENGTH_SHORT).show();
+                flashCard.setIs_public(0);
+            }
+        });
+
+
 
         if (flashCardDAO.insertFlashCard(flashCard) > 0) {
             Intent intent = new Intent(this, ViewSetActivity.class);

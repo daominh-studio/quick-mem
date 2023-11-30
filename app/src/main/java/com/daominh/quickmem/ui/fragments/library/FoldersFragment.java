@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.adapter.FolderAdapter;
+import com.daominh.quickmem.adapter.folder.FolderAdapter;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.FragmentFoldersBinding;

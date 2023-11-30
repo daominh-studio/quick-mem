@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.daominh.quickmem.adapter.SetFolderViewAdapter
+import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard

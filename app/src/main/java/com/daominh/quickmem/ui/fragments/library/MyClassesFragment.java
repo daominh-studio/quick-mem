@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.adapter.ClassAdapter;
+import com.daominh.quickmem.adapter.group.ClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.Group;

@@ -1,15 +1,11 @@
 package com.daominh.quickmem.ui.fragments.home;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import com.daominh.quickmem.adapter.ClassAdapter;
-import com.daominh.quickmem.adapter.FolderAdapter;
-import com.daominh.quickmem.adapter.SetsAdapter;
+import com.daominh.quickmem.adapter.group.ClassAdapter;
+import com.daominh.quickmem.adapter.folder.FolderAdapter;
+import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.dao.GroupDAO;
@@ -29,11 +25,8 @@ import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
-import com.daominh.quickmem.ui.activities.auth.signup.SignUpActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;

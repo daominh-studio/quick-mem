@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.daominh.quickmem.adapter.OnboardingAdapter;
+import com.daominh.quickmem.adapter.viewpager.OnboardingAdapter;
 import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;

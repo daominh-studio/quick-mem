@@ -1,4 +1,4 @@
-package com.daominh.quickmem.adapter
+package com.daominh.quickmem.adapter.card
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

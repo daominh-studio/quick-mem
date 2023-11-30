@@ -1,8 +1,7 @@
-package com.daominh.quickmem.adapter;
+package com.daominh.quickmem.adapter.group;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,6 @@ import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemClassesAdminBinding;
-import com.daominh.quickmem.ui.activities.classes.ViewClassActivity;
-import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.squareup.picasso.Picasso;
 
 

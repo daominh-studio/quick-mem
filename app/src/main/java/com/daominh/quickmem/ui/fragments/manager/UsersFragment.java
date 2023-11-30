@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.UsersAdapter;
+import com.daominh.quickmem.adapter.user.UsersAdapter;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentUsersBinding;

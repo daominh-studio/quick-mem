@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daominh.quickmem.AddFlashCardActivity
 import com.daominh.quickmem.R
-import com.daominh.quickmem.adapter.SetFolderViewAdapter
+import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ActivityViewFolderBinding

@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.MyViewClassAdapter;
-import com.daominh.quickmem.adapter.MyViewPagerAdapter;
+import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ActivityViewClassBinding;

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.daominh.quickmem.R
-import com.daominh.quickmem.adapter.SetFolderViewAdapter
+import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.databinding.ActivityAddToFolderBinding
 import com.daominh.quickmem.preferen.UserSharePreferences

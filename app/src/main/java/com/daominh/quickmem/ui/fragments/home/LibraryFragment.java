@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.adapter.MyViewPagerAdapter;
+import com.daominh.quickmem.adapter.viewpager.MyViewPagerAdapter;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentLibraryBinding;
