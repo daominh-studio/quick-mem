@@ -1,11 +1,13 @@
 package com.daominh.quickmem.ui.activities.create;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.R;
@@ -68,7 +70,7 @@ public class CreateClassActivity extends AppCompatActivity {
                 group.setUpdated_at(updated_at);
 
                 if (groupDAO.insertGroup(group) > 0) {
-                    onBackPressed();
+                    getOnBackPressedDispatcher().onBackPressed();
                     Toast.makeText(this, "Create class success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Create class failed", Toast.LENGTH_SHORT).show();
@@ -92,15 +94,9 @@ public class CreateClassActivity extends AppCompatActivity {
 
     private String getCurrentDate() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return currentDate.format(formatter);
+            return getCurrentDateNewApi();
         } else {
-            // Handle case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(new Date());
+            return getCurrentDateOldApi();
         }
     }
 
@@ -111,5 +107,18 @@ public class CreateClassActivity extends AppCompatActivity {
     private String getUser_id() {
         UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String getCurrentDateNewApi() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return currentDate.format(formatter);
+    }
+
+    private String getCurrentDateOldApi() {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(new Date());
     }
 }

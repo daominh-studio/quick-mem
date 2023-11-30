@@ -34,6 +34,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation"
+    }
 }
 
 dependencies {

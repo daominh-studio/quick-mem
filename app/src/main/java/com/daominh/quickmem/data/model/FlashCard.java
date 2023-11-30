@@ -7,17 +7,19 @@ public class FlashCard {
     String name;
     String description;
     String user_id;
+    int is_public;
     String created_at;
     String updated_at;
 
     public FlashCard() {
     }
 
-    public FlashCard(String id, String name, String description, String user_id, String created_at, String updated_at) {
+    public FlashCard(String id, String name, String description, String user_id, int is_public, String created_at, String updated_at) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.user_id = user_id;
+        this.is_public = is_public;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -68,5 +70,13 @@ public class FlashCard {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public int getIs_public() {
+        return is_public;
+    }
+
+    public void setIs_public(int is_public) {
+        this.is_public = is_public;
     }
 }

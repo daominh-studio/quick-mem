@@ -43,6 +43,18 @@
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+    <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/private_switch"
+            app:layout_constraintTop_toBottomOf="@id/subject_til"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/_10dp"
+            android:text="Private"
+            android:padding="@dimen/_8ssp"
+            android:textColor="@color/celestial_blue"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/description_cl"

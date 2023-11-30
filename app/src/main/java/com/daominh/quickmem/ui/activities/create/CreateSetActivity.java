@@ -250,11 +250,13 @@ public class CreateSetActivity extends AppCompatActivity {
                 return;
             }
         }
+        int is_public = binding.privateSwitch.isChecked() ? 0 : 1;
 
         //save flashcard
         flashCardDAO = new FlashCardDAO(this);
         FlashCard flashCard = new FlashCard();
         flashCard.setName(subject);
+        flashCard.setIs_public(is_public);
         flashCard.setDescription(description);
         userSharePreferences = new UserSharePreferences(this);
         flashCard.setUser_id(userSharePreferences.getId());

@@ -209,4 +209,27 @@ public class GroupDAO {
         sqLiteDatabase.close();
         return group;
     }
+
+    //get only public classes
+    public ArrayList<Group> getPublicClasses() {
+        ArrayList<Group> classes = new ArrayList<>();
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.query(QMDatabaseHelper.TABLE_CLASSES, null, "status = ?", new String[]{"1"}, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Group group = new Group();
+                group.setId(cursor.getString(0));
+                group.setName(cursor.getString(1));
+                group.setDescription(cursor.getString(2));
+                group.setUser_id(cursor.getString(3));
+                group.setCreated_at(cursor.getString(4));
+                group.setUpdated_at(cursor.getString(5));
+                group.setStatus(cursor.getInt(6));
+                classes.add(group);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return classes;
+    }
 }

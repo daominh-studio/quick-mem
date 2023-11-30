@@ -35,6 +35,7 @@ public class FlashCardDAO {
         contentValues.put("user_id", flashcard.getUser_id());
         contentValues.put("created_at", flashcard.getCreated_at());
         contentValues.put("updated_at", flashcard.getUpdated_at());
+        contentValues.put("is_public", flashcard.getIs_public());
 
         //insert
         try {
@@ -67,6 +68,7 @@ public class FlashCardDAO {
                     flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                    flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
 
                     flashCards.add(flashCard);
                 } while (cursor.moveToNext());
@@ -136,6 +138,7 @@ public class FlashCardDAO {
                     flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                    flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
                 } while (cursor.moveToNext());
             }
         } catch (SQLException e) {
