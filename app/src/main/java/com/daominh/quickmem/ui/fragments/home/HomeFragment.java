@@ -1,11 +1,13 @@
 package com.daominh.quickmem.ui.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,8 +27,11 @@ import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.search.ViewSearchActivity;
+
 
 import java.util.ArrayList;
+
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -118,6 +123,14 @@ public class HomeFragment extends Fragment {
             public void onRefresh() {
                 refreshData();
                 binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        binding.searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireActivity(), ViewSearchActivity.class);
+                startActivity(intent);
             }
         });
     }
