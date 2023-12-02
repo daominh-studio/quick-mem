@@ -222,4 +222,24 @@ public class CardDAO {
         }
         return result;
     }
+
+    //update is_learned card by id
+    public long updateIsLearnedCardById(String id, int is_learned) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("is_learned", is_learned);
+
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "id = ?", new String[]{id});
+        } catch (SQLException e) {
+            Log.e("CardDAO", "updateIsLearnedCardById: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 }

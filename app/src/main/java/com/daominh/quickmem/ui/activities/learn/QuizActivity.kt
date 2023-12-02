@@ -1,14 +1,16 @@
 package com.daominh.quickmem.ui.activities.learn
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
-import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityQuizBinding
+import com.daominh.quickmem.databinding.DialogCorrectBinding
+import com.daominh.quickmem.databinding.DialogWrongBinding
 
 class QuizActivity : AppCompatActivity() {
 
@@ -41,23 +43,11 @@ class QuizActivity : AppCompatActivity() {
 
     private fun checkAnswer(selectedAnswer: String) {
         if (selectedAnswer == correctAnswer) {
-            // Show an alert saying the answer is correct
-            AlertDialog.Builder(this)
-                .setTitle("Correct!")
-                .setMessage("Good job, that's the right answer!")
-                .setPositiveButton("Next question") { _, _ ->
-                    setNextQuestion()
-                }
-                .show()
+            correctDialog(correctAnswer)
+            setNextQuestion()
         } else {
-            // Show an alert with the correct answer
-            AlertDialog.Builder(this)
-                .setTitle("Incorrect!")
-                .setMessage("The correct answer was $correctAnswer.")
-                .setPositiveButton("Next question") { _, _ ->
-                    setNextQuestion()
-                }
-                .show()
+            wrongDialog(correctAnswer, binding.tvQuestion.text.toString(), selectedAnswer)
+            setNextQuestion()
         }
     }
 
@@ -94,5 +84,61 @@ class QuizActivity : AppCompatActivity() {
 
     private fun finishQuiz() {
         // Xử lý khi hết câu hỏi
+    }
+
+    private fun correctDialog(answer: String) {
+        val dialog = AlertDialog.Builder(this)
+        val dialogBinding = DialogCorrectBinding.inflate(layoutInflater)
+        dialog.setView(dialogBinding.root)
+        dialog.setCancelable(true)
+        val builder = dialog.create()
+        dialogBinding.questionTv.text = answer
+        dialog.setOnDismissListener {
+            startAnimations()
+        }
+
+        //dismiss after 3s
+        dialogBinding.root.postDelayed({
+            builder.dismiss()
+        }, 3000)
+
+        builder.show()
+    }
+
+    private fun wrongDialog(answer: String, question: String, userAnswer: String) {
+        val dialog = AlertDialog.Builder(this)
+        val dialogBinding = DialogWrongBinding.inflate(layoutInflater)
+        dialog.setView(dialogBinding.root)
+        dialog.setCancelable(true)
+        val builder = dialog.create()
+        dialogBinding.questionTv.text = question
+        dialogBinding.explanationTv.text = answer
+        dialogBinding.yourExplanationTv.text = userAnswer
+        dialogBinding.continueTv.setOnClickListener {
+            builder.dismiss()
+        }
+        builder.setOnDismissListener {
+            startAnimations()
+        }
+        builder.show()
+    }
+    private fun startAnimations() {
+        val views = listOf(binding.optionOne, binding.optionTwo, binding.optionThree, binding.optionFour, binding.tvQuestion)
+        val duration = 1000L
+        val endValue = -binding.optionOne.width.toFloat()
+
+        views.forEach { view ->
+            val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, endValue)
+            animator.duration = duration
+            animator.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    view.translationX = 0f
+                    if (view == binding.optionFour) {
+                        setNextQuestion()
+                    }
+                }
+            })
+            animator.start()
+        }
     }
 }

@@ -120,4 +120,10 @@
     <string name="loginFailed">Login Fail</string>
     <string name="you_are_blocked">You are blocked \n Contact support for more information</string>
     <string name="log_out">Log out</string>
+    <string name="correct">Correct!</string>
+    <string name="oops_study_this_one">Oops! Study this one!</string>
+    <string name="answer">Answer</string>
+    <string name="correct_answer">Correct Answer</string>
+    <string name="explanation">Explanation</string>
+    <string name="your_answer">Your Answer</string>
 </resources>
