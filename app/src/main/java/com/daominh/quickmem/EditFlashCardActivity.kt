@@ -110,11 +110,6 @@ class EditFlashCardActivity : AppCompatActivity() {
                     cards.removeAt(position)
                     if (cardDAO.checkCardExist(deletedItem.id)) {
                         listIdCard.add(deletedItem.id)
-                        Toast.makeText(
-                            this@EditFlashCardActivity,
-                            "Card deleted successfully" + deletedItem.id,
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                     cardAdapter.notifyItemRemoved(position)
 
@@ -252,10 +247,9 @@ class EditFlashCardActivity : AppCompatActivity() {
 
             for (card_id in listIdCard) {
                 Toast.makeText(this, card_id, Toast.LENGTH_SHORT).show()
-                if (cardDAO.deleteCardById(card_id) <= 0) {
-                    showToast("Error deleting card")
-                    return
-                }
+                cardDAO.deleteCardById(card_id) >= 0
+
+
             }
 
             val flashCard = flashCardDAO.getFlashCardById(flashCardId)
@@ -263,7 +257,7 @@ class EditFlashCardActivity : AppCompatActivity() {
             flashCard.description = description
             flashCard.is_public = if (binding.privateSwitch.isChecked) 1 else 0
             flashCard.updated_at = getCurrentDate()
-            if (flashCardDAO.updateFlashCard(flashCard) >= 0) {
+            if (flashCardDAO.updateFlashCard(flashCard) <= 0) {
                 showToast("Error updating flashcard")
                 return
             }
