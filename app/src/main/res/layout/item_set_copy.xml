@@ -85,5 +85,6 @@
             app:layout_constraintTop_toTopOf="@id/avatar_iv" />
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
