@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.group.ClassAdapter;
+import com.daominh.quickmem.adapter.group.ClassCopyAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.Group;
@@ -31,7 +32,7 @@ public class MyClassesFragment extends Fragment {
     private UserSharePreferences userSharePreferences;
     private ArrayList<Group> classes;
     private GroupDAO groupDAO;
-    private ClassAdapter classAdapter;
+    private ClassCopyAdapter classAdapter;
     private String idUser;
 
     @Override
@@ -73,7 +74,7 @@ public class MyClassesFragment extends Fragment {
             binding.classesRv.setVisibility(View.VISIBLE);
         }
 
-        classAdapter = new ClassAdapter(requireActivity(), classes);
+        classAdapter = new ClassCopyAdapter(requireActivity(), classes);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.classesRv.setLayoutManager(linearLayoutManager2);
         binding.classesRv.setAdapter(classAdapter);
@@ -91,7 +92,7 @@ public class MyClassesFragment extends Fragment {
         classes = groupDAO.getClassesOwnedByUser(idUser);
         classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
 
-        classAdapter = new ClassAdapter(requireActivity(), classes);
+        classAdapter = new ClassCopyAdapter(requireActivity(), classes);
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
 

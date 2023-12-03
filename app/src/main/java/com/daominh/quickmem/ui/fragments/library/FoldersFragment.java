@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.folder.FolderAdapter;
+import com.daominh.quickmem.adapter.folder.FolderCopyAdapter;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.FragmentFoldersBinding;
@@ -27,7 +28,7 @@ public class FoldersFragment extends Fragment {
     private FragmentFoldersBinding binding;
     private UserSharePreferences userSharePreferences;
     private ArrayList<Folder> folders;
-    private FolderAdapter folderAdapter;
+    private FolderCopyAdapter folderAdapter;
     private FolderDAO folderDAO;
     private String idUser;
     @Override
@@ -62,7 +63,7 @@ public class FoldersFragment extends Fragment {
             binding.foldersRv.setVisibility(View.VISIBLE);
         }
 
-        folderAdapter = new FolderAdapter(requireActivity(), folders);
+        folderAdapter = new FolderCopyAdapter(requireActivity(), folders);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.foldersRv.setLayoutManager(linearLayoutManager1);
         binding.foldersRv.setAdapter(folderAdapter);
@@ -79,7 +80,7 @@ public class FoldersFragment extends Fragment {
     private void refreshData() {
         folders = folderDAO.getAllFolderByUserId(idUser);
 
-        folderAdapter = new FolderAdapter(requireActivity(), folders);
+        folderAdapter = new FolderCopyAdapter(requireActivity(), folders);
         binding.foldersRv.setAdapter(folderAdapter);
         folderAdapter.notifyDataSetChanged();
 

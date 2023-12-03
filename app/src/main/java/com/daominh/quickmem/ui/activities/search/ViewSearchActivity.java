@@ -36,9 +36,7 @@ public class ViewSearchActivity extends AppCompatActivity {
         binding = ActivityViewSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backIv.setOnClickListener(v -> {
-            getOnBackPressedDispatcher().onBackPressed();
-        });
+        binding.backIv.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         //get data from intent
         flashCardDAO = new FlashCardDAO(this);
