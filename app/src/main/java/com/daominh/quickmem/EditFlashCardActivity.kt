@@ -222,11 +222,18 @@ class EditFlashCardActivity : AppCompatActivity() {
         val flashCardId = intent.getStringExtra("flashcard_id") ?: return
 
         for (card in cards) {
+            if (card.front == null){
+                return
+            }
+            if (card.back == null){
+                return
+            }
             if (card.front.isEmpty() || card.back.isEmpty()) {
                 showToast("Please enter question and answer")
                 updateCardView(cards.indexOf(card))
                 return
             }
+
 
             card.updated_at = getCurrentDate()
             card.flashcard_id = flashCardId
