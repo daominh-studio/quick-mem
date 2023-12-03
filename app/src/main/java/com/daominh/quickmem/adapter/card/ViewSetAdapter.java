@@ -1,4 +1,4 @@
-package com.daominh.quickmem.adapter.flashcard;
+package com.daominh.quickmem.adapter.card;
 
 import android.content.Context;
 import android.os.Bundle;

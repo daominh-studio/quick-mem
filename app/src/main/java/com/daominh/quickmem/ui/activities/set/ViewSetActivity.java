@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.EditFlashCardActivity;
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.adapter.flashcard.ViewSetAdapter;
+import com.daominh.quickmem.adapter.card.ViewTermsAdapter;
+import com.daominh.quickmem.adapter.card.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.Card;
@@ -121,8 +122,17 @@ public class ViewSetActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.recyclerViewSet.setLayoutManager(linearLayoutManager);
         binding.recyclerViewSet.scrollToPosition(listPosition);
+
+        LinearLayoutManager linearLayoutManagerVertical = new LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+        );
+
+        binding.recyclerViewTerms.setLayoutManager(linearLayoutManagerVertical);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setupCardData() {
         String id = getIntent().getStringExtra("id");
         cardDAO = new CardDAO(this);
@@ -130,6 +140,11 @@ public class ViewSetActivity extends AppCompatActivity {
         viewSetAdapter = new ViewSetAdapter(this, cards);
         binding.recyclerViewSet.setAdapter(viewSetAdapter);
         viewSetAdapter.notifyDataSetChanged();
+
+        ViewTermsAdapter viewTermsAdapter = new ViewTermsAdapter(cards);
+        binding.recyclerViewTerms.setAdapter(viewTermsAdapter);
+        viewTermsAdapter.notifyDataSetChanged();
+
     }
 
     private void setupNavigationListener() {
@@ -241,7 +256,7 @@ public class ViewSetActivity extends AppCompatActivity {
                                 Intent intent = new Intent(ViewSetActivity.this, AddToClassActivity.class);
                                 intent.putExtra("flashcard_id", id);
                                 startActivity(intent);
-                            }else if (menuItem.getItemId() == R.id.reset){
+                            } else if (menuItem.getItemId() == R.id.reset) {
                                 cardDAO = new CardDAO(ViewSetActivity.this);
                                 cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id);
                                 Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();

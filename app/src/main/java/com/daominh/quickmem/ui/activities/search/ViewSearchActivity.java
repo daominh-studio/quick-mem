@@ -56,7 +56,7 @@ public class ViewSearchActivity extends AppCompatActivity {
         setAllAdapter.notifyDataSetChanged();
 
         // if list flashcards is empty, gone sets_cl
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
@@ -72,7 +72,7 @@ public class ViewSearchActivity extends AppCompatActivity {
         classesAllAdapter.notifyDataSetChanged();
 
         // if list classes is empty, gone class_cl
-        if (groups.size() == 0) {
+        if (groups.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
@@ -119,21 +119,21 @@ public class ViewSearchActivity extends AppCompatActivity {
                 } else {
                     binding.enterTopicTv.setVisibility(View.GONE);
                     // if flashcards no have data, gone setcl
-                    if (flashCards.size() == 0) {
+                    if (flashCards.isEmpty()) {
                         binding.setsCl.setVisibility(View.GONE);
                     } else {
                         binding.setsCl.setVisibility(View.VISIBLE);
                     }
 
                     //if classes no have data, gone classcl
-                    if (groups.size() == 0) {
+                    if (groups.isEmpty()) {
                         binding.classCl.setVisibility(View.GONE);
                     } else {
                         binding.classCl.setVisibility(View.VISIBLE);
                     }
 
                     //if flashcards and classes no have data, show no_result_tv
-                    if (flashCards.size() == 0 && groups.size() == 0) {
+                    if (flashCards.isEmpty() && groups.size() == 0) {
                         binding.noResultTv.setVisibility(View.VISIBLE);
                     } else {
                         binding.noResultTv.setVisibility(View.GONE);
