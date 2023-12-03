@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".QuizFolderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/toolbar"
+            android:elevation="1dp"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:elevation="1dp"
+                android:layout_gravity="center"
+                android:text="@string/learn"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <ProgressBar
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/timeline_progress"
+            android:elevation="1dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            tools:text="What does country this flag belongs to?"
+            android:textSize="28sp"
+            android:paddingHorizontal="20dp"
+            android:textColor="#333333"
+            android:layout_marginBottom="30dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/_16dp">
+
+            <TextView
+                android:layout_margin="@dimen/_8ssp"
+                android:id="@+id/optionOne"
+                style="@style/toggleButton"
+                tools:text="Argentina"
+                />
+
+            <TextView
+                android:layout_margin="@dimen/_8ssp"
+                android:id="@+id/optionTwo"
+                style="@style/toggleButton"
+                tools:text="Australia"
+                />
+
+            <TextView
+                android:layout_margin="@dimen/_8ssp"
+                android:id="@+id/optionThree"
+                style="@style/toggleButton"
+                tools:text="Armenia"
+                />
+
+            <TextView
+                android:layout_margin="@dimen/_8ssp"
+                android:id="@+id/optionFour"
+                style="@style/toggleButton"
+                tools:text="Austria"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

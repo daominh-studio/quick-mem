@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daominh.quickmem.AddFlashCardActivity
+import com.daominh.quickmem.QuizFolderActivity
 import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
@@ -54,6 +55,12 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
         adapter.notifyDataSetChanged()
+
+        binding.learnThisFolderBtn.setOnClickListener {
+            val newIntent = Intent(this, QuizFolderActivity::class.java)
+            newIntent.putExtra("id", id)
+            startActivity(newIntent)
+        }
 
 
     }

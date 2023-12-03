@@ -231,4 +231,33 @@ public class FolderDAO {
         return result;
     }
 
+    //get all flashcards by folder_id join with flashcard table return list id flashcard
+    @SuppressLint("Range")
+    public ArrayList<String> getAllFlashCardIdByFolderId(String folder_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<String> flashCards = new ArrayList<>();
+
+        String query = "SELECT flashcards.id FROM " + QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS
+                + " JOIN " + QMDatabaseHelper.TABLE_FLASHCARDS
+                + " ON " + QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS + ".flashcard_id = " + QMDatabaseHelper.TABLE_FLASHCARDS + ".id"
+                + " WHERE " + QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS + ".folder_id = '" + folder_id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    flashCards.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "getAllFlashCardByFolderId: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return flashCards;
+    }
+
+
+
 }
