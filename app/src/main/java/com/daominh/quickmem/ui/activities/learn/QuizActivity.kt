@@ -3,16 +3,22 @@ package com.daominh.quickmem.ui.activities.learn
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityQuizBinding
 import com.daominh.quickmem.databinding.DialogCorrectBinding
 import com.daominh.quickmem.databinding.DialogWrongBinding
+import com.daominh.quickmem.ui.activities.set.ViewSetActivity
+import com.saadahmedsoft.popupdialog.PopupDialog
+import com.saadahmedsoft.popupdialog.Styles
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
 import kotlinx.coroutines.*
 
 class QuizActivity : AppCompatActivity() {
@@ -63,59 +69,73 @@ class QuizActivity : AppCompatActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun setNextQuestion() {
-       scope.launch {
-           val cards = cardDAO.getCardByIsLearned(id, 0)
-           val randomCard = cardDAO.getAllCardByFlashCardId(id)
+        scope.launch {
+            val cards = cardDAO.getCardByIsLearned(id, 0)
+            val randomCard = cardDAO.getAllCardByFlashCardId(id)
 
-           if (cards.isEmpty()) {
-               finishQuiz(1)
-               return@launch
+            if (cards.isEmpty()) {
+                finishQuiz(1)
+                return@launch
 
-           }
+            }
 
-           val correctCard = cards.random()
-           randomCard.remove(correctCard)
+            val correctCard = cards.random()
+            randomCard.remove(correctCard)
 
-           val incorrectCards = randomCard.shuffled().take(3)
+            val incorrectCards = randomCard.shuffled().take(3)
 
-           val allCards = (listOf(correctCard) + incorrectCards).shuffled()
-           val question = correctCard.front
-           correctAnswer = correctCard.back
+            val allCards = (listOf(correctCard) + incorrectCards).shuffled()
+            val question = correctCard.front
+            correctAnswer = correctCard.back
 
-           withContext(Dispatchers.Main) {
-               binding.tvQuestion.text = question
-               binding.optionOne.text = allCards[0].back
-               binding.optionTwo.text = allCards[1].back
-               binding.optionThree.text = allCards[2].back
-               binding.optionFour.text = allCards[3].back
+            withContext(Dispatchers.Main) {
+                binding.tvQuestion.text = question
+                binding.optionOne.text = allCards[0].back
+                binding.optionTwo.text = allCards[1].back
+                binding.optionThree.text = allCards[2].back
+                binding.optionFour.text = allCards[3].back
 
-               binding.optionOne.setOnClickListener {
-                   checkAnswer(binding.optionOne.text.toString(), correctCard.id)
-               }
+                binding.optionOne.setOnClickListener {
+                    checkAnswer(binding.optionOne.text.toString(), correctCard.id)
+                }
 
-               binding.optionTwo.setOnClickListener {
-                   checkAnswer(binding.optionTwo.text.toString(), correctCard.id)
-               }
+                binding.optionTwo.setOnClickListener {
+                    checkAnswer(binding.optionTwo.text.toString(), correctCard.id)
+                }
 
-               binding.optionThree.setOnClickListener {
-                   checkAnswer(binding.optionThree.text.toString(), correctCard.id)
-               }
+                binding.optionThree.setOnClickListener {
+                    checkAnswer(binding.optionThree.text.toString(), correctCard.id)
+                }
 
-               binding.optionFour.setOnClickListener {
-                   checkAnswer(binding.optionFour.text.toString(), correctCard.id)
-               }
+                binding.optionFour.setOnClickListener {
+                    checkAnswer(binding.optionFour.text.toString(), correctCard.id)
+                }
 
-               askedCards.add(correctCard)
+                askedCards.add(correctCard)
 
 
-           }
-       }
+            }
+        }
     }
 
     private fun finishQuiz(status: Int) { //1 quiz, 2 learn
         runOnUiThread {
 
-            Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
+            PopupDialog.getInstance(this)
+                .setStyle(Styles.SUCCESS)
+                .setHeading(getString(R.string.finish))
+                .setDescription(getString(R.string.finish_quiz))
+                .setDismissButtonText(getString(R.string.ok))
+                .setNegativeButtonText(getString(R.string.cancel))
+                .setPositiveButtonText(getString(R.string.ok))
+                .setCancelable(true)
+                .showDialog(object : OnDialogButtonClickListener() {
+                    override fun onDismissClicked(dialog: Dialog?) {
+                        super.onDismissClicked(dialog)
+                        dialog?.dismiss()
+                        finish()
+                    }
+                })
         }
 
     }
@@ -156,7 +176,13 @@ class QuizActivity : AppCompatActivity() {
 
     private fun startAnimations() {
         val views =
-            listOf(binding.optionOne, binding.optionTwo, binding.optionThree, binding.optionFour, binding.tvQuestion)
+            listOf(
+                binding.optionOne,
+                binding.optionTwo,
+                binding.optionThree,
+                binding.optionFour,
+                binding.tvQuestion
+            )
         val duration = 1000L
         val endValue = -binding.optionOne.width.toFloat()
 

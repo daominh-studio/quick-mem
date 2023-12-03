@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daominh.quickmem.adapter.flashcard.SetCopyAdapter;
 import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
@@ -27,7 +28,7 @@ public class ViewSetsFragment extends Fragment {
     private UserSharePreferences userSharePreferences;
     private ArrayList<FlashCard> flashCards;
     private FlashCardDAO flashCardDAO;
-    private SetsAdapter setsAdapter;
+    private SetCopyAdapter setsAdapter;
     private String idUser;
     private int count = 0;
 
@@ -50,11 +51,8 @@ public class ViewSetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
-        binding.addSetsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.addSetsBtn.setOnClickListener(view1 -> {
 
-            }
         });
 
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
@@ -69,7 +67,7 @@ public class ViewSetsFragment extends Fragment {
         count = flashCards.size();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
+        setsAdapter = new SetCopyAdapter(requireActivity(), flashCards);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
     }
@@ -83,7 +81,7 @@ public class ViewSetsFragment extends Fragment {
 
     private void refreshData() {
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
+        setsAdapter = new SetCopyAdapter(requireActivity(), flashCards);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 

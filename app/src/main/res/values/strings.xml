@@ -141,4 +141,6 @@
     <string name="edit_error">No permisson</string>
     <string name="here_s_how_to_get_started">Here\'s how to get started</string>
     <string name="create_your_own_set">Create your own set</string>
+    <string name="finish">Coragetion!</string>
+    <string name="finish_quiz">You was done</string>
 </resources>
