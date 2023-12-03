@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.viewpager.MyViewPagerAdapter;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
@@ -50,7 +52,10 @@ public class LibraryFragment extends Fragment {
         TabLayout mtabLayout = binding.tabLayout;
         ViewPager mviewPager = binding.viewPager;
 
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+
+// For FragmentStatePagerAdapter and getFragmentManager
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mviewPager.setAdapter(myViewPagerAdapter);
 
         mtabLayout.setupWithViewPager(mviewPager);

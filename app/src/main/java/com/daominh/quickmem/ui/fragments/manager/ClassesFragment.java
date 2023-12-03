@@ -47,8 +47,8 @@ public class ClassesFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentClassesBinding.inflate(inflater, container, false);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
+        assert activity != null;
         activity.setSupportActionBar(binding.toolbar);
-        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 
@@ -89,7 +89,7 @@ public class ClassesFragment extends Fragment {
             dialog.show();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

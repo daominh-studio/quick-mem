@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/add_to_folder"
-            android:title="Add to folder"
+            android:title="@string/add_to_folder"
             android:icon="@drawable/ic_folder"/>
     <item
             android:id="@+id/add_to_class"
-            android:title="Add to class"
+            android:title="@string/add_to_class"
             android:icon="@drawable/ic_group"/>
     <item
-            android:id="@+id/save_and_edit"
-            android:title="Save and edit"
-            android:icon="@drawable/ic_edit"/>
-    <item
             android:id="@+id/share"
-            android:title="Share"
+            android:title="@string/share"
             android:icon="@drawable/ic_share"/>
     <item
             android:id="@+id/edit"
-            android:title="Edit"
+            android:title="@string/edit"
             android:icon="@drawable/ic_edit"/>
     <item
             android:id="@+id/delete_set"
-            android:title="Delete"
+            android:title="@string/delete"
             android:icon="@drawable/ic_delete"/>
+    <item
+        android:id="@+id/reset"
+        android:title="@string/reset"
+        android:icon="@drawable/baseline_refresh_24"/>
 </menu>

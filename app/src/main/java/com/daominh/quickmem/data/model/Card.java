@@ -1,16 +1,19 @@
 package com.daominh.quickmem.data.model;
 
+import androidx.annotation.Nullable;
+
+import java.util.Objects;
 import java.util.UUID;
 
 public class Card {
-    String id;
-    String front;
-    String back;
-    int status;
-    int isLearned;
-    String flashcard_id;
-    String created_at;
-    String updated_at;
+    private String id;
+    private String front;
+    private String back;
+    private int status;
+    private int isLearned;
+    private String flashcard_id;
+    private String created_at;
+    private String updated_at;
 
     public Card() {
     }
@@ -88,5 +91,20 @@ public class Card {
 
     public void setIsLearned(int isLearned) {
         this.isLearned = isLearned;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return id.equals(card.id) &&
+                front.equals(card.front) &&
+                back.equals(card.back);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, front, back);
     }
 }

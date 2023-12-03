@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.daominh.quickmem.EditFlashCardActivity;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.flashcard.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
@@ -43,6 +44,7 @@ public class ViewSetActivity extends AppCompatActivity {
     private static final String LIST_POSITION = "list_position";
     int listPosition = 0;
     UserSharePreferences userSharePreferences;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -84,6 +86,23 @@ public class ViewSetActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.learnCl.setOnClickListener(v -> {
+            cardDAO = new CardDAO(this);
+            if (cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) < 4) {
+                PopupDialog.getInstance(this)
+                        .setStyle(Styles.FAILED)
+                        .setHeading(getString(R.string.error))
+                        .setDescription(getString(R.string.learn_error))
+                        .setDismissButtonText(getString(R.string.ok))
+                        .setCancelable(true)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onDismissClicked(Dialog dialog) {
+                                super.onDismissClicked(dialog);
+                                dialog.dismiss();
+                            }
+                        });
+                return;
+            }
             Intent intent = new Intent(this, QuizActivity.class);
             intent.putExtra("id", getIntent().getStringExtra("id"));
             startActivity(intent);
@@ -159,9 +178,12 @@ public class ViewSetActivity extends AppCompatActivity {
 
                         @Override
                         public void onSheetItemSelected(@NotNull BottomSheetMenuDialogFragment bottomSheetMenuDialogFragment, @NotNull MenuItem menuItem, @Nullable Object o) {
+                            String id = getIntent().getStringExtra("id");
 
                             if (menuItem.getItemId() == R.id.edit) {
-                                Toast.makeText(ViewSetActivity.this, "edit", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ViewSetActivity.this, EditFlashCardActivity.class);
+                                intent.putExtra("flashcard_id", id);
+                                startActivity(intent);
                             } else if (menuItem.getItemId() == R.id.delete_set) {
                                 //dialog are you sure?
                                 PopupDialog.getInstance(ViewSetActivity.this)
@@ -213,18 +235,17 @@ public class ViewSetActivity extends AppCompatActivity {
                                         });
                             } else if (menuItem.getItemId() == R.id.add_to_folder) {
                                 Intent intent = new Intent(ViewSetActivity.this, AddToFolderActivity.class);
-                                intent.putExtra("flashcard_id", getIntent().getStringExtra("id"));
+                                intent.putExtra("flashcard_id", id);
                                 startActivity(intent);
                             } else if (menuItem.getItemId() == R.id.add_to_class) {
                                 Intent intent = new Intent(ViewSetActivity.this, AddToClassActivity.class);
-                                intent.putExtra("flashcard_id", getIntent().getStringExtra("id"));
+                                intent.putExtra("flashcard_id", id);
                                 startActivity(intent);
-                            } else if (menuItem.getItemId() == R.id.save_and_edit) {
+                            }else if (menuItem.getItemId() == R.id.reset){
+                                cardDAO = new CardDAO(ViewSetActivity.this);
+                                cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id);
+                                Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
 
-                            } else if (menuItem.getItemId() == R.id.edit) {
-//                                Intent intent = new Intent(ViewSetActivity.this, EditSetActivity.class);
-//                                intent.putExtra("flashcard_id", getIntent().getStringExtra("id"));
-//                                startActivity(intent);
                             }
 
                         }
@@ -243,4 +264,9 @@ public class ViewSetActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupCardData();
+    }
 }

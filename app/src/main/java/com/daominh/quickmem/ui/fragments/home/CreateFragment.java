@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityOptionsCompat;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
@@ -62,21 +63,21 @@ public class CreateFragment extends BottomSheetDialogFragment {
 
 
         binding.llCreateClass.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CreateClassActivity.class));
-            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateClass, "transition");
+            startActivity(new Intent(requireContext(), CreateClassActivity.class), options.toBundle());
             //call ondismiss to close the bottom sheet
             dismiss();
         });
 
         binding.llCreateFolder.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CreateFolderActivity.class));
-            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateFolder, "transition");
+            startActivity(new Intent(requireContext(), CreateFolderActivity.class), options.toBundle());
             dismiss();
         });
 
         binding.llCreateSet.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CreateSetActivity.class));
-            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.stay);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateSet, "transition");
+            startActivity(new Intent(requireContext(), CreateSetActivity.class), options.toBundle());
             dismiss();
         });
     }

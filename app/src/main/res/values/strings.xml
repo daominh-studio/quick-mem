@@ -126,4 +126,12 @@
     <string name="correct_answer">Correct Answer</string>
     <string name="explanation">Explanation</string>
     <string name="your_answer">Your Answer</string>
+    <string name="learn_error">Create more less 4 card to use this feature</string>
+    <string name="add_to_folder">Add to folder</string>
+    <string name="add_to_class">Add to class</string>
+    <string name="share">Share</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="reset">Reset</string>
+    <string name="reset_success">Reset success!</string>
 </resources>

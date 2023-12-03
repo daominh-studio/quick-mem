@@ -17,6 +17,7 @@ import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentViewSetsBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ViewSetsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentViewSetsBinding.inflate(getLayoutInflater());
 
@@ -58,7 +59,7 @@ public class ViewSetsFragment extends Fragment {
 
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsLl.setVisibility(View.VISIBLE);
             binding.setsRv.setVisibility(View.GONE);
         } else {
@@ -85,7 +86,7 @@ public class ViewSetsFragment extends Fragment {
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
 
-        if (flashCards.size() == 0) {
+        if (flashCards.isEmpty()) {
             binding.setsLl.setVisibility(View.VISIBLE);
             binding.setsRv.setVisibility(View.GONE);
         } else {

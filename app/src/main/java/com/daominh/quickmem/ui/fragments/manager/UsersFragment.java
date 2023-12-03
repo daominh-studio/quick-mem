@@ -38,8 +38,8 @@ public class UsersFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         binding = FragmentUsersBinding.inflate(inflater, container, false);
+        assert activity != null;
         activity.setSupportActionBar(binding.toolbar);
-        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 
@@ -84,7 +84,7 @@ public class UsersFragment extends Fragment {
                     .setTitle("Sign out")
                     .setMessage("Are you sure?")
                     .setPositiveButton("OK", (dialogInterface, i) -> {
-                        new UserSharePreferences(getActivity()).clear();
+                        new UserSharePreferences(requireContext()).clear();
                         startActivity(new Intent(getActivity(), SignInActivity.class));
                         UserSharePreferences userSharePreferences = new UserSharePreferences(requireActivity());
                         userSharePreferences.clear();
@@ -94,6 +94,6 @@ public class UsersFragment extends Fragment {
                     .show();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+       return true;
     }
 }

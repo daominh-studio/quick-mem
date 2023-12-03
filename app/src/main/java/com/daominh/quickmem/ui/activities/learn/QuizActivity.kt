@@ -5,12 +5,15 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.daominh.quickmem.data.dao.CardDAO
+import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityQuizBinding
 import com.daominh.quickmem.databinding.DialogCorrectBinding
 import com.daominh.quickmem.databinding.DialogWrongBinding
+import kotlinx.coroutines.*
 
 class QuizActivity : AppCompatActivity() {
 
@@ -20,70 +23,100 @@ class QuizActivity : AppCompatActivity() {
     private val cardDAO by lazy {
         CardDAO(this)
     }
+    private val flashCardDAO by lazy {
+        FlashCardDAO(this)
+    }
 
     private lateinit var correctAnswer: String
-    private val cards by lazy { cardDAO.getCardsByFlashCardId(intent.getStringExtra("id")) }
-
     private val askedCards = mutableListOf<Card>()
+    private lateinit var id: String
+    private val job = Job()
+    private val scope = CoroutineScope(Dispatchers.Main + job)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        id = intent.getStringExtra("id") ?: ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
         setNextQuestion()
-        binding.optionOne.setOnClickListener { checkAnswer(binding.optionOne.text.toString()) }
-        binding.optionTwo.setOnClickListener { checkAnswer(binding.optionTwo.text.toString()) }
-        binding.optionThree.setOnClickListener { checkAnswer(binding.optionThree.text.toString()) }
-        binding.optionFour.setOnClickListener { checkAnswer(binding.optionFour.text.toString()) }
     }
 
-    private fun checkAnswer(selectedAnswer: String) {
-        if (selectedAnswer == correctAnswer) {
+    private fun checkAnswer(selectedAnswer: String, cardId: String): Boolean {
+        return if (selectedAnswer == correctAnswer) {
             correctDialog(correctAnswer)
+            GlobalScope.launch(Dispatchers.IO) {
+                cardDAO.updateIsLearnedCardById(cardId, 1)
+            }
             setNextQuestion()
+            true
         } else {
             wrongDialog(correctAnswer, binding.tvQuestion.text.toString(), selectedAnswer)
             setNextQuestion()
+            false
         }
     }
 
+
+    @OptIn(DelicateCoroutinesApi::class)
     private fun setNextQuestion() {
-        // Lọc ra những câu chưa hỏi
-        val unaskedCards = cards.filter { it !in askedCards }
+       scope.launch {
+           val cards = cardDAO.getCardByIsLearned(id, 0)
+           val randomCard = cardDAO.getAllCardByFlashCardId(id)
 
-        // Nếu không còn câu hỏi, kết thúc bài kiểm tra
-        if (unaskedCards.isEmpty()) {
-            finishQuiz()
-            return
-        }
+           if (cards.isEmpty()) {
+               finishQuiz(1)
+               return@launch
 
-        // Lấy 1 câu hỏi chưa hỏi
-        val correctCard = unaskedCards.shuffled().take(1)
-        askedCards.add(correctCard[0])
+           }
 
-        // Lấy 3 câu trả lời sai từ những câu hỏi
-        val wrongCards = cards.filter { it != correctCard[0] }.shuffled().take(3)
-        correctAnswer = correctCard[0].back
+           val correctCard = cards.random()
+           randomCard.remove(correctCard)
 
-        // Tạo danh sách chứa tất cả câu trả lời và xáo trộn nó
-        val allAnswers = (correctCard + wrongCards).shuffled()
+           val incorrectCards = randomCard.shuffled().take(3)
 
-        // Đặt các câu trả lời vào các nút tương ứng
-        binding.optionOne.text = allAnswers[0].back
-        binding.optionTwo.text = allAnswers[1].back
-        binding.optionThree.text = allAnswers[2].back
-        binding.optionFour.text = allAnswers[3].back
+           val allCards = (listOf(correctCard) + incorrectCards).shuffled()
+           val question = correctCard.front
+           correctAnswer = correctCard.back
 
-        // Đặt câu hỏi
-        binding.tvQuestion.text = correctCard[0].front
+           withContext(Dispatchers.Main) {
+               binding.tvQuestion.text = question
+               binding.optionOne.text = allCards[0].back
+               binding.optionTwo.text = allCards[1].back
+               binding.optionThree.text = allCards[2].back
+               binding.optionFour.text = allCards[3].back
+
+               binding.optionOne.setOnClickListener {
+                   checkAnswer(binding.optionOne.text.toString(), correctCard.id)
+               }
+
+               binding.optionTwo.setOnClickListener {
+                   checkAnswer(binding.optionTwo.text.toString(), correctCard.id)
+               }
+
+               binding.optionThree.setOnClickListener {
+                   checkAnswer(binding.optionThree.text.toString(), correctCard.id)
+               }
+
+               binding.optionFour.setOnClickListener {
+                   checkAnswer(binding.optionFour.text.toString(), correctCard.id)
+               }
+
+               askedCards.add(correctCard)
+
+
+           }
+       }
     }
 
-    private fun finishQuiz() {
-        // Xử lý khi hết câu hỏi
+    private fun finishQuiz(status: Int) { //1 quiz, 2 learn
+        runOnUiThread {
+            Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun correctDialog(answer: String) {
@@ -97,12 +130,9 @@ class QuizActivity : AppCompatActivity() {
             startAnimations()
         }
 
-        //dismiss after 3s
-        dialogBinding.root.postDelayed({
-            builder.dismiss()
-        }, 3000)
 
         builder.show()
+
     }
 
     private fun wrongDialog(answer: String, question: String, userAnswer: String) {
@@ -122,8 +152,10 @@ class QuizActivity : AppCompatActivity() {
         }
         builder.show()
     }
+
     private fun startAnimations() {
-        val views = listOf(binding.optionOne, binding.optionTwo, binding.optionThree, binding.optionFour, binding.tvQuestion)
+        val views =
+            listOf(binding.optionOne, binding.optionTwo, binding.optionThree, binding.optionFour, binding.tvQuestion)
         val duration = 1000L
         val endValue = -binding.optionOne.width.toFloat()
 
@@ -141,4 +173,10 @@ class QuizActivity : AppCompatActivity() {
             animator.start()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
 }

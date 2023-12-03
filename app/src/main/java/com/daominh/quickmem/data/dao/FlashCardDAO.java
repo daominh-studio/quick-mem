@@ -180,4 +180,34 @@ public class FlashCardDAO {
         }
         return flashCards;
     }
+
+    //update flashcard
+    public long updateFlashCard(FlashCard flashcard) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("id", flashcard.getId());
+        contentValues.put("name", flashcard.getName());
+        contentValues.put("description", flashcard.getDescription());
+        contentValues.put("user_id", flashcard.getUser_id());
+        contentValues.put("created_at", flashcard.getCreated_at());
+        contentValues.put("updated_at", flashcard.getUpdated_at());
+        contentValues.put("is_public", flashcard.getIs_public());
+
+        //update
+        try {
+            result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_FLASHCARDS, contentValues, "id = ?", new String[]{flashcard.getId()});
+        } catch (SQLException e) {
+            Log.e("FlashCardDAO", "updateFlashCard: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+
 }

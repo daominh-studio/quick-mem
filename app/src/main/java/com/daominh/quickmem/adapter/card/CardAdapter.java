@@ -92,6 +92,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             this.binding = ItemCardAddBinding.bind(itemView);
         }
     }
+
     private TextWatcher createTextWatcher(Card card, EditText editText, BiConsumer<Card, String> setter) {
         return new TextWatcher() {
             @Override
@@ -116,8 +117,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         int position = cards.indexOf(card);
         if (position != -1) {
             cards.set(position, card);
-        } else {
-            Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show();
+        }else {
+            editText.setError("Error");
         }
     }
 
