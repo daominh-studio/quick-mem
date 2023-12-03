@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daominh.quickmem.data.dao.CardDAO;
+import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.FlashCard;
+import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemSetAllBinding;
-import com.daominh.quickmem.databinding.ItemSetBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.squareup.picasso.Picasso;
 
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 public class SetAllAdapter extends RecyclerView.Adapter<SetAllAdapter.SetsViewHolder> {
 
-    UserSharePreferences userSharePreferences;
     private final Context context;
     private final ArrayList<FlashCard> sets;
     CardDAO cardDAO;
@@ -49,16 +48,15 @@ public class SetAllAdapter extends RecyclerView.Adapter<SetAllAdapter.SetsViewHo
     public void onBindViewHolder(@NonNull @NotNull SetAllAdapter.SetsViewHolder holder, int position) {
 
         FlashCard set = sets.get(position);
-        userSharePreferences = new UserSharePreferences(context);
         cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
-        String avatar = userSharePreferences.getAvatar();
-        String userNames = userSharePreferences.getUserName();
+        UserDAO userDAO = new UserDAO(context);
+        User user = userDAO.getUserById(set.getUser_id());
 
         holder.binding.setNameTv.setText(set.getName());
         holder.binding.termCountTv.setText(count + " terms");
-        holder.binding.userNameTv.setText(userNames);
-        Picasso.get().load(avatar).into(holder.binding.avatarIv);
+        holder.binding.userNameTv.setText(user.getUsername());
+        Picasso.get().load(user.getAvatar()).into(holder.binding.avatarIv);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewSetActivity.class);

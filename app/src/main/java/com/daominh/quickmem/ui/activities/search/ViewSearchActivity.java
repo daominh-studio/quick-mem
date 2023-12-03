@@ -133,7 +133,7 @@ public class ViewSearchActivity extends AppCompatActivity {
                     }
 
                     //if flashcards and classes no have data, show no_result_tv
-                    if (flashCards.isEmpty() && groups.size() == 0) {
+                    if (flashCards.isEmpty() && groups.isEmpty()) {
                         binding.noResultTv.setVisibility(View.VISIBLE);
                     } else {
                         binding.noResultTv.setVisibility(View.GONE);

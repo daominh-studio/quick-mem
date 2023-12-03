@@ -135,4 +135,8 @@
     <string name="reset">Reset</string>
     <string name="reset_success">Reset success!</string>
     <string name="terms">Terms</string>
+    <string name="review_error">You need to save this flashcard to learn</string>
+    <string name="review_success">Create success!</string>
+    <string name="view">View</string>
+    <string name="edit_error">No permisson</string>
 </resources>
