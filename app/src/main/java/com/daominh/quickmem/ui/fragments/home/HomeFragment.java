@@ -171,6 +171,13 @@ public class HomeFragment extends Fragment {
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
         }
+
+        if (flashCards.isEmpty() && folders.isEmpty() && classes.isEmpty()) {
+            binding.emptyCl.setVisibility(View.VISIBLE);
+        } else {
+            binding.emptyCl.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

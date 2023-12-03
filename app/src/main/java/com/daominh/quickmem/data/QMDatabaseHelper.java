@@ -55,6 +55,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "name TEXT NOT NULL, " +
             "description TEXT, " +
             "user_id TEXT NOT NULL, " +
+            "is_public INTEGER, " + // Removed NOT NULL
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL" +
             ");";

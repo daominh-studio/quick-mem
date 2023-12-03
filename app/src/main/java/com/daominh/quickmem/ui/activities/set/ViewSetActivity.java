@@ -98,7 +98,7 @@ public class ViewSetActivity extends AppCompatActivity {
         userSharePreferences = new UserSharePreferences(this);
 
         binding.reviewCl.setOnClickListener(v -> {
-            if (!userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id())) {
+            if (!isUserOwner()) {
                 PopupDialog.getInstance(this)
                         .setStyle(Styles.STANDARD)
                         .setHeading(getString(R.string.error))
@@ -137,6 +137,10 @@ public class ViewSetActivity extends AppCompatActivity {
                             }
                         });
                 return;
+            }else {
+                Intent intent = new Intent(this, LearnActivity.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
+                startActivity(intent);
             }
         });
         binding.learnCl.setOnClickListener(v -> {
@@ -229,53 +233,10 @@ public class ViewSetActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_set, menu);
-        if (isUserOwner()){
-            MenuItem editItem = menu.findItem(R.id.edit);
-            MenuItem deleteItem = menu.findItem(R.id.delete_set);
-            MenuItem resetItem = menu.findItem(R.id.reset);
-
-            if (editItem != null) {
-                editItem.setVisible(false);
-            }
-            if (deleteItem != null) {
-                deleteItem.setVisible(false);
-            }
-            if (resetItem != null) {
-                resetItem.setVisible(false);
-            }
-        }
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem editItem = menu.findItem(R.id.edit);
-        MenuItem deleteItem = menu.findItem(R.id.delete_set);
-        MenuItem resetItem = menu.findItem(R.id.reset);
 
-        if (isUserOwner()) {
-            if (editItem != null) {
-                editItem.setVisible(false);
-            }
-            if (deleteItem != null) {
-                deleteItem.setVisible(false);
-            }
-            if (resetItem != null) {
-                resetItem.setVisible(false);
-            }
-        } else {
-            if (editItem != null) {
-                editItem.setVisible(true);
-            }
-            if (deleteItem != null) {
-                deleteItem.setVisible(true);
-            }
-            if (resetItem != null) {
-                resetItem.setVisible(true);
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -297,7 +258,7 @@ public class ViewSetActivity extends AppCompatActivity {
                             if (menuItem.getItemId() == R.id.edit) {
                                if (isUserOwner()){
                                    Intent intent = new Intent(ViewSetActivity.this, EditFlashCardActivity.class);
-                                   intent.putExtra("id", id);
+                                   intent.putExtra("flashcard_id", id);
                                    startActivity(intent);
                                  }else {
                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();

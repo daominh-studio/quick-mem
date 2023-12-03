@@ -139,4 +139,6 @@
     <string name="review_success">Create success!</string>
     <string name="view">View</string>
     <string name="edit_error">No permisson</string>
+    <string name="here_s_how_to_get_started">Here\'s how to get started</string>
+    <string name="create_your_own_set">Create your own set</string>
 </resources>

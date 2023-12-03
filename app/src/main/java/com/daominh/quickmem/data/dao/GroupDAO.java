@@ -30,6 +30,7 @@ public class GroupDAO {
         contentValues.put("name", group.getName());
         contentValues.put("description", group.getDescription());
         contentValues.put("user_id", group.getUser_id());
+        contentValues.put("is_public", 0);
         contentValues.put("created_at", group.getCreated_at());
         contentValues.put("updated_at", group.getUpdated_at());
         contentValues.put("status", group.getStatus());

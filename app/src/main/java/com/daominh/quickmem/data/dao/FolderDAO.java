@@ -34,6 +34,7 @@ public class FolderDAO {
         contentValues.put("name", folder.getName());
         contentValues.put("description", folder.getDescription());
         contentValues.put("user_id", folder.getUser_id());
+        contentValues.put("is_public", 0);
         contentValues.put("created_at", folder.getCreated_at());
         contentValues.put("updated_at", folder.getUpdated_at());
 
