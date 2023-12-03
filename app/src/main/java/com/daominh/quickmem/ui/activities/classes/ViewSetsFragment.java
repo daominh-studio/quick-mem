@@ -80,6 +80,7 @@ public class ViewSetsFragment extends Fragment {
         super.onResume();
         refreshData();
     }
+
     private void refreshData() {
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
         setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);

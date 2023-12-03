@@ -114,6 +114,7 @@ class QuizActivity : AppCompatActivity() {
 
     private fun finishQuiz(status: Int) { //1 quiz, 2 learn
         runOnUiThread {
+
             Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
         }
 
