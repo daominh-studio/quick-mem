@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
+import com.daominh.quickmem.adapter.flashcard.SetsCopyAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentStudySetsBinding;
@@ -27,7 +28,7 @@ public class StudySetsFragment extends Fragment {
     private UserSharePreferences userSharePreferences;
     private ArrayList<FlashCard> flashCards;
     private FlashCardDAO flashCardDAO;
-    private SetsAdapter setsAdapter;
+    private SetsCopyAdapter setsAdapter;
     private String idUser;
 
     @Override
@@ -61,7 +62,7 @@ public class StudySetsFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, true);
+        setsAdapter = new SetsCopyAdapter(requireActivity(), flashCards);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
     }
