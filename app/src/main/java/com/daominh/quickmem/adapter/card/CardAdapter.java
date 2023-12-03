@@ -117,8 +117,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         int position = cards.indexOf(card);
         if (position != -1) {
             cards.set(position, card);
-        }else {
-            editText.setError("Error");
         }
     }
 
