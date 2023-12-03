@@ -27,6 +27,7 @@ import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
+import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.daominh.quickmem.ui.activities.search.ViewSearchActivity;
 
 
@@ -133,6 +134,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        binding.createSetsCl.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateSetActivity.class)));
     }
 
     private void refreshData() {
