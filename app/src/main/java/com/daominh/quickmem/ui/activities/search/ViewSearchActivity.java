@@ -36,16 +36,25 @@ public class ViewSearchActivity extends AppCompatActivity {
         binding = ActivityViewSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backIv.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        setupBackButton();
+        setupData();
+        setupSets();
+        setupClasses();
+        setupSearchView();
+    }
 
-        //get data from intent
+    private void setupBackButton() {
+        binding.backIv.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+    }
+
+    private void setupData() {
         flashCardDAO = new FlashCardDAO(this);
         userSharePreferences = new UserSharePreferences(this);
         idUser = userSharePreferences.getId();
         groupDAO = new GroupDAO(this);
+    }
 
-
-        //set data for sets
+    private void setupSets() {
         flashCards = flashCardDAO.getAllFlashCard();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ViewSearchActivity.this, RecyclerView.VERTICAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
@@ -53,15 +62,14 @@ public class ViewSearchActivity extends AppCompatActivity {
         binding.setsRv.setAdapter(setAllAdapter);
         setAllAdapter.notifyDataSetChanged();
 
-        // if list flashcards is empty, gone sets_cl
         if (flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
         }
+    }
 
-
-        //set data for classes
+    private void setupClasses() {
         groups = groupDAO.getAllClasses();
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(ViewSearchActivity.this, RecyclerView.VERTICAL, false);
         binding.classesRv.setLayoutManager(linearLayoutManager1);
@@ -69,14 +77,14 @@ public class ViewSearchActivity extends AppCompatActivity {
         binding.classesRv.setAdapter(classesAllAdapter);
         classesAllAdapter.notifyDataSetChanged();
 
-        // if list classes is empty, gone class_cl
         if (groups.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
         }
+    }
 
-
+    private void setupSearchView() {
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -85,60 +93,66 @@ public class ViewSearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArrayList<FlashCard> flashCards = new ArrayList<>();
-                ArrayList<Group> groups = new ArrayList<>();
-
-                for (FlashCard flashCard : ViewSearchActivity.this.flashCards) {
-                    if (flashCard.getName().toLowerCase().contains(newText.toLowerCase())) {
-                        flashCards.add(flashCard);
-                    }
-                }
-                for (Group group : ViewSearchActivity.this.groups) {
-                    if (group.getName().toLowerCase().contains(newText.toLowerCase())) {
-                        groups.add(group);
-                    }
-                }
-
-                //update adapter with new data
-                setAllAdapter = new SetAllAdapter(ViewSearchActivity.this, flashCards);
-                binding.setsRv.setAdapter(setAllAdapter);
-                setAllAdapter.notifyDataSetChanged();
-
-                classesAllAdapter = new ClassesAllAdapter(ViewSearchActivity.this, groups);
-                binding.classesRv.setAdapter(classesAllAdapter);
-                classesAllAdapter.notifyDataSetChanged();
-
-                // if newtext is empty, enable enter_topic_tv, gone setcl and classcl
-                if (newText.isEmpty()) {
-                    binding.setsCl.setVisibility(View.GONE);
-                    binding.classCl.setVisibility(View.GONE);
-                    binding.noResultTv.setVisibility(View.GONE);
-                    binding.enterTopicTv.setVisibility(View.VISIBLE);
-                } else {
-                    binding.enterTopicTv.setVisibility(View.GONE);
-                    // if flashcards no have data, gone setcl
-                    if (flashCards.isEmpty()) {
-                        binding.setsCl.setVisibility(View.GONE);
-                    } else {
-                        binding.setsCl.setVisibility(View.VISIBLE);
-                    }
-
-                    //if classes no have data, gone classcl
-                    if (groups.isEmpty()) {
-                        binding.classCl.setVisibility(View.GONE);
-                    } else {
-                        binding.classCl.setVisibility(View.VISIBLE);
-                    }
-
-                    //if flashcards and classes no have data, show no_result_tv
-                    if (flashCards.isEmpty() && groups.isEmpty()) {
-                        binding.noResultTv.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.noResultTv.setVisibility(View.GONE);
-                    }
-                }
+                handleSearchQuery(newText);
                 return true;
             }
         });
+    }
+
+    private void handleSearchQuery(String newText) {
+        ArrayList<FlashCard> flashCards = new ArrayList<>();
+        ArrayList<Group> groups = new ArrayList<>();
+
+        for (FlashCard flashCard : ViewSearchActivity.this.flashCards) {
+            if (flashCard.getName().toLowerCase().contains(newText.toLowerCase())) {
+                flashCards.add(flashCard);
+            }
+        }
+        for (Group group : ViewSearchActivity.this.groups) {
+            if (group.getName().toLowerCase().contains(newText.toLowerCase())) {
+                groups.add(group);
+            }
+        }
+
+        updateAdapters(flashCards, groups);
+        updateVisibility(newText, flashCards, groups);
+    }
+
+    private void updateAdapters(ArrayList<FlashCard> flashCards, ArrayList<Group> groups) {
+        setAllAdapter = new SetAllAdapter(ViewSearchActivity.this, flashCards);
+        binding.setsRv.setAdapter(setAllAdapter);
+        setAllAdapter.notifyDataSetChanged();
+
+        classesAllAdapter = new ClassesAllAdapter(ViewSearchActivity.this, groups);
+        binding.classesRv.setAdapter(classesAllAdapter);
+        classesAllAdapter.notifyDataSetChanged();
+    }
+
+    private void updateVisibility(String newText, ArrayList<FlashCard> flashCards, ArrayList<Group> groups) {
+        if (newText.isEmpty()) {
+            binding.setsCl.setVisibility(View.GONE);
+            binding.classCl.setVisibility(View.GONE);
+            binding.noResultTv.setVisibility(View.GONE);
+            binding.enterTopicTv.setVisibility(View.VISIBLE);
+        } else {
+            binding.enterTopicTv.setVisibility(View.GONE);
+            if (flashCards.isEmpty()) {
+                binding.setsCl.setVisibility(View.GONE);
+            } else {
+                binding.setsCl.setVisibility(View.VISIBLE);
+            }
+
+            if (groups.isEmpty()) {
+                binding.classCl.setVisibility(View.GONE);
+            } else {
+                binding.classCl.setVisibility(View.VISIBLE);
+            }
+
+            if (flashCards.isEmpty() && groups.isEmpty()) {
+                binding.noResultTv.setVisibility(View.VISIBLE);
+            } else {
+                binding.noResultTv.setVisibility(View.GONE);
+            }
+        }
     }
 }
