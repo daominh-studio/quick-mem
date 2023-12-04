@@ -37,34 +37,47 @@ import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private User user;
     private UserDAO userDAO;
-    private UserSharePreferences userSharePreferences;
-    private static final String MAX_LENGTH = "30";
+    private static final int MAX_LENGTH = 30;
     private static final String link = "https://avatar-nqm.koyeb.app";
+
+    ActivitySignupBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivitySignupBinding binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        binding = ActivitySignupBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setSupportActionBar(binding.toolbar);
 
-        //icon navigation
+        setupToolbar();
+        setupSocialLoginButtons();
+        setupDateEditText();
+        setupEmailEditText();
+        setupPasswordEditText();
+        setupSignUpButton();
+        setupOnBackPressedCallback();
+    }
+
+    private void setupToolbar() {
         binding.toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, AuthenticationActivity.class));
             finish();
         });
+    }
 
-        //login by social
+    private void setupSocialLoginButtons() {
         binding.facebookBtn.setOnClickListener(v -> {
-//            intentToMain();
+            // intentToMain();
         });
 
         binding.googleBtn.setOnClickListener(v -> {
-//            intentToMain();
+            // intentToMain();
         });
+    }
 
+    private void setupDateEditText() {
         binding.dateEt.setOnClickListener(v -> openDialogDatePicker(binding.dateEt::setText));
 
         binding.dateEt.addTextChangedListener(new TextWatcher() {
@@ -82,11 +95,12 @@ public class SignUpActivity extends AppCompatActivity {
                 handleDateTextChanged(s.toString(), binding);
             }
         });
+    }
 
+    private void setupEmailEditText() {
         binding.emailEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -99,11 +113,12 @@ public class SignUpActivity extends AppCompatActivity {
                 handleEmailTextChanged(s.toString(), binding);
             }
         });
+    }
 
+    private void setupPasswordEditText() {
         binding.passwordEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -116,7 +131,9 @@ public class SignUpActivity extends AppCompatActivity {
                 handlePasswordTextChanged(s.toString(), binding);
             }
         });
+    }
 
+    private void setupSignUpButton() {
         binding.signUpBtn.setOnClickListener(v -> {
             final String date = binding.dateEt.getText().toString();
             final String email = binding.emailEt.getText().toString();
@@ -126,88 +143,77 @@ public class SignUpActivity extends AppCompatActivity {
             if (!handleEmailTextChanged(email, binding)) return;
             if (!handlePasswordTextChanged(password, binding)) return;
 
-            if (date.isEmpty()) {
-                binding.dateTil.setHelperText(getString(R.string.date_is_empty));
-                binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                binding.dateEt.requestFocus();
-            } else if (email.isEmpty()) {
-                binding.emailTil.setHelperText(getString(R.string.email_is_empty));
-                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                binding.emailEt.requestFocus();
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
-                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                binding.emailEt.requestFocus();
-            } else if (password.isEmpty()) {
-                binding.passwordTil.setHelperText(getString(R.string.password_is_empty));
-                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                binding.passwordEt.requestFocus();
-            } else if (password.length() < 8) {
-                binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
-                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                binding.passwordEt.requestFocus();
+            int role = 2;
+            if (binding.radioYesNo.getCheckedRadioButtonId() == binding.radioYes.getId()) {
+                role = 1;
             } else {
-
-                userDAO = new UserDAO(this);
-
-                String uuid = UUID.randomUUID().toString();
-                String username = email.split("@")[0];
-                if (username.length() > 15 || username.length() < 5) {
-                    username = "quickmem" + new Random().nextInt(100000);
-                } else if (userDAO.checkUsername(username)) {
-                    username = username + new Random().nextInt(100);
-                }
-
-                String hashedPassword = PasswordHasher.hashPassword(password);
-                int role;
-                if (binding.teacherLl.getVisibility() == View.VISIBLE) {
-                    if (binding.radioYes.isChecked()) {
-                        role = 1;
-                    } else {
-                        role = 2;
-                    }
-                } else {
-                    role = 2;
-                }
-
-                String createdAt = getCurrentDate();
-                String updatedAt = getCurrentDate();
-                user = new User();
-                final int finalRandom = (int) (Math.random() * (Integer.parseInt(MAX_LENGTH) - 1 + 1) + 1);
-
-                //save link avatar + random
-                String linkAvatar = link + "/images/" + finalRandom + ".png";
-
-
-                user.setId(uuid);
-                user.setName("");
-                user.setEmail(email);
-                user.setUsername(username);
-                user.setPassword(hashedPassword);
-                user.setRole(role);
-                user.setAvatar(linkAvatar);
-                user.setCreated_at(createdAt);
-                user.setUpdated_at(updatedAt);
-                user.setStatus(1);
-
-
-                if (userDAO.insertUser(user) > 0) {
-                    userSharePreferences = new UserSharePreferences(this);
-                    userSharePreferences.setLogin(true);
-                    userSharePreferences.saveUser(user);
-                    userSharePreferences.setAvatar(linkAvatar);
-                    userSharePreferences.setUserName(username);
-                    userSharePreferences.setRole(role);
-                    userSharePreferences.setEmail(email);
-                    intentToMain();
-                } else {
-                    Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
-                }
-
-
+                role = 2;
             }
-        });
 
+            handleSignUp(date, email, password, role);
+        });
+    }
+
+    private void handleSignUp(String date, String email, String password, int role) {
+        // Create a new User object
+        User newUser = new User();
+        newUser.setId(UUID.randomUUID().toString());
+        newUser.setEmail(email);
+        newUser.setAvatar(randomAvatar());
+        newUser.setName("");
+        newUser.setUsername(userNameFromEmail(email));
+        newUser.setRole(role);
+        newUser.setPassword(PasswordHasher.hashPassword(password));
+        newUser.setCreated_at(date);
+        newUser.setUpdated_at(date);
+        newUser.setStatus(1); // Assuming 1 is the status for active users
+
+        // Insert the new user into the database
+        userDAO = new UserDAO(this);
+        long result = userDAO.insertUser(newUser);
+
+        // Check the result of the insert operation
+        if (result > 0) {
+            // The user was inserted successfully
+            Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
+
+            // Save the user to shared preferences
+            saveUserToSharedPreferences(newUser);
+
+            // Navigate to the main activity
+            intentToMain();
+        } else {
+            // The insert operation failed
+            Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
+        }
+        Log.d("SignUpActivity", "handleSignUp: " + result + newUser.getAvatar());
+    }
+
+    //random between 0 and 30
+    private String randomAvatar() {
+        int random = new Random().nextInt(MAX_LENGTH);
+        return link + "/" + random + ".png";
+    }
+
+    private String userNameFromEmail(String email) {
+        if (email.contains("@")) {
+            String userName = email.substring(0, email.indexOf("@"));
+            if (userName.length() > 18 || userName.length() < 4) {
+                return "quickmem" + new Random().nextInt(100000);
+            }
+            return userName;
+        } else {
+            // If the email does not contain the "@" symbol, return a random username
+            return "quickmem" + new Random().nextInt(100000);
+        }
+    }
+
+    private void saveUserToSharedPreferences(User user) {
+        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
+        userSharePreferences.saveUser(user);
+    }
+
+    private void setupOnBackPressedCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -405,7 +411,6 @@ public class SignUpActivity extends AppCompatActivity {
         userDAO = new UserDAO(this);
         return userDAO.checkEmail(email);
     }
-
 
 
 }

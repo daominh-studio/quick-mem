@@ -59,6 +59,11 @@ public class UserSharePreferences {
 
     public void saveUser(User user) {
         setId(user.getId());
+        setUserName(user.getName());
+        setEmail(user.getEmail());
+        setAvatar(user.getAvatar());
+        setRole(user.getRole());
+        setStatus(user.getStatus());
         setLogin(true);
     }
 
