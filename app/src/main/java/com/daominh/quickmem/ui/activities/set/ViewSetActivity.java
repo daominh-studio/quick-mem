@@ -327,8 +327,12 @@ public class ViewSetActivity extends AppCompatActivity {
                             } else if (menuItem.getItemId() == R.id.reset) {
                                 if (isUserOwner()){
                                     cardDAO = new CardDAO(ViewSetActivity.this);
-                                    cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id);
-                                    Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
+                                    if(cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id) > 0L){
+                                        Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(ViewSetActivity.this, getString(R.string.reset_error), Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }else {
                                     Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
                                 }

@@ -143,4 +143,5 @@
     <string name="create_your_own_set">Create your own set</string>
     <string name="finish">Coragetion!</string>
     <string name="finish_quiz">You was done</string>
+    <string name="reset_error">Reset error!</string>
 </resources>
