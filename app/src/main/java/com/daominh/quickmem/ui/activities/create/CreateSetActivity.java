@@ -243,42 +243,67 @@ public class CreateSetActivity extends AppCompatActivity {
             binding.subjectTil.setError(null);
         }
 
-        //save all cards
+        if (!saveAllCards()) {
+            return;
+        }
+
+        if (!saveFlashCard(subject, description)) {
+            Toast.makeText(this, "Insert flashcard failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, ViewSetActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+        finish();
+    }
+
+    private boolean saveAllCards() {
         for (Card card : cards) {
-            String front = card.getFront();
-            String back = card.getBack();
-
-            if (front == null || front.isEmpty()) {
-                binding.cardsLv.requestFocus();
-                Toast.makeText(this, "Please enter front", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (back == null || back.isEmpty()) {
-                binding.cardsLv.requestFocus();
-                Toast.makeText(this, "Please enter back", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            cardDAO = new CardDAO(this);
-            card.setId(genUUID());
-            card.setFront(front);
-            card.setBack(back);
-            card.setStatus(0);
-            card.setIsLearned(0);
-            card.setFlashcard_id(id);
-            card.setCreated_at(getCurrentDate());
-            card.setUpdated_at(getCurrentDate());
-            if (cardDAO.insertCard(card) <= 0) {
-                Toast.makeText(this, "Insert card failed" + id, Toast.LENGTH_SHORT).show();
-                return;
+            if (!saveCard(card)) {
+                return false;
             }
         }
-        //save flashcard
+        return true;
+    }
+
+    private boolean saveCard(Card card) {
+        String front = card.getFront();
+        String back = card.getBack();
+
+        if (front == null || front.isEmpty()) {
+            binding.cardsLv.requestFocus();
+            Toast.makeText(this, "Please enter front", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (back == null || back.isEmpty()) {
+            binding.cardsLv.requestFocus();
+            Toast.makeText(this, "Please enter back", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        cardDAO = new CardDAO(this);
+        card.setId(genUUID());
+        card.setFront(front);
+        card.setBack(back);
+        card.setStatus(0);
+        card.setIsLearned(0);
+        card.setFlashcard_id(id);
+        card.setCreated_at(getCurrentDate());
+        card.setUpdated_at(getCurrentDate());
+        if (cardDAO.insertCard(card) <= 0) {
+            Toast.makeText(this, "Insert card failed" + id, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean saveFlashCard(String subject, String description) {
         flashCardDAO = new FlashCardDAO(this);
         FlashCard flashCard = new FlashCard();
         flashCard.setName(subject);
-
         flashCard.setDescription(description);
         userSharePreferences = new UserSharePreferences(this);
         flashCard.setUser_id(userSharePreferences.getId());
@@ -295,16 +320,7 @@ public class CreateSetActivity extends AppCompatActivity {
             }
         });
 
-
-        if (flashCardDAO.insertFlashCard(flashCard) > 0) {
-            Intent intent = new Intent(this, ViewSetActivity.class);
-            intent.putExtra("id", flashCard.getId());
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Insert flashcard failed", Toast.LENGTH_SHORT).show();
-        }
-
+        return flashCardDAO.insertFlashCard(flashCard) > 0;
     }
 
     private void updateToolbarTitle() {
