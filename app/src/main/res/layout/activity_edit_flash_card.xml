@@ -66,6 +66,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+                app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/description_til"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
