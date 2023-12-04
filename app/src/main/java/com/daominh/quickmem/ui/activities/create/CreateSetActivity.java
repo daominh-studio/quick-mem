@@ -51,10 +51,7 @@ public class CreateSetActivity extends AppCompatActivity {
     ActivityCreateSetBinding binding;
     CardDAO cardDAO;
     FlashCardDAO flashCardDAO;
-
     UserSharePreferences userSharePreferences;
-
-
     final String id = genUUID();
 
     @SuppressLint("NotifyDataSetChanged")
@@ -65,35 +62,52 @@ public class CreateSetActivity extends AppCompatActivity {
         final View view = binding.getRoot();
         setContentView(view);
 
+        setupToolbar();
+        setupSubjectEditText();
+        setupDescriptionTextView();
+        setupCardsList();
+        setupCardAdapter();
+        setupAddFab();
+        setupItemTouchHelper();
+    }
+
+    private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+    }
 
-
+    private void setupSubjectEditText() {
         if (binding.subjectEt.getText().toString().isEmpty()) {
             binding.subjectEt.requestFocus();
         }
+    }
 
-
+    private void setupDescriptionTextView() {
         binding.descriptionTv.setOnClickListener(v -> binding.descriptionTil.setVisibility(View.VISIBLE));
+    }
 
+    private void setupCardsList() {
         //create list two set
         cards = new ArrayList<>();
         cards.add(new Card());
         cards.add(new Card());
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void setupCardAdapter() {
         cardAdapter = new CardAdapter(this, cards);
         binding.cardsLv.setAdapter(cardAdapter);
         binding.cardsLv.setLayoutManager(new LinearLayoutManager(this));
         binding.cardsLv.setHasFixedSize(true);
         cardAdapter.notifyDataSetChanged();
 
-
         cardAdapter.setOnItemClickListener(position -> {
             selectedPosition = position;
             updateToolbarTitle();
         });
+    }
 
-
+    private void setupAddFab() {
         binding.addFab.setOnClickListener(v -> {
             cards.add(new Card());
             selectedPosition = cards.size() - 1;
@@ -111,71 +125,81 @@ public class CreateSetActivity extends AppCompatActivity {
                 }
             });
         });
+    }
 
+    private void setupItemTouchHelper() {
+        ItemTouchHelper.SimpleCallback callback = createItemTouchHelperCallback();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(binding.cardsLv);
+    }
 
-        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private ItemTouchHelper.SimpleCallback createItemTouchHelperCallback() {
+        return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getBindingAdapterPosition();
-
-                // Backup of removed item for undo purpose
-                Card deletedItem = cards.get(position);
-
-                // Removing item from recycler view
-                cards.remove(position);
-                cardAdapter.notifyItemRemoved(position);
-
-                // Showing Snack bar with an Undo option
-                Snackbar snackbar = Snackbar.make(binding.getRoot(), "Item was removed from the list.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("UNDO", view -> {
-
-                    // Check if the position is valid before adding the item back
-                    if (position >= 0 && position <= cards.size()) {
-                        cards.add(position, deletedItem);
-                        cardAdapter.notifyItemInserted(position);
-                    } else {
-                        // If the position isn't valid, show a message or handle the error appropriately
-                        Toast.makeText(getApplicationContext(), "Error restoring item", Toast.LENGTH_LONG).show();
-                    }
-                });
-                snackbar.setActionTextColor(Color.YELLOW);
-                snackbar.show();
+            public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+                handleOnSwiped(viewHolder);
             }
 
             @Override
             public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
-                Drawable icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete);
-                View itemView = viewHolder.itemView;
-                assert icon != null;
-                int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-                int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-                int iconBottom = iconTop + icon.getIntrinsicHeight();
-
-                if (dX < 0) { // Swiping to the left
-                    int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
-                    int iconRight = itemView.getRight() - iconMargin;
-                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-
-                    final ColorDrawable background = new ColorDrawable(Color.WHITE);
-                    background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                    background.draw(c);
-                } else { // No swipe
-                    icon.setBounds(0, 0, 0, 0);
-                }
-
-                icon.draw(c);
+                handleOnChildDraw(c, viewHolder, dX);
             }
         };
+    }
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(binding.cardsLv);
+    private void handleOnSwiped(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getBindingAdapterPosition();
+
+        // Backup of removed item for undo purpose
+        Card deletedItem = cards.get(position);
+
+        // Removing item from recycler view
+        cards.remove(position);
+        cardAdapter.notifyItemRemoved(position);
+
+        // Showing Snack bar with an Undo option
+        Snackbar snackbar = Snackbar.make(binding.getRoot(), "Item was removed from the list.", Snackbar.LENGTH_LONG);
+        snackbar.setAction("UNDO", view -> {
+
+            // Check if the position is valid before adding the item back
+            if (position >= 0 && position <= cards.size()) {
+                cards.add(position, deletedItem);
+                cardAdapter.notifyItemInserted(position);
+            } else {
+                // If the position isn't valid, show a message or handle the error appropriately
+                Toast.makeText(getApplicationContext(), "Error restoring item", Toast.LENGTH_LONG).show();
+            }
+        });
+        snackbar.setActionTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
+    private void handleOnChildDraw(@NotNull Canvas c, @NotNull RecyclerView.ViewHolder viewHolder, float dX) {
+        Drawable icon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete);
+        View itemView = viewHolder.itemView;
+        assert icon != null;
+        int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+        int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+        int iconBottom = iconTop + icon.getIntrinsicHeight();
+
+        if (dX < 0) { // Swiping to the left
+            int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+            int iconRight = itemView.getRight() - iconMargin;
+            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+            final ColorDrawable background = new ColorDrawable(Color.WHITE);
+            background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+            background.draw(c);
+        } else { // No swipe
+            icon.setBounds(0, 0, 0, 0);
+        }
+
+        icon.draw(c);
     }
 
     @Override
@@ -272,7 +296,6 @@ public class CreateSetActivity extends AppCompatActivity {
         });
 
 
-
         if (flashCardDAO.insertFlashCard(flashCard) > 0) {
             Intent intent = new Intent(this, ViewSetActivity.class);
             intent.putExtra("id", flashCard.getId());
@@ -315,6 +338,7 @@ public class CreateSetActivity extends AppCompatActivity {
         userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String getCurrentDateNewApi() {
         LocalDate currentDate = LocalDate.now();
