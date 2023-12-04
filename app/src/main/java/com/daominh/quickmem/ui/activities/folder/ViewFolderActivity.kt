@@ -32,6 +32,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     private val folderDAO by lazy { FolderDAO(this) }
     private lateinit var adapter: SetFolderViewAdapter
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -91,100 +92,17 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     override fun onSheetItemSelected(bottomSheet: BottomSheetMenuDialogFragment, item: MenuItem, `object`: Any?) {
         when (item.itemId) {
             R.id.edit_folder -> {
-                val builder = AlertDialog.Builder(this)
-                val dialogBinding = DialogCreateFolderBinding.inflate(layoutInflater)
-
-                //set data
-                val id = intent.getStringExtra("id")
-                val folder = folderDAO.getFolderById(id)
-                dialogBinding.folderEt.setText(folder.name)
-                dialogBinding.descriptionEt.setText(folder.description)
-
-                builder.setView(dialogBinding.root)
-                builder.setCancelable(true)
-                val dialog = builder.create()
-
-                dialogBinding.folderEt.requestFocus()
-                dialogBinding.cancelTv.setOnClickListener {
-                    dialog.dismiss()
-                }
-                dialogBinding.okTv.setOnClickListener {
-                    val name = dialogBinding.folderEt.text.toString()
-                    val description = dialogBinding.descriptionEt.text.toString()
-
-                    if (name.isEmpty()) {
-                        Toast.makeText(this, "Please enter folder name", Toast.LENGTH_SHORT).show()
-                    } else {
-                        folder.name = name
-                        folder.description = description
-                        if (folderDAO.updateFolder(folder) > 0L) {
-                            Toast.makeText(this, "Update folder successfully", Toast.LENGTH_SHORT).show()
-                            //refresh data folder
-                            binding.folderNameTv.text = folder.name
-                            binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(this, "Update folder failed", Toast.LENGTH_SHORT).show()
-                            dialog.dismiss()
-                            onBackPressedDispatcher.onBackPressed()
-                        }
-                    }
-                }
-                dialog.show()
+                handleEditFolder()
             }
+
             R.id.delete_folder -> {
 
-                PopupDialog.getInstance(this)
-                    .setStyle(Styles.STANDARD)
-                    .setHeading("Delete Folder")
-                    .setDescription("Are you sure you want to delete this folder?")
-                    .setPopupDialogIcon(R.drawable.ic_delete)
-                    .setCancelable(true)
-                    .showDialog(
-                        object : OnDialogButtonClickListener() {
-                            override fun onPositiveClicked(dialog: Dialog?) {
-                                super.onPositiveClicked(dialog)
-                                if (folderDAO.deleteFolder(intent.getStringExtra("id")) > 0L) {
-                                    PopupDialog.getInstance(this@ViewFolderActivity)
-                                        .setStyle(Styles.SUCCESS)
-                                        .setHeading(getString(R.string.success))
-                                        .setDescription(getString(R.string.delete_set_success))
-                                        .setCancelable(false)
-                                        .setDismissButtonText(getString(R.string.ok))
-                                        .showDialog(object : OnDialogButtonClickListener() {
-                                            override fun onDismissClicked(dialog: Dialog) {
-                                                super.onDismissClicked(dialog)
-                                                finish()
-                                            }
-                                        })
-                                } else {
-                                    PopupDialog.getInstance(this@ViewFolderActivity)
-                                        .setStyle(Styles.FAILED)
-                                        .setHeading(getString(R.string.error))
-                                        .setDescription(getString(R.string.delete_set_error))
-                                        .setCancelable(true)
-                                        .showDialog(object : OnDialogButtonClickListener() {
-                                            override fun onPositiveClicked(dialog: Dialog) {
-                                                super.onPositiveClicked(dialog)
-                                            }
-                                        })
-                                }
-                            }
+                handleDeleteFolder()
 
-                            override fun onNegativeClicked(dialog: Dialog?) {
-                                super.onNegativeClicked(dialog)
-                                dialog?.dismiss()
-                            }
-                        }
-                    )
             }
 
             R.id.add_set -> {
-                val id = intent.getStringExtra("id")
-                Toast.makeText(this, "Add set$id", Toast.LENGTH_SHORT).show()
-                val newIntent = Intent(this, AddFlashCardActivity::class.java)
-                newIntent.putExtra("id_folder", id)
-                startActivity(newIntent)
+                handleAddSet()
 
             }
 
@@ -192,6 +110,106 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
 
             }
         }
+    }
+
+    private fun handleAddSet() {
+        val id = intent.getStringExtra("id")
+        Toast.makeText(this, "Add set$id", Toast.LENGTH_SHORT).show()
+        val newIntent = Intent(this, AddFlashCardActivity::class.java)
+        newIntent.putExtra("id_folder", id)
+        startActivity(newIntent)
+    }
+
+    private fun handleDeleteFolder() {
+        PopupDialog.getInstance(this)
+            .setStyle(Styles.STANDARD)
+            .setHeading("Delete Folder")
+            .setDescription("Are you sure you want to delete this folder?")
+            .setPopupDialogIcon(R.drawable.ic_delete)
+            .setCancelable(true)
+            .showDialog(
+                object : OnDialogButtonClickListener() {
+                    override fun onPositiveClicked(dialog: Dialog?) {
+                        super.onPositiveClicked(dialog)
+                        if (folderDAO.deleteFolder(intent.getStringExtra("id")) > 0L) {
+                            PopupDialog.getInstance(this@ViewFolderActivity)
+                                .setStyle(Styles.SUCCESS)
+                                .setHeading(getString(R.string.success))
+                                .setDescription(getString(R.string.delete_set_success))
+                                .setCancelable(false)
+                                .setDismissButtonText(getString(R.string.ok))
+                                .showDialog(object : OnDialogButtonClickListener() {
+                                    override fun onDismissClicked(dialog: Dialog) {
+                                        super.onDismissClicked(dialog)
+                                        finish()
+                                    }
+                                })
+                        } else {
+                            PopupDialog.getInstance(this@ViewFolderActivity)
+                                .setStyle(Styles.FAILED)
+                                .setHeading(getString(R.string.error))
+                                .setDescription(getString(R.string.delete_set_error))
+                                .setCancelable(true)
+                                .showDialog(object : OnDialogButtonClickListener() {
+                                    override fun onPositiveClicked(dialog: Dialog) {
+                                        super.onPositiveClicked(dialog)
+                                    }
+                                })
+                        }
+                    }
+
+                    override fun onNegativeClicked(dialog: Dialog?) {
+                        super.onNegativeClicked(dialog)
+                        dialog?.dismiss()
+                    }
+                }
+            )
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun handleEditFolder() {
+
+        val builder = AlertDialog.Builder(this)
+        val dialogBinding = DialogCreateFolderBinding.inflate(layoutInflater)
+
+        //set data
+        val id = intent.getStringExtra("id")
+        val folder = folderDAO.getFolderById(id)
+        dialogBinding.folderEt.setText(folder.name)
+        dialogBinding.descriptionEt.setText(folder.description)
+
+        builder.setView(dialogBinding.root)
+        builder.setCancelable(true)
+        val dialog = builder.create()
+
+        dialogBinding.folderEt.requestFocus()
+        dialogBinding.cancelTv.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.okTv.setOnClickListener {
+            val name = dialogBinding.folderEt.text.toString()
+            val description = dialogBinding.descriptionEt.text.toString()
+
+            if (name.isEmpty()) {
+                Toast.makeText(this, "Please enter folder name", Toast.LENGTH_SHORT).show()
+            } else {
+                folder.name = name
+                folder.description = description
+                if (folderDAO.updateFolder(folder) > 0L) {
+                    Toast.makeText(this, "Update folder successfully", Toast.LENGTH_SHORT).show()
+                    //refresh data folder
+                    binding.folderNameTv.text = folder.name
+                    binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(this, "Update folder failed", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+        dialog.show()
+
     }
 
     override fun onSheetShown(bottomSheet: BottomSheetMenuDialogFragment, `object`: Any?) {
@@ -209,9 +227,5 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.setRv.adapter = adapter
         adapter.notifyDataSetChanged()
 
-
-
     }
-
-
 }
