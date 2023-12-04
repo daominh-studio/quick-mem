@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.flashcard.SetCopyAdapter;
-import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentViewSetsBinding;

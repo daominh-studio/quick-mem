@@ -176,13 +176,12 @@ public class SignInActivity extends AppCompatActivity {
             binding.emailTil.setHelperText(getString(R.string.email_is_empty));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.emailEt.requestFocus();
-
             return false;
-        } else {
-            binding.emailTil.setHelperText(getString(R.string.email));
-            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
-            return true;
         }
+
+        binding.emailTil.setHelperText(getString(R.string.email));
+        binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
+        return true;
     }
 
     private boolean handlePasswordTextChanged(String text, ActivitySigninBinding binding) {
@@ -190,15 +189,12 @@ public class SignInActivity extends AppCompatActivity {
             binding.passwordTil.setHelperText(getString(R.string.password_is_empty));
             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.passwordEt.requestFocus();
-
             return false;
-        } else {
-            binding.passwordTil.setHelperText(getString(R.string.password));
-            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
-
-            return true;
         }
 
+        binding.passwordTil.setHelperText(getString(R.string.password));
+        binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
+        return true;
     }
 
     @Override
@@ -227,12 +223,28 @@ public class SignInActivity extends AppCompatActivity {
         binding.cancelTv.setOnClickListener(v -> alertDialog.dismiss());
 
         //show keyboard automatically
+        showKeyboardAutomatically(binding);
+
+        binding.emailEt.addTextChangedListener(createEmailTextWatcher(binding));
+
+        binding.okTv.setOnClickListener(v -> handleOkButtonClick(binding, alertDialog));
+
+        alertDialog.show();
+    }
+
+    //show keyboard automatically
+
+    private void showKeyboardAutomatically(DialogForgotUsernameBinding binding) {
         binding.emailEt.postDelayed(() -> {
             binding.emailEt.requestFocus();
             binding.emailEt.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
             binding.emailEt.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
         }, 100);
-        binding.emailEt.addTextChangedListener(new TextWatcher() {
+    }
+
+    //check format email
+    private TextWatcher createEmailTextWatcher(DialogForgotUsernameBinding binding) {
+        return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 handleEmailUserTextChanged(s.toString(), binding);
@@ -247,27 +259,27 @@ public class SignInActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 handleEmailUserTextChanged(s.toString(), binding);
             }
-        });
-
-        binding.okTv.setOnClickListener(v -> {
-            String email = binding.emailEt.getText().toString();
-            if (handleEmailUserTextChanged(email, binding)) {
-                userDAO = new UserDAO(SignInActivity.this);
-                if (!userDAO.checkEmail(email)) {
-                    binding.emailEt.setError(getString(R.string.email_is_not_exist));
-                    return;
-                } else {
-                    binding.emailEt.setError(null);
-                    alertDialog.dismiss();
-                }
-                user = userDAO.getUserByEmail(email);
-                Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        alertDialog.show();
-
+        };
     }
+
+    //handle ok button click
+    private void handleOkButtonClick(DialogForgotUsernameBinding binding, AlertDialog alertDialog) {
+        String email = binding.emailEt.getText().toString();
+        if (handleEmailUserTextChanged(email, binding)) {
+            userDAO = new UserDAO(SignInActivity.this);
+            if (!userDAO.checkEmail(email)) {
+                binding.emailEt.setError(getString(R.string.email_is_not_exist));
+                return;
+            } else {
+                binding.emailEt.setError(null);
+                alertDialog.dismiss();
+            }
+            user = userDAO.getUserByEmail(email);
+            Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //check format email
 
     private void openDialogPassword() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -279,7 +291,15 @@ public class SignInActivity extends AppCompatActivity {
 
         binding.cancelTv.setOnClickListener(v -> alertDialog.dismiss());
 
-        binding.emailOrUsernameEt.addTextChangedListener(new TextWatcher() {
+        binding.emailOrUsernameEt.addTextChangedListener(createEmailUserForgotPasswordTextWatcher(binding));
+
+        binding.okTv.setOnClickListener(v -> handleOkPasswordButtonClick(binding, alertDialog));
+
+        alertDialog.show();
+    }
+
+    private TextWatcher createEmailUserForgotPasswordTextWatcher(DialogForGotPasswordBinding binding) {
+        return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 handleEmailUserForgotPasswordTextChanged(s.toString(), binding);
@@ -294,50 +314,52 @@ public class SignInActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 handleEmailUserForgotPasswordTextChanged(s.toString(), binding);
             }
-        });
-
-        binding.okTv.setOnClickListener(v -> {
-            String emailOrUsername = binding.emailOrUsernameEt.getText().toString();
-            if (handleEmailUserForgotPasswordTextChanged(emailOrUsername, binding)) {
-                userDAO = new UserDAO(SignInActivity.this);
-                if (Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
-                    if (!userDAO.checkEmail(emailOrUsername)) {
-                        binding.emailOrUsernameEt.setError(getString(R.string.email_is_not_exist));
-                        return;
-                    } else {
-                        binding.emailOrUsernameEt.setError(null);
-                        alertDialog.dismiss();
-                    }
-                    Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
-                    if (!userDAO.checkUsername(emailOrUsername)) {
-                        binding.emailOrUsernameEt.setError(getString(R.string.user_is_not_exist));
-                        return;
-                    } else {
-                        binding.emailOrUsernameEt.setError(null);
-                        alertDialog.dismiss();
-                    }
-                    Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        alertDialog.show();
+        };
     }
+
+    private void handleOkPasswordButtonClick(DialogForGotPasswordBinding binding, AlertDialog alertDialog) {
+        String emailOrUsername = binding.emailOrUsernameEt.getText().toString();
+        if (handleEmailUserForgotPasswordTextChanged(emailOrUsername, binding)) {
+            userDAO = new UserDAO(SignInActivity.this);
+            if (Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
+                if (!userDAO.checkEmail(emailOrUsername)) {
+                    binding.emailOrUsernameEt.setError(getString(R.string.email_is_not_exist));
+                    return;
+                } else {
+                    binding.emailOrUsernameEt.setError(null);
+                    alertDialog.dismiss();
+                }
+                Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(emailOrUsername).matches()) {
+                if (!userDAO.checkUsername(emailOrUsername)) {
+                    binding.emailOrUsernameEt.setError(getString(R.string.user_is_not_exist));
+                    return;
+                } else {
+                    binding.emailOrUsernameEt.setError(null);
+                    alertDialog.dismiss();
+                }
+                Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //check format email
 
     private boolean handleEmailUserTextChanged(String text, DialogForgotUsernameBinding binding) {
         if (text.isEmpty()) {
             binding.emailEt.requestFocus();
             binding.emailEt.setError(getString(R.string.email_is_empty));
-
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
             binding.emailEt.requestFocus();
             binding.emailEt.setError(getString(R.string.email_is_invalid));
             return false;
-        } else {
-            binding.emailEt.setError(null);
-            return true;
         }
+
+        binding.emailEt.setError(null);
+        return true;
     }
 
     //check format email and username
@@ -345,16 +367,16 @@ public class SignInActivity extends AppCompatActivity {
         if (text.isEmpty()) {
             binding.emailOrUsernameEt.requestFocus();
             binding.emailOrUsernameEt.setError(getString(R.string.email_is_empty));
-
             return false;
-        } else if (text.contains("@") && !Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+        }
+
+        if (text.contains("@") && !Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
             binding.emailOrUsernameEt.requestFocus();
             binding.emailOrUsernameEt.setError(getString(R.string.email_is_invalid));
             return false;
-        } else {
-            binding.emailOrUsernameEt.setError(null);
-            return true;
         }
-    }
 
+        binding.emailOrUsernameEt.setError(null);
+        return true;
+    }
 }
