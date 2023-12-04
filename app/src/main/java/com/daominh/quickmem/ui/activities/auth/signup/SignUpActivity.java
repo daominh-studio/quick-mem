@@ -39,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private UserDAO userDAO;
     private static final int MAX_LENGTH = 30;
-    private static final String link = "https://avatar-nqm.koyeb.app";
+    private static final String link = "https://avatar-nqm.koyeb.app/images";
 
     ActivitySignupBinding binding;
 

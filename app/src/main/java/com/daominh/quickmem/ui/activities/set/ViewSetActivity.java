@@ -70,7 +70,14 @@ public class ViewSetActivity extends AppCompatActivity {
         setupCardData();
         setupNavigationListener();
         setupScrollListeners();
+        setupOnScrollListener();
+        setupUserDetails();
+        setupReviewClickListener();
+        setupLearnClickListener();
+        setupToolbarNavigation();
+    }
 
+    private void setupOnScrollListener() {
         binding.recyclerViewSet.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -82,7 +89,10 @@ public class ViewSetActivity extends AppCompatActivity {
                 binding.nextTv.setText(centerPosition < cards.size() ? String.valueOf(centerPosition + 1) : "");
             }
         });
+    }
 
+    @SuppressLint("SetTextI18n")
+    private void setupUserDetails() {
         String id = getIntent().getStringExtra("id");
         UserDAO userDAO = new UserDAO(this);
         flashCardDAO = new FlashCardDAO(this);
@@ -96,79 +106,101 @@ public class ViewSetActivity extends AppCompatActivity {
         binding.setNameTv.setText(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getName());
 
         userSharePreferences = new UserSharePreferences(this);
+    }
 
+    private void setupReviewClickListener() {
         binding.reviewCl.setOnClickListener(v -> {
             if (!isUserOwner()) {
-                PopupDialog.getInstance(this)
-                        .setStyle(Styles.STANDARD)
-                        .setHeading(getString(R.string.error))
-                        .setDescription(getString(R.string.review_error))
-                        .setDismissButtonText(getString(R.string.ok))
-                        .setNegativeButtonText(getString(R.string.cancel))
-                        .setPositiveButtonText(getString(R.string.ok))
-                        .setCancelable(true)
-                        .showDialog(new OnDialogButtonClickListener() {
-                            @Override
-                            public void onNegativeClicked(Dialog dialog) {
-                                super.onNegativeClicked(dialog);
-                            }
-
-                            @Override
-                            public void onPositiveClicked(Dialog dialog) {
-                                super.onPositiveClicked(dialog);
-                                copyFlashCard();
-                                PopupDialog.getInstance(ViewSetActivity.this)
-                                        .setStyle(Styles.SUCCESS)
-                                        .setHeading(getString(R.string.success))
-                                        .setDescription(getString(R.string.review_success))
-                                        .setCancelable(false)
-                                        .setDismissButtonText(getString(R.string.view))
-                                        .showDialog(new OnDialogButtonClickListener() {
-                                            @Override
-                                            public void onDismissClicked(Dialog dialog) {
-                                                super.onDismissClicked(dialog);
-                                                dialog.dismiss();
-                                                Intent intent = new Intent(ViewSetActivity.this, ViewSetActivity.class);
-                                                intent.putExtra("id", idCard);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        });
-                            }
-                        });
-                return;
-            }else {
+               showLearnErrorDialog();
+            } else {
                 Intent intent = new Intent(this, LearnActivity.class);
                 intent.putExtra("id", getIntent().getStringExtra("id"));
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupLearnClickListener() {
         binding.learnCl.setOnClickListener(v -> {
             cardDAO = new CardDAO(this);
-            if (cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) < 4) {
-                PopupDialog.getInstance(this)
-                        .setStyle(Styles.FAILED)
-                        .setHeading(getString(R.string.error))
-                        .setDescription(getString(R.string.learn_error))
-                        .setDismissButtonText(getString(R.string.ok))
-                        .setCancelable(true)
-                        .showDialog(new OnDialogButtonClickListener() {
-                            @Override
-                            public void onDismissClicked(Dialog dialog) {
-                                super.onDismissClicked(dialog);
-                                dialog.dismiss();
-                            }
-                        });
+
+            if (!isUserOwner()) {
+                showLearnErrorDialog();
                 return;
             }
-            Intent intent = new Intent(this, QuizActivity.class);
-            intent.putExtra("id", getIntent().getStringExtra("id"));
-            startActivity(intent);
 
+            if (cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) < 4) {
+                showReviewErrorDialog();
+            } else {
+                Intent intent = new Intent(this, QuizActivity.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
+                startActivity(intent);
+            }
         });
+    }
 
+    private void showReviewErrorDialog() {
+        PopupDialog.getInstance(this)
+                .setStyle(Styles.FAILED)
+                .setHeading(getString(R.string.error))
+                .setDescription(getString(R.string.learn_error))
+                .setDismissButtonText(getString(R.string.ok))
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onDismissClicked(Dialog dialog) {
+                        super.onDismissClicked(dialog);
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    private void showLearnErrorDialog() {
+        PopupDialog.getInstance(this)
+                .setStyle(Styles.STANDARD)
+                .setHeading(getString(R.string.error))
+                .setDescription(getString(R.string.review_error))
+                .setPopupDialogIcon(R.drawable.baseline_error_24)
+                .setDismissButtonText(getString(R.string.ok))
+                .setNegativeButtonText(getString(R.string.cancel))
+                .setPositiveButtonText(getString(R.string.ok))
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onNegativeClicked(Dialog dialog) {
+                        super.onNegativeClicked(dialog);
+                    }
+
+                    @Override
+                    public void onPositiveClicked(Dialog dialog) {
+                        super.onPositiveClicked(dialog);
+                        copyFlashCard();
+                        PopupDialog.getInstance(ViewSetActivity.this)
+                                .setStyle(Styles.SUCCESS)
+                                .setHeading(getString(R.string.success))
+                                .setDescription(getString(R.string.review_success))
+                                .setCancelable(false)
+                                .setDismissButtonText(getString(R.string.view))
+                                .showDialog(new OnDialogButtonClickListener() {
+                                    @Override
+                                    public void onDismissClicked(Dialog dialog) {
+                                        super.onDismissClicked(dialog);
+                                        dialog.dismiss();
+                                        Intent intent = new Intent(ViewSetActivity.this, ViewSetActivity.class);
+                                        intent.putExtra("id", idCard);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                    }
+                });
+        return;
+
+    }
+
+
+    private void setupToolbarNavigation() {
         binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-
     }
 
     private void setupRecyclerView(Bundle savedInstanceState) {
@@ -237,7 +269,6 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu) {
@@ -256,66 +287,66 @@ public class ViewSetActivity extends AppCompatActivity {
 
 
                             if (menuItem.getItemId() == R.id.edit) {
-                               if (isUserOwner()){
-                                   Intent intent = new Intent(ViewSetActivity.this, EditFlashCardActivity.class);
-                                   intent.putExtra("flashcard_id", id);
-                                   startActivity(intent);
-                                 }else {
-                                   Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
-                               }
+                                if (isUserOwner()) {
+                                    Intent intent = new Intent(ViewSetActivity.this, EditFlashCardActivity.class);
+                                    intent.putExtra("flashcard_id", id);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (menuItem.getItemId() == R.id.delete_set) {
-                              if (isUserOwner()){
-                                  //dialog are you sure?
-                                  PopupDialog.getInstance(ViewSetActivity.this)
-                                          .setStyle(Styles.STANDARD)
-                                          .setHeading(getString(R.string.delete_set))
-                                          .setDescription(getString(R.string.delete_set_description))
-                                          .setPopupDialogIcon(R.drawable.ic_delete)
-                                          .setCancelable(true)
-                                          .showDialog(new OnDialogButtonClickListener() {
-                                              @Override
-                                              public void onPositiveClicked(Dialog dialog) {
-                                                  super.onPositiveClicked(dialog);
-                                                  FlashCardDAO flashCardDAO = new FlashCardDAO(ViewSetActivity.this);
-                                                  if (flashCardDAO.deleteFlashcardAndCards(getIntent().getStringExtra("id"))) {
-                                                      PopupDialog.getInstance(ViewSetActivity.this)
-                                                              .setStyle(Styles.SUCCESS)
-                                                              .setHeading(getString(R.string.success))
-                                                              .setDescription(getString(R.string.delete_set_success))
-                                                              .setCancelable(false)
-                                                              .setDismissButtonText(getString(R.string.ok))
-                                                              .showDialog(new OnDialogButtonClickListener() {
-                                                                  @Override
-                                                                  public void onDismissClicked(Dialog dialog) {
-                                                                      super.onDismissClicked(dialog);
-                                                                      finish();
-                                                                  }
-                                                              });
-                                                  } else {
-                                                      PopupDialog.getInstance(ViewSetActivity.this)
-                                                              .setStyle(Styles.FAILED)
-                                                              .setHeading(getString(R.string.error))
-                                                              .setDescription(getString(R.string.delete_set_error))
-                                                              .setCancelable(true)
-                                                              .showDialog(new OnDialogButtonClickListener() {
-                                                                  @Override
-                                                                  public void onPositiveClicked(Dialog dialog) {
-                                                                      super.onPositiveClicked(dialog);
-                                                                  }
-                                                              });
-                                                  }
+                                if (isUserOwner()) {
+                                    //dialog are you sure?
+                                    PopupDialog.getInstance(ViewSetActivity.this)
+                                            .setStyle(Styles.STANDARD)
+                                            .setHeading(getString(R.string.delete_set))
+                                            .setDescription(getString(R.string.delete_set_description))
+                                            .setPopupDialogIcon(R.drawable.ic_delete)
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onPositiveClicked(Dialog dialog) {
+                                                    super.onPositiveClicked(dialog);
+                                                    FlashCardDAO flashCardDAO = new FlashCardDAO(ViewSetActivity.this);
+                                                    if (flashCardDAO.deleteFlashcardAndCards(getIntent().getStringExtra("id"))) {
+                                                        PopupDialog.getInstance(ViewSetActivity.this)
+                                                                .setStyle(Styles.SUCCESS)
+                                                                .setHeading(getString(R.string.success))
+                                                                .setDescription(getString(R.string.delete_set_success))
+                                                                .setCancelable(false)
+                                                                .setDismissButtonText(getString(R.string.ok))
+                                                                .showDialog(new OnDialogButtonClickListener() {
+                                                                    @Override
+                                                                    public void onDismissClicked(Dialog dialog) {
+                                                                        super.onDismissClicked(dialog);
+                                                                        finish();
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        PopupDialog.getInstance(ViewSetActivity.this)
+                                                                .setStyle(Styles.FAILED)
+                                                                .setHeading(getString(R.string.error))
+                                                                .setDescription(getString(R.string.delete_set_error))
+                                                                .setCancelable(true)
+                                                                .showDialog(new OnDialogButtonClickListener() {
+                                                                    @Override
+                                                                    public void onPositiveClicked(Dialog dialog) {
+                                                                        super.onPositiveClicked(dialog);
+                                                                    }
+                                                                });
+                                                    }
 
-                                              }
+                                                }
 
-                                              @Override
-                                              public void onNegativeClicked(Dialog dialog) {
-                                                  super.onNegativeClicked(dialog);
-                                                  dialog.dismiss();
-                                              }
-                                          });
-                              }else {
-                                  Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
-                              }
+                                                @Override
+                                                public void onNegativeClicked(Dialog dialog) {
+                                                    super.onNegativeClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (menuItem.getItemId() == R.id.add_to_folder) {
                                 Intent intent = new Intent(ViewSetActivity.this, AddToFolderActivity.class);
                                 intent.putExtra("flashcard_id", id);
@@ -325,15 +356,15 @@ public class ViewSetActivity extends AppCompatActivity {
                                 intent.putExtra("flashcard_id", id);
                                 startActivity(intent);
                             } else if (menuItem.getItemId() == R.id.reset) {
-                                if (isUserOwner()){
+                                if (isUserOwner()) {
                                     cardDAO = new CardDAO(ViewSetActivity.this);
-                                    if(cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id) > 0L){
+                                    if (cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id) > 0L) {
                                         Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
-                                    }else {
+                                    } else {
                                         Toast.makeText(ViewSetActivity.this, getString(R.string.reset_error), Toast.LENGTH_SHORT).show();
                                     }
 
-                                }else {
+                                } else {
                                     Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
                                 }
 
@@ -355,7 +386,7 @@ public class ViewSetActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void copyFlashCard(){
+    private void copyFlashCard() {
         String id = getIntent().getStringExtra("id");
         userSharePreferences = new UserSharePreferences(this);
         flashCardDAO = new FlashCardDAO(this);
@@ -374,9 +405,9 @@ public class ViewSetActivity extends AppCompatActivity {
             card.setStatus(0);
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
-            if (cardDAO.insertCard(card) > 0L){
+            if (cardDAO.insertCard(card) > 0L) {
                 Toast.makeText(this, getString(R.string.review_success), Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Toast.makeText(this, getString(R.string.review_error), Toast.LENGTH_SHORT).show();
             }
         }
@@ -399,6 +430,7 @@ public class ViewSetActivity extends AppCompatActivity {
         userSharePreferences = new UserSharePreferences(this);
         return userSharePreferences.getId();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String getCurrentDateNewApi() {
         LocalDate currentDate = LocalDate.now();
