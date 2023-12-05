@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         navController.setGraph(navGraphId);
-
         binding.bottomNavigationView.getMenu().clear();
         binding.bottomNavigationView.inflateMenu(menuId);
 

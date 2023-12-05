@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.fragments.library;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -50,22 +51,33 @@ public class MyClassesFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupUserPreferences();
+        setupCreateButton();
+        setupClasses();
+        setupRecyclerView();
+    }
+
+    private void setupUserPreferences() {
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
+    }
 
+    private void setupCreateButton() {
         UserDAO userDAO = new UserDAO(getContext());
         User user = userDAO.getUserById(idUser);
         if (user.getRole() == 2) {
             binding.createSetBtn.setVisibility(View.GONE);
         }
         binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateClassActivity.class)));
+    }
 
+    private void setupClasses() {
         classes = groupDAO.getClassesOwnedByUser(idUser);
         classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
-
         if (classes.isEmpty()) {
             binding.classesCl.setVisibility(View.VISIBLE);
             binding.classesRv.setVisibility(View.GONE);
@@ -73,21 +85,23 @@ public class MyClassesFragment extends Fragment {
             binding.classesCl.setVisibility(View.GONE);
             binding.classesRv.setVisibility(View.VISIBLE);
         }
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void setupRecyclerView() {
         classAdapter = new ClassCopyAdapter(requireActivity(), classes);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.classesRv.setLayoutManager(linearLayoutManager2);
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
-
     }
-
     @Override
     public void onResume() {
         super.onResume();
         refreshData();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void refreshData() {
         classes = groupDAO.getClassesOwnedByUser(idUser);
         classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));

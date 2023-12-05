@@ -153,6 +153,7 @@ public class HomeFragment extends Fragment {
     private void setupCreateSetsButton() {
         binding.createSetsCl.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateSetActivity.class)));
     }
+
     private void refreshData() {
         refreshFlashCards();
         refreshFolders();

@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.set
 
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.card.CardAdapter
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.FlashCardDAO

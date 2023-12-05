@@ -20,10 +20,7 @@
             android:name=".QuizFolderActivity"
             android:exported="false" />
         <activity
-            android:name=".EditFlashCardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SettingFlashCardActivity"
+            android:name=".ui.activities.set.EditFlashCardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.set.ViewSetActivity"

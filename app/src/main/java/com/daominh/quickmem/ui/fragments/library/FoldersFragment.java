@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.fragments.library;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.adapter.folder.FolderAdapter;
 import com.daominh.quickmem.adapter.folder.FolderCopyAdapter;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
@@ -31,6 +31,7 @@ public class FoldersFragment extends Fragment {
     private FolderCopyAdapter folderAdapter;
     private FolderDAO folderDAO;
     private String idUser;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +43,30 @@ public class FoldersFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentFoldersBinding.inflate(inflater,container,false);
+        binding = FragmentFoldersBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupUserPreferences();
+        setupCreateButton();
+        setupFolders();
+        setupRecyclerView();
+    }
+
+    private void setupUserPreferences() {
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
+    }
+
+    private void setupCreateButton() {
         binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateFolderActivity.class)));
+    }
 
+    private void setupFolders() {
         folders = folderDAO.getAllFolderByUserId(idUser);
-
         if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.VISIBLE);
             binding.foldersRv.setVisibility(View.GONE);
@@ -62,13 +74,15 @@ public class FoldersFragment extends Fragment {
             binding.folderCl.setVisibility(View.GONE);
             binding.foldersRv.setVisibility(View.VISIBLE);
         }
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void setupRecyclerView() {
         folderAdapter = new FolderCopyAdapter(requireActivity(), folders);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.foldersRv.setLayoutManager(linearLayoutManager1);
         binding.foldersRv.setAdapter(folderAdapter);
         folderAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -77,6 +91,7 @@ public class FoldersFragment extends Fragment {
         refreshData();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void refreshData() {
         folders = folderDAO.getAllFolderByUserId(idUser);
 

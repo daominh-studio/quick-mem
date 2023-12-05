@@ -1,21 +1,14 @@
 package com.daominh.quickmem.ui.fragments.home;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
-import com.daominh.quickmem.R;
-import com.daominh.quickmem.data.dao.FolderDAO;
-import com.daominh.quickmem.data.model.Folder;
-import com.daominh.quickmem.databinding.DialogCreateFolderBinding;
 import com.daominh.quickmem.databinding.FragmentCreateBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
@@ -24,22 +17,17 @@ import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class CreateFragment extends BottomSheetDialogFragment {
 
     private FragmentCreateBinding binding;
     UserSharePreferences userSharePreferences;
-    FolderDAO folderDAO;
 
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set the enter transition animation
+        // Set the entered transition animation
         setEnterTransition(new CustomEnterTransition().setDuration(500));
         // Set the exit transition animation
         setExitTransition(new CustomExitTransition().setDuration(500));
@@ -65,7 +53,7 @@ public class CreateFragment extends BottomSheetDialogFragment {
         binding.llCreateClass.setOnClickListener(v -> {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateClass, "transition");
             startActivity(new Intent(requireContext(), CreateClassActivity.class), options.toBundle());
-            //call ondismiss to close the bottom sheet
+            //call on dismissing to close the bottom sheet
             dismiss();
         });
 

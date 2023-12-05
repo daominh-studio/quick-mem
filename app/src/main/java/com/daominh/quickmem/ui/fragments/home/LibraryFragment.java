@@ -5,16 +5,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.viewpager.MyViewPagerAdapter;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.User;
@@ -24,6 +21,7 @@ import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.tabs.TabLayout;
+import org.jetbrains.annotations.NotNull;
 
 
 public class LibraryFragment extends Fragment {
@@ -40,7 +38,7 @@ public class LibraryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLibraryBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -49,17 +47,22 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TabLayout mtabLayout = binding.tabLayout;
-        ViewPager mviewPager = binding.viewPager;
+        setupViewPager();
+        setupTabLayout();
+        setupUserPreferences();
+        setupAddButton();
+    }
 
+    private void setupViewPager() {
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(
+                getChildFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+        );
+        binding.viewPager.setAdapter(myViewPagerAdapter);
+    }
 
-
-// For FragmentStatePagerAdapter and getFragmentManager
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mviewPager.setAdapter(myViewPagerAdapter);
-
-        mtabLayout.setupWithViewPager(mviewPager);
-
+    private void setupTabLayout() {
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -77,20 +80,25 @@ public class LibraryFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setupUserPreferences() {
         userSharePreferences = new UserSharePreferences(requireActivity());
         idUser = userSharePreferences.getId();
-
         UserDAO userDAO = new UserDAO(getContext());
         User user = userDAO.getUserById(idUser);
         if (user.getRole() == 2) {
             updateAddButtonVisibility();
         }
+    }
+
+    private void setupAddButton() {
         binding.addBtn.setOnClickListener(view1 -> {
-            if (currentTabPosition == 0){
+            if (currentTabPosition == 0) {
                 startActivity(new Intent(getActivity(), CreateSetActivity.class));
-            } else if (currentTabPosition == 1){
+            } else if (currentTabPosition == 1) {
                 startActivity(new Intent(getActivity(), CreateFolderActivity.class));
-            } else if (currentTabPosition == 2){
+            } else if (currentTabPosition == 2) {
                 startActivity(new Intent(getActivity(), CreateClassActivity.class));
             }
         });
