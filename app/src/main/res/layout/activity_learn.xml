@@ -17,29 +17,38 @@
             android:elevation="1dp"
             app:navigationIcon="@drawable/ic_arrow_back"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:elevation="1dp"
-                android:layout_gravity="center"
-                android:text="@string/learn"/>
-    </androidx.appcompat.widget.Toolbar>
-
-    <ProgressBar
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/timeline_progress"
-            android:elevation="1dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
+            app:title="@string/learn"
             android:layout_height="wrap_content"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:elevation="0.5dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:id="@+id/space"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cards_left_30"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:elevation="1dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="@id/toolbar"
+            app:layout_constraintEnd_toEndOf="@id/toolbar"
+            android:id="@+id/cards_left_tv"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"
+            android:elevation="1dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cards_left_tv"
+            android:id="@+id/timeline_progress"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lean_ll"
@@ -141,7 +150,7 @@
                 android:elevation="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/rewind_blue_24dp"
+                android:src="@drawable/refresh"
                 app:backgroundTint="@android:color/white"
                 app:fabSize="mini"
                 app:rippleColor="#225BC9FA"/>
@@ -199,7 +208,7 @@
                 android:textStyle="bold"
                 android:elevation="1dp"
                 android:layout_marginTop="@dimen/_20ssp"
-                android:layout_marginStart="@dimen/_30ssp"
+                android:layout_marginStart="@dimen/_20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -214,11 +223,11 @@
                 android:id="@+id/review_iv"/>
 
         <at.grabner.circleprogress.CircleProgressView
-                android:layout_width="@dimen/_120ssp"
-                android:layout_height="@dimen/_120ssp"
+                android:layout_width="@dimen/_100ssp"
+                android:layout_height="@dimen/_100ssp"
                 android:layout_marginTop="@dimen/_30ssp"
                 app:cpv_autoTextSize="false"
-                app:cpv_textSize="@dimen/_30ssp"
+                app:cpv_textSize="@dimen/_25ssp"
                 app:cpv_barColor="@color/green_light"
                 app:cpv_barWidth="17dp"
                 app:cpv_innerContourSize="0dp"
@@ -234,11 +243,11 @@
                 app:cpv_unit="%"
                 app:cpv_roundToBlock="false"
                 android:elevation="1dp"
-                app:cpv_unitSize="@dimen/_20ssp"
+                app:cpv_unitSize="@dimen/_20sp"
                 app:cpv_unitToTextScale="0.8"
                 app:cpv_unitTypeface="fonts/roboto_regular.ttf"
                 app:cpv_unitColor="@color/celestial_blue"
-                app:cpv_unitPosition="right_top"
+                app:cpv_unitPosition="bottom"
                 app:cpv_unitScale="1"
                 app:cpv_value="100"
                 android:id="@+id/review_progress"

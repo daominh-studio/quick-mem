@@ -87,55 +87,12 @@
             app:layout_constraintTop_toBottomOf="@id/sets_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/class_cl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_16dp"
-        android:layout_marginTop="@dimen/_16dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sets_cl">
-
-        <TextView
-            android:id="@+id/class_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/group"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/view_all_class_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/view_all"
-            android:textColor="@color/celestial_blue"
-            android:textSize="@dimen/_16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/classes_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/class_tv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     <TextView
         android:id="@+id/no_result_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="No result for your search, \n please try again."
+        android:text="@string/no_result_for_your_search_n_please_try_again"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -149,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Enter a topic or keywords \n Tips: The more specific, the better!"
+        android:text="@string/enter_a_topic_or_keywords_n_tips_the_more_specific_the_better"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
         android:visibility="gone"

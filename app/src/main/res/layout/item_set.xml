@@ -18,14 +18,15 @@
 
         <TextView
             android:id="@+id/set_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:gravity="start"
+            android:maxLines="1"
             android:text="@string/set_name"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/_16sp"

@@ -64,6 +64,9 @@ public class ViewSetActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
+        userSharePreferences = new UserSharePreferences(this);
+        flashCardDAO = new FlashCardDAO(this);
+
         setupRecyclerView(savedInstanceState);
         setupCardData();
         setupNavigationListener();
@@ -98,6 +101,7 @@ public class ViewSetActivity extends AppCompatActivity {
 
         Picasso.get().load(user.getAvatar()).into(binding.avatarIv);
         binding.userNameTv.setText(user.getUsername());
+        binding.descriptionTv.setText(flashCardDAO.getFlashCardById(id).getDescription());
         cardDAO = new CardDAO(this);
         binding.termCountTv.setText(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) + " " + getString(R.string.term));
         flashCardDAO = new FlashCardDAO(this);
@@ -216,6 +220,7 @@ public class ViewSetActivity extends AppCompatActivity {
         );
 
         binding.recyclerViewTerms.setLayoutManager(linearLayoutManagerVertical);
+        binding.recyclerViewTerms.setNestedScrollingEnabled(false);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -223,6 +228,9 @@ public class ViewSetActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
         cardDAO = new CardDAO(this);
         cards = cardDAO.getCardsByFlashCardId(id);
+        if (isUserOwner()){
+            setUpProgress(cards);
+        }
         viewSetAdapter = new ViewSetAdapter(this, cards);
         binding.recyclerViewSet.setAdapter(viewSetAdapter);
         viewSetAdapter.notifyDataSetChanged();
@@ -344,6 +352,7 @@ public class ViewSetActivity extends AppCompatActivity {
             cardDAO = new CardDAO(ViewSetActivity.this);
             if (cardDAO.resetIsLearnedAndStatusCardByFlashCardId(id) > 0L) {
                 Toast.makeText(ViewSetActivity.this, getString(R.string.reset_success), Toast.LENGTH_SHORT).show();
+                setupCardData();
             } else {
                 Toast.makeText(ViewSetActivity.this, getString(R.string.reset_error), Toast.LENGTH_SHORT).show();
             }
@@ -466,6 +475,27 @@ public class ViewSetActivity extends AppCompatActivity {
 
     private boolean isUserOwner() {
         return userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id());
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setUpProgress(ArrayList<Card> cards) {
+        int notLearned = 0;
+        int learning = 0;
+        int learned = 0;
+        for (Card card : cards) {
+            if (card.getStatus() == 0) {
+                notLearned++;
+            } else if (card.getStatus() == 1) {
+                learned++;
+            } else {
+                learning++;
+            }
+        }
+
+        binding.notLearnTv.setText("Not learned: " + notLearned);
+        binding.isLearningTv.setText("Learning: " + learning);
+        binding.learnedTv.setText("Learned: " + learned);
+
     }
 
     @Override

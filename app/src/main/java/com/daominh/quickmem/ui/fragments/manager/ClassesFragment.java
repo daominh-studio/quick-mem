@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.fragments.manager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentClassesBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,6 @@ import java.util.List;
 public class ClassesFragment extends Fragment {
     private FragmentClassesBinding binding;
     private UserSharePreferences userSharePreferences;
-    private List<Group> listClasses;
-    private ClassesAdapter classesAdapter;
     private GroupDAO groupDAO;
 
     @Override
@@ -43,7 +43,7 @@ public class ClassesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentClassesBinding.inflate(inflater, container, false);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -52,44 +52,16 @@ public class ClassesFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listClasses = new ArrayList<>();
-        for (Group group: groupDAO.getAllClasses()){
-            listClasses.add(group);
-        }
+        List<Group> listClasses = new ArrayList<>(groupDAO.getAllClasses());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false);
         binding.classesRv.setLayoutManager(linearLayoutManager);
-        classesAdapter = new ClassesAdapter(requireActivity(), listClasses);
+        ClassesAdapter classesAdapter = new ClassesAdapter(requireActivity(), listClasses);
         binding.classesRv.setAdapter(classesAdapter);
         classesAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_setting_admin, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.log_out) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Đăng xuất");
-            builder.setMessage("Bạn có chắc chắn muốn đăng xuất?");
-            builder.setPositiveButton("Đồng ý", (dialogInterface, i) -> {
-                userSharePreferences = new UserSharePreferences(getActivity());
-                userSharePreferences.clear();
-                startActivity(new Intent(getActivity(), SignInActivity.class));
-            });
-            builder.setNegativeButton("Hủy", null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            return true;
-        }
-        return true;
     }
 
     @Override

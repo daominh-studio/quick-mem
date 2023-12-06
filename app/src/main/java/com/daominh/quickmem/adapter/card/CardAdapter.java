@@ -49,6 +49,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             holder.binding.termEt.requestFocus();
         }
 
+
         holder.binding.termEt.setText(card.getFront());
         holder.binding.definitionEt.setText(card.getBack());
 

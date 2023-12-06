@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -24,10 +26,14 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     private val adapter by lazy { CardLeanAdapter(createCards()) }
     private val cardDAO by lazy { CardDAO(this) }
 
+    private lateinit var size: String
 
+
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         if (createCards().isEmpty()) {
             showHide()
@@ -37,9 +43,8 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
-
-        setUpProgressBar()
+        getSize()
+        binding.cardsLeftTv.text = "Cards left: $size"
 
         setupCardStackView()
         setupButton()
@@ -49,9 +54,11 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 Toast.makeText(this, "No card to learn", Toast.LENGTH_SHORT).show()
             } else {
                 showContainer()
+                binding.cardsLeftTv.text = "Cards left: ${size.toInt() - 1}"
                 adapter.setCards(createCards())
                 adapter.notifyDataSetChanged()
-                setUpProgressBar()
+                getSize()
+                binding.cardsLeftTv.text = "Cards left: $size"
             }
         }
 
@@ -60,7 +67,8 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             showContainer()
             adapter.setCards(createCards())
             adapter.notifyDataSetChanged()
-            setUpProgressBar()
+            getSize()
+            binding.cardsLeftTv.text = "Cards left: $size"
         }
     }
 
@@ -76,13 +84,15 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
             binding.learnTv.text = learnValue.toString()
             card.status = 1
             cardDAO.updateCardStatusById(card.id, card.status)
-            binding.timelineProgress.progress = manager.topPosition + 1
+            size = size.toInt().minus(1).toString()
+            binding.cardsLeftTv.text = "Cards left: ${size.toInt()}"
         } else if (direction == Direction.Left) {
             val learnValue = binding.studyTv.text.toString().toInt() + 1
             binding.studyTv.text = learnValue.toString()
             card.status = 2
             cardDAO.updateCardStatusById(card.id, card.status)
-            binding.timelineProgress.progress = manager.topPosition + 1
+            size = size.toInt().minus(1).toString()
+            binding.cardsLeftTv.text = "Cards left: ${size.toInt()}"
         }
         if (manager.topPosition == adapter.getCount()) {
             showHide()
@@ -91,6 +101,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCardRewound() {
         Log.d("CardStackView", "onCardRewound: ${manager.topPosition}")
         if (manager.topPosition < adapter.itemCount) {
@@ -108,7 +119,11 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                     binding.studyTv.text = (binding.studyTv.text.toString().toInt() - 1).toString()
                 }
             }
+        } else {
+            Toast.makeText(this, "No card to rewind", Toast.LENGTH_SHORT).show()
         }
+        size = size.toInt().plus(1).toString()
+        binding.cardsLeftTv.text = "Cards left: ${size.toInt()}"
     }
 
     override fun onCardCanceled() {
@@ -130,8 +145,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             binding.cardStackView.swipe()
-            // Update progress bar and toolbar title after each swipe
-            binding.timelineProgress.progress = manager.topPosition + 1
+
         }
 
         binding.rewindButton.setOnClickListener {
@@ -142,8 +156,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setRewindAnimationSetting(setting)
             binding.cardStackView.rewind()
-            // Update progress bar and toolbar title after each swipe
-            binding.timelineProgress.progress = manager.topPosition + 1
         }
 
         binding.likeButton.setOnClickListener {
@@ -154,8 +166,6 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             binding.cardStackView.swipe()
-            // Update progress bar and toolbar title after each swipe
-            binding.timelineProgress.progress = manager.topPosition + 1
         }
     }
 
@@ -220,6 +230,7 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
     private fun preview() {
         binding.knowNumberTv.text = getCardStatus(1).toString()
         binding.stillLearnNumberTv.text = getCardStatus(2).toString()
+        binding.termsLeftNumberTv.text = getCardStatus(0).toString()
         val sum =
             (getCardStatus(1).toFloat() / (getCardStatus(0).toFloat() + getCardStatus(1).toFloat() + getCardStatus(2))) * 100
         binding.reviewProgress.setSpinningBarLength(sum)
@@ -228,14 +239,27 @@ class LearnActivity : AppCompatActivity(), CardStackListener {
         binding.reviewProgress.setValueAnimated(sum, 1000)
     }
 
+    private fun getSize(): Int {
+        size = createCards().size.toString()
+        return size.toInt()
+    }
+
     private fun getCardStatus(status: Int): Int {
         val id = intent.getStringExtra("id")
         return cardDAO.getCardByStatus(id, status)
     }
 
-    private fun setUpProgressBar() {
-        binding.timelineProgress.max = createCards().size + 1
-        binding.timelineProgress.progress = 1
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(com.daominh.quickmem.R.menu.menu_tick, menu)
+        return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == com.daominh.quickmem.R.id.done) {
+            showHide()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
+

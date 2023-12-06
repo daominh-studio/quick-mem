@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -101,17 +100,12 @@ public class CreateSetActivity extends AppCompatActivity {
         binding.cardsLv.setHasFixedSize(true);
         cardAdapter.notifyDataSetChanged();
 
-        cardAdapter.setOnItemClickListener(position -> {
-            selectedPosition = position;
-            updateToolbarTitle();
-        });
     }
 
     private void setupAddFab() {
         binding.addFab.setOnClickListener(v -> {
             cards.add(new Card());
             selectedPosition = cards.size() - 1;
-            updateToolbarTitle();
             //scroll to last item
             binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
 
@@ -126,6 +120,7 @@ public class CreateSetActivity extends AppCompatActivity {
             });
         });
     }
+
 
     private void setupItemTouchHelper() {
         ItemTouchHelper.SimpleCallback callback = createItemTouchHelperCallback();
@@ -217,17 +212,11 @@ public class CreateSetActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.custom_set) {
-            final String user_id = getUser_id();
-            Toast.makeText(this, user_id, Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (item.getItemId() == R.id.done) {
+        if (item.getItemId() == R.id.done) {
             saveChanges();
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -323,21 +312,6 @@ public class CreateSetActivity extends AppCompatActivity {
         return flashCardDAO.insertFlashCard(flashCard) > 0;
     }
 
-    private void updateToolbarTitle() {
-        if (selectedPosition >= 0 && selectedPosition < cards.size()) {
-            int positionToShow = selectedPosition + 1;
-            int totalItems = cards.size();
-            String title = positionToShow + "/" + totalItems;
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(title);
-            }
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(title);
-            }
-        }
-    }
-
     private String getCurrentDate() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             return getCurrentDateNewApi();
@@ -348,11 +322,6 @@ public class CreateSetActivity extends AppCompatActivity {
 
     private String genUUID() {
         return java.util.UUID.randomUUID().toString();
-    }
-
-    private String getUser_id() {
-        userSharePreferences = new UserSharePreferences(this);
-        return userSharePreferences.getId();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

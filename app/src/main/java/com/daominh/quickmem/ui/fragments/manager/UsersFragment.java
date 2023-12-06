@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.fragments.manager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class UsersFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userDAO = new UserDAO(requireActivity());
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -43,6 +45,7 @@ public class UsersFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,6 +68,7 @@ public class UsersFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) { return false; }
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public boolean onQueryTextChange(String newText) {
                 List<User> listUsers = userDAO.getAllUser().stream().filter(user -> user.getRole() != 0).collect(Collectors.toList());

@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Select define to learn"/>
+            app:title="Folder"/>
 
     <TextView
             android:layout_marginVertical="@dimen/_16dp"

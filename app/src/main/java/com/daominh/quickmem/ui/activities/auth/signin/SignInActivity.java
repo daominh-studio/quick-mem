@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +28,6 @@ import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 public class SignInActivity extends AppCompatActivity {
-    private UserSharePreferences userSharePreferences;
     private User user;
     private UserDAO userDAO;
 
@@ -134,7 +132,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleEmailSignIn(String email, String password, ActivitySigninBinding binding) {
         if (!userDAO.checkEmail(email)) {
-            Log.e("SigningActivityy", "onCreateE: " + userDAO.checkEmail(email));
             Toast.makeText(this, "email", Toast.LENGTH_SHORT).show();
             binding.emailTil.setHelperText(getString(R.string.email_is_not_exist));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
@@ -151,7 +148,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleUsernameSignIn(String username, String password, ActivitySigninBinding binding) {
         if (!userDAO.checkUsername(username)) {
-            Log.e("SigningActivityy", "onCreateU: " + userDAO.checkUsername(username));
             binding.emailTil.setHelperText(getString(R.string.user_is_not_exist));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             return;
@@ -183,7 +179,7 @@ public class SignInActivity extends AppCompatActivity {
                     });
 
         } else {
-            userSharePreferences = new UserSharePreferences(SignInActivity.this);
+            UserSharePreferences userSharePreferences = new UserSharePreferences(SignInActivity.this);
             userSharePreferences.setRole(user.getRole());
             userSharePreferences.saveUser(user);
             userSharePreferences.setLogin(true);
@@ -191,7 +187,7 @@ public class SignInActivity extends AppCompatActivity {
             userSharePreferences.setAvatar(user.getAvatar());
             userSharePreferences.setEmail(user.getEmail());
             intentToMain();
-            Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Login Success!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -19,12 +19,7 @@ import com.daominh.quickmem.databinding.DialogWrongBinding
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class QuizFolderActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -61,6 +56,7 @@ class QuizFolderActivity : AppCompatActivity() {
 
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun checkAnswer(selectedAnswer: String, cardId: String): Boolean {
         return if (selectedAnswer == correctAnswer) {
             correctDialog(correctAnswer)
