@@ -42,7 +42,7 @@ I hope you like it.
 
 <table>
   <tr>
-    <td><img src="./screenshorts/welcomescreen.png" width="200" height="200"></td>
+    <td><img src="./screenshorts/welcomescreen.png" width="200"></td>
     <td><img src="./screenshorts/signin.png" width="200"></td>
     <td><img src="./screenshorts/signup.png" width="200"></td>
 </tr>
