@@ -33,10 +33,8 @@ public class CreateFolderActivity extends AppCompatActivity {
         final View view = binding.getRoot();
         setContentView(view);
 
-
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-
 
     }
 

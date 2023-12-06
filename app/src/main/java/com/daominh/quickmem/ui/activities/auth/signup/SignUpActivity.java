@@ -146,8 +146,6 @@ public class SignUpActivity extends AppCompatActivity {
             int role = 2;
             if (binding.radioYesNo.getCheckedRadioButtonId() == binding.radioYes.getId()) {
                 role = 1;
-            } else {
-                role = 2;
             }
 
             handleSignUp(date, email, password, role);
@@ -203,8 +201,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
             return userName;
         } else {
-            // If the email does not contain the "@" symbol, return a random username
-            return "quickmem" + new Random().nextInt(100000);
+            return email.substring(0, email.indexOf("@"));
         }
     }
 

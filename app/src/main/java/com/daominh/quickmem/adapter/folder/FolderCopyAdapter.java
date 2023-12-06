@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class FolderCopyAdapter extends RecyclerView.Adapter<FolderCopyAdapter.FolderViewHolder>{
-    UserSharePreferences userSharePreferences;
     private final Context context;
     private final ArrayList<Folder> folders;
 
@@ -39,7 +38,7 @@ public class FolderCopyAdapter extends RecyclerView.Adapter<FolderCopyAdapter.Fo
     @Override
     public void onBindViewHolder(@NonNull @NotNull FolderCopyAdapter.FolderViewHolder holder, int position) {
         Folder folder = folders.get(position);
-        userSharePreferences = new UserSharePreferences(context);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
         String avatar = userSharePreferences.getAvatar();
         String username = userSharePreferences.getUserName();
 

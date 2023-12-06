@@ -10,7 +10,6 @@ public class UserSharePreferences {
     public static final String KEY_LOGIN = "login";
     public static final String KEY_ID = "id";
     private static final String KEY_AVATAR = "avatar";
-
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_ROLE = "role_user";
     private static final String KEY_STATUS = "status";
@@ -48,6 +47,7 @@ public class UserSharePreferences {
         sharedPreferences.edit().putInt(KEY_ROLE, role).apply();
     }
 
+    //get role user
     public int getRole() {
         return sharedPreferences.getInt(KEY_ROLE, -1);
     }
@@ -57,18 +57,9 @@ public class UserSharePreferences {
         sharedPreferences.edit().putInt(KEY_STATUS, status).apply();
     }
 
+    //get status
     public int getStatus() {
         return sharedPreferences.getInt(KEY_STATUS, -1);
-    }
-
-    public void saveUser(User user) {
-        setId(user.getId());
-        setUserName(user.getName());
-        setEmail(user.getEmail());
-        setAvatar(user.getAvatar());
-        setRole(user.getRole());
-        setStatus(user.getStatus());
-        setLogin(true);
     }
 
     //set avatar
@@ -91,10 +82,12 @@ public class UserSharePreferences {
         return sharedPreferences.getString(KEY_USER_NAME, "");
     }
 
+    //set email
     public void setEmail(String email) {
         sharedPreferences.edit().putString(KEY_EMAIL, email).apply();
     }
 
+    //get email
     public String getEmail() {
         return sharedPreferences.getString(KEY_EMAIL, "");
     }
@@ -112,6 +105,17 @@ public class UserSharePreferences {
     //remove class id
     public void removeClassId() {
         sharedPreferences.edit().remove(KEY_CLASS_ID).apply();
+    }
+
+    //set user
+    public void saveUser(User user) {
+        setId(user.getId());
+        setUserName(user.getUsername());
+        setEmail(user.getEmail());
+        setAvatar(user.getAvatar());
+        setRole(user.getRole());
+        setStatus(user.getStatus());
+        setLogin(true);
     }
 
     //clear

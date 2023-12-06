@@ -3,6 +3,7 @@ package com.daominh.quickmem.ui.fragments.home;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
 
         UserSharePreferences userSharePreferences = new UserSharePreferences(requireActivity());
         binding.nameProfileTv.setText(userSharePreferences.getUserName());
+        Toast.makeText(requireActivity(), userSharePreferences.getUserName(), Toast.LENGTH_SHORT).show();
         Picasso.get().load(userSharePreferences.getAvatar()).into(binding.profileIv);
 
         binding.courseBtn.setOnClickListener(view1 -> startActivity(new Intent(requireActivity(), CoursesActivity.class)));

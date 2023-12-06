@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityQuizBinding
 import com.daominh.quickmem.databinding.DialogCorrectBinding
 import com.daominh.quickmem.databinding.DialogWrongBinding
-import com.daominh.quickmem.ui.activities.set.ViewSetActivity
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener

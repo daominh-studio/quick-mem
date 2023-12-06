@@ -47,7 +47,7 @@ class CardLeanAdapter(
             binding.cardViewFlip.setFlipTypeFromRight()
             binding.cardViewFlip.setFlipDuration(500)
             binding.cardViewFlip.setToHorizontalType()
-            binding.cardViewFlip.setOnClickListener{
+            binding.cardViewFlip.setOnClickListener {
                 binding.cardViewFlip.flipTheView()
             }
 

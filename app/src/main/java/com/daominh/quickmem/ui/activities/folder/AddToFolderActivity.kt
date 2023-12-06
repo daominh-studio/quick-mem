@@ -24,12 +24,20 @@ class AddToFolderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setupToolbar()
+        setupRecyclerView()
+        setupCreateNewFolder()
+    }
+
+    private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+    }
 
+    private fun setupRecyclerView() {
         val userSharePreferences = UserSharePreferences(this)
         val folders = folderDAO.getAllFolderByUserId(userSharePreferences.id)
         adapter = FolderSelectAdapter(folders, intent.getStringExtra("flashcard_id")!!)
@@ -41,11 +49,12 @@ class AddToFolderActivity : AppCompatActivity() {
         binding.folderRv.layoutManager = linearLayoutManager
         binding.folderRv.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
 
+    private fun setupCreateNewFolder() {
         binding.createNewFolderTv.setOnClickListener {
             startActivity(Intent(this, CreateFolderActivity::class.java))
         }
-
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {

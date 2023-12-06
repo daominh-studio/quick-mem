@@ -167,7 +167,7 @@ public class FolderDAO {
         return folder;
     }
 
-    //check if flashcard is in folder
+    //check if flashcard is in the folder
     @SuppressLint("Range")
     public boolean isFlashCardInFolder(String folder_id, String flashcard_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
@@ -231,7 +231,7 @@ public class FolderDAO {
         return result;
     }
 
-    //get all flashcards by folder_id join with flashcard table return list id flashcard
+    //get all flashcards by folder_id join with a flashcard table return list id flashcard
     @SuppressLint("Range")
     public ArrayList<String> getAllFlashCardIdByFolderId(String folder_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();

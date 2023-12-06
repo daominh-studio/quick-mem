@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.ClassViewHolder> {
-    GroupDAO groupDAO;
     private final Context context;
     private final ArrayList<Group> classes;
 
@@ -41,7 +40,7 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
     public void onBindViewHolder(@NonNull @NotNull ClassCopyAdapter.ClassViewHolder holder, int position) {
         Group group = classes.get(position);
         holder.binding.classNameTv.setText(group.getName());
-        groupDAO = new GroupDAO(context);
+        GroupDAO groupDAO = new GroupDAO(context);
         int numberMember = groupDAO.getNumberMemberInClass(group.getId()) + 1;
         int numberSet = groupDAO.getNumberFlashCardInClass(group.getId());
         holder.binding.numberUserTv.setText(numberMember + " members");

@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.classes;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import androidx.annotation.NonNull;
@@ -74,6 +75,7 @@ public class ViewClassActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setUpData() {
         id = getIntent().getStringExtra("id");
         groupDAO = new GroupDAO(this);

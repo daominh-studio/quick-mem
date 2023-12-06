@@ -1,9 +1,7 @@
 package com.daominh.quickmem.data.model;
 
-import androidx.annotation.Nullable;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class Card {
     private String id;
@@ -19,7 +17,6 @@ public class Card {
     }
 
     public Card(String front, String back, int status, int isLearned, String flashcard_id, String created_at, String updated_at) {
-        this.id = UUID.randomUUID().toString();
         this.front = front;
         this.back = back;
         this.status = status;

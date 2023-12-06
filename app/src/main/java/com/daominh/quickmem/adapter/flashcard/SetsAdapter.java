@@ -24,11 +24,9 @@ import java.util.ArrayList;
 
 public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder> {
 
-    UserSharePreferences userSharePreferences;
     private final Context context;
     private final ArrayList<FlashCard> sets;
-    CardDAO cardDAO;
-    Boolean isLibrary;
+    private final Boolean isLibrary;
 
     public SetsAdapter(Context context, ArrayList<FlashCard> sets, Boolean isLibrary) {
         this.context = context;
@@ -55,8 +53,8 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
 
         }
         FlashCard set = sets.get(position);
-        userSharePreferences = new UserSharePreferences(context);
-        cardDAO = new CardDAO(context);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
+        CardDAO cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
         String avatar = userSharePreferences.getAvatar();
         String userNames = userSharePreferences.getUserName();

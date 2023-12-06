@@ -37,12 +37,22 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setupToolbar()
+        setupFolderDetails()
+        setupRecyclerView()
+        setupLearnButton()
+    }
+
+    private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+    }
 
+    @SuppressLint("SetTextI18n")
+    private fun setupFolderDetails() {
         val id = intent.getStringExtra("id")
         val userSharePreferences = UserSharePreferences(this)
         val folder = folderDAO.getFolderById(id)
@@ -50,20 +60,25 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         Picasso.get().load(userSharePreferences.avatar).into(binding.avatarIv)
         binding.userNameTv.text = userSharePreferences.userName
         binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupRecyclerView() {
+        val id = intent.getStringExtra("id")
         adapter = SetFolderViewAdapter(folderDAO.getAllFlashCardByFolderId(id) as ArrayList<FlashCard>, false)
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
 
+    private fun setupLearnButton() {
+        val id = intent.getStringExtra("id")
         binding.learnThisFolderBtn.setOnClickListener {
             val newIntent = Intent(this, QuizFolderActivity::class.java)
             newIntent.putExtra("id", id)
             startActivity(newIntent)
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -216,6 +231,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         Log.d("TAG", "onSheetShown: ")
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
 

@@ -20,14 +20,10 @@ public class MyViewClassAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position){
-            case 0:
-                return new ViewSetsFragment();
-            case 1:
-                return new ViewMembersFragment();
-            default:
-                return new ViewSetsFragment();
-        }
+        return switch (position) {
+            case 1 -> new ViewMembersFragment();
+            default -> new ViewSetsFragment();
+        };
     }
 
     @Override
@@ -38,15 +34,10 @@ public class MyViewClassAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = "";
-        switch (position){
-            case 0:
-                title = "SETS";
-                break;
-            case 1:
-                title = "MEMBERS";
-                break;
-        }
-        return title;
+        return switch (position) {
+            case 0 -> "SETS";
+            case 1 -> "MEMBERS";
+            default -> "";
+        };
     }
 }

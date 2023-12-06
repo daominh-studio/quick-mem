@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.model.Card;
@@ -21,9 +20,8 @@ import java.util.function.BiConsumer;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    Context context;
-    ArrayList<Card> cards;
-
+    private final Context context;
+    private final ArrayList<Card> cards;
     private OnItemClickListener onItemClickListener;
 
     public CardAdapter(Context context, ArrayList<Card> cards) {
@@ -48,7 +46,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (position > 1) {
             holder.binding.termEt.requestFocus();
         }
-
 
         holder.binding.termEt.setText(card.getFront());
         holder.binding.definitionEt.setText(card.getBack());
@@ -120,6 +117,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             cards.set(position, card);
         }
     }
-
 
 }

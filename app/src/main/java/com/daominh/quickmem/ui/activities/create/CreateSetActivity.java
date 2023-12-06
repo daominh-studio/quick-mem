@@ -46,12 +46,8 @@ import java.util.Date;
 public class CreateSetActivity extends AppCompatActivity {
     private CardAdapter cardAdapter;
     private ArrayList<Card> cards;
-    private int selectedPosition = -1;
-    ActivityCreateSetBinding binding;
-    CardDAO cardDAO;
-    FlashCardDAO flashCardDAO;
-    UserSharePreferences userSharePreferences;
-    final String id = genUUID();
+    private ActivityCreateSetBinding binding;
+    private final String id = genUUID();
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -105,7 +101,6 @@ public class CreateSetActivity extends AppCompatActivity {
     private void setupAddFab() {
         binding.addFab.setOnClickListener(v -> {
             cards.add(new Card());
-            selectedPosition = cards.size() - 1;
             //scroll to last item
             binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
 
@@ -272,7 +267,7 @@ public class CreateSetActivity extends AppCompatActivity {
             return false;
         }
 
-        cardDAO = new CardDAO(this);
+        CardDAO cardDAO = new CardDAO(this);
         card.setId(genUUID());
         card.setFront(front);
         card.setBack(back);
@@ -290,11 +285,11 @@ public class CreateSetActivity extends AppCompatActivity {
     }
 
     private boolean saveFlashCard(String subject, String description) {
-        flashCardDAO = new FlashCardDAO(this);
+        FlashCardDAO flashCardDAO = new FlashCardDAO(this);
         FlashCard flashCard = new FlashCard();
         flashCard.setName(subject);
         flashCard.setDescription(description);
-        userSharePreferences = new UserSharePreferences(this);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         flashCard.setUser_id(userSharePreferences.getId());
         flashCard.setCreated_at(getCurrentDate());
         flashCard.setUpdated_at(getCurrentDate());

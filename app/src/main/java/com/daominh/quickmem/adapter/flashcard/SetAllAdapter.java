@@ -27,7 +27,6 @@ public class SetAllAdapter extends RecyclerView.Adapter<SetAllAdapter.SetsViewHo
 
     private final Context context;
     private final ArrayList<FlashCard> sets;
-    CardDAO cardDAO;
 
     public SetAllAdapter(Context context, ArrayList<FlashCard> sets) {
         this.context = context;
@@ -48,7 +47,7 @@ public class SetAllAdapter extends RecyclerView.Adapter<SetAllAdapter.SetsViewHo
     public void onBindViewHolder(@NonNull @NotNull SetAllAdapter.SetsViewHolder holder, int position) {
 
         FlashCard set = sets.get(position);
-        cardDAO = new CardDAO(context);
+        CardDAO cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
         UserDAO userDAO = new UserDAO(context);
         User user = userDAO.getUserById(set.getUser_id());

@@ -3,13 +3,13 @@ package com.daominh.quickmem.data.model;
 import java.util.UUID;
 
 public class FlashCard {
-    String id;
-    String name;
-    String description;
-    String user_id;
-    int is_public;
-    String created_at;
-    String updated_at;
+    private String id;
+    private String name;
+    private String description;
+    private String user_id;
+    private int is_public;
+    private String created_at;
+    private String updated_at;
 
     public FlashCard() {
     }

@@ -15,9 +15,7 @@ class FolderSelectAdapter(
 ) : RecyclerView.Adapter<FolderSelectAdapter.FolderSelectViewHolder>() {
     class FolderSelectViewHolder(
         val binding: ItemFolderSelectBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderSelectViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

@@ -1,6 +1,7 @@
 package com.daominh.quickmem.adapter.flashcard;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
-import com.daominh.quickmem.databinding.ItemSetBinding;
 import com.daominh.quickmem.databinding.ItemSetCopyBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class SetCopyAdapter extends RecyclerView.Adapter<SetCopyAdapter.SetViewHolder> {
-    UserSharePreferences userSharePreferences;
     private final Context context;
     private final ArrayList<FlashCard> sets;
     CardDAO cardDAO;
@@ -41,11 +40,12 @@ public class SetCopyAdapter extends RecyclerView.Adapter<SetCopyAdapter.SetViewH
         return new SetViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SetViewHolder holder, int position) {
 
         FlashCard set = sets.get(position);
-        userSharePreferences = new UserSharePreferences(context);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
         cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
         String avatar = userSharePreferences.getAvatar();

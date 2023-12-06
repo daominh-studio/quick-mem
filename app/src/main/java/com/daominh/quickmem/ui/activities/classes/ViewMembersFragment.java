@@ -27,11 +27,8 @@ import java.util.ArrayList;
 
 public class ViewMembersFragment extends Fragment {
     private FragmentViewMembersBinding binding;
-    UserSharePreferences userSharePreferences;
-    private UserClassAdapter userClassAdapter;
+    private UserSharePreferences userSharePreferences;
     private UserDAO userDAO;
-    private ArrayList<User> users = new ArrayList<>();
-    private Group group;
     private GroupDAO groupDAO;
 
     @Override
@@ -54,11 +51,11 @@ public class ViewMembersFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        group = groupDAO.getGroupById(userSharePreferences.getClassId());
+        Group group = groupDAO.getGroupById(userSharePreferences.getClassId());
 
-        users = userDAO.getListUserByIdClass(userSharePreferences.getClassId());
+        ArrayList<User> users = userDAO.getListUserByIdClass(userSharePreferences.getClassId());
         users.add(userDAO.getUserByIdClass(group.getUser_id()));
-        userClassAdapter = new UserClassAdapter(users);
+        UserClassAdapter userClassAdapter = new UserClassAdapter(users);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         binding.membersRv.setLayoutManager(linearLayoutManager);
         binding.membersRv.setAdapter(userClassAdapter);

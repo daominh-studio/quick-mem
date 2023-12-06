@@ -62,7 +62,7 @@ public class UserDAO {
         }
     }
 
-    //check username is exist
+    //check username exists
     public boolean checkUsername(String username) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
         String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE username = '" + username + "'";
@@ -213,7 +213,7 @@ public class UserDAO {
     }
 
     @SuppressLint("Range")
-    //get all user not contain password
+    //get all user to not contain password
     public ArrayList<User> getAllUser() {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
         ArrayList<User> users = new ArrayList<>();

@@ -18,9 +18,7 @@ class ClassSelectAdapter(
 ) : RecyclerView.Adapter<ClassSelectAdapter.ClassSelectViewHolder>() {
     class ClassSelectViewHolder(
         val binding: ItemSelectClassBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassSelectViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

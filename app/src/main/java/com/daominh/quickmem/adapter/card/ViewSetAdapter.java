@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ViewSetAdapter extends RecyclerView.Adapter<ViewSetAdapter.ViewSetViewHolder> {
     private final Context context;
     private final ArrayList<Card> cards;
-    TextToSpeech textToSpeech;
+    private TextToSpeech textToSpeech;
 
     public ViewSetAdapter(Context context, ArrayList<Card> cards) {
         this.context = context;

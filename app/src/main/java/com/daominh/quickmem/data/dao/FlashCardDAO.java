@@ -80,23 +80,6 @@ public class FlashCardDAO {
         }
         return flashCards;
     }
-
-    //delete flashcard by id
-    public long deleteFlashCardById(String id) {
-        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
-
-        long result = 0;
-
-        try {
-            result = sqLiteDatabase.delete(QMDatabaseHelper.TABLE_FLASHCARDS, "id = ?", new String[]{id});
-        } catch (SQLException e) {
-            Log.e("FlashCardDAO", "deleteFlashCardById: " + e);
-        } finally {
-            sqLiteDatabase.close();
-        }
-        return result;
-    }
-
     public boolean deleteFlashcardAndCards(String flashcardId) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
