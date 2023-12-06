@@ -44,7 +44,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "insertCard: " + e);
         } finally {
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -82,12 +82,12 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardsByFlashCardId: " + e);
         } finally {
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
         }
         return cards;
     }
 
-    //get all card have status = 0 or 2
+    //get all cards to have status = 0 or 2
     public ArrayList<Card> getAllCardByStatus(String flashcard_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
@@ -101,7 +101,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "getAllCardByStatus: " + e);
         } finally {
-            sqLiteDatabase.close();
+         //   sqLiteDatabase.close();
         }
         return cards;
     }
@@ -117,7 +117,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "deleteCardById: " + e);
         } finally {
-            sqLiteDatabase.close();
+            //sqLiteDatabase.close();
         }
         return result;
     }
@@ -137,7 +137,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "updateCardStatusById: " + e);
         } finally {
-            sqLiteDatabase.close();
+         //   sqLiteDatabase.close();
         }
         return result;
     }
@@ -156,7 +156,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardByStatus: " + e);
         } finally {
-            sqLiteDatabase.close();
+          //  sqLiteDatabase.close();
         }
         return cards.size();
     }
@@ -176,7 +176,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "resetStatusCardByFlashCardId: " + e);
         } finally {
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -196,7 +196,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "updateIsLearnedCardById: " + e);
         } finally {
-            sqLiteDatabase.close();
+           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -215,7 +215,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardByIsLearned: " + e);
         } finally {
-            sqLiteDatabase.close();
+//            sqLiteDatabase.close();
         }
         return cards;
     }
@@ -235,7 +235,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "checkCardExist: " + e);
         } finally {
-            sqLiteDatabase.close();
+         //   sqLiteDatabase.close();
         }
         return false;
     }
@@ -259,13 +259,13 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "updateCardById: " + e);
         } finally {
-            sqLiteDatabase.close();
+          //  sqLiteDatabase.close();
         }
         return result;
     }
 
 
-    //get all card by flashcard_id
+    //get all cards by flashcard_id
     public ArrayList<Card> getAllCardByFlashCardId(String flashcard_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
@@ -279,7 +279,7 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "getAllCardByFlashCardId: " + e);
         } finally {
-            sqLiteDatabase.close();
+           //sqLiteDatabase.close();
         }
         return cards;
     }
@@ -300,27 +300,31 @@ public class CardDAO {
         } catch (SQLException e) {
             Log.e("CardDAO", "resetIsLearnedAndStatusCardByFlashCardId: " + e);
         } finally {
-            sqLiteDatabase.close();
+          //  sqLiteDatabase.close();
         }
         return result;
     }
 
     private ArrayList<Card> getCardsFromCursor(Cursor cursor) {
         ArrayList<Card> cards = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Card card = new Card();
-                card.setId(cursor.getString(0));
-                card.setFront(cursor.getString(1));
-                card.setBack(cursor.getString(2));
-                card.setFlashcard_id(cursor.getString(3));
-                card.setStatus(cursor.getInt(4));
-                card.setIsLearned(cursor.getInt(5));
-                card.setCreated_at(cursor.getString(6));
-                card.setUpdated_at(cursor.getString(7));
+        if (sqLiteDatabase.isOpen()) { // Check if the database is open
+            if (cursor.moveToFirst()) {
+                do {
+                    Card card = new Card();
+                    card.setId(cursor.getString(0));
+                    card.setFront(cursor.getString(1));
+                    card.setBack(cursor.getString(2));
+                    card.setFlashcard_id(cursor.getString(3));
+                    card.setStatus(cursor.getInt(4));
+                    card.setIsLearned(cursor.getInt(5));
+                    card.setCreated_at(cursor.getString(6));
+                    card.setUpdated_at(cursor.getString(7));
 
-                cards.add(card);
-            } while (cursor.moveToNext());
+                    cards.add(card);
+                } while (cursor.moveToNext());
+            }
+        } else {
+            Log.d("CardDAO", "Database is closed.");
         }
         return cards;
     }

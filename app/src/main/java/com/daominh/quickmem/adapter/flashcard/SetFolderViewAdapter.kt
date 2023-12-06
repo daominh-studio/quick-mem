@@ -1,5 +1,6 @@
 package com.daominh.quickmem.adapter.flashcard
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class SetFolderViewAdapter(
         return SetFolderViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SetFolderViewHolder, position: Int) {
         val flashcard = flashcardList[position]
         val userDAO = UserDAO(holder.itemView.context)
@@ -38,7 +40,7 @@ class SetFolderViewAdapter(
         Picasso.get().load(user.avatar).into(holder.binding.avatarIv)
         holder.binding.userNameTv.text = user.username
         holder.binding.setNameTv.text = flashcard.name
-        holder.binding.termCountTv.text = count.toString() + " terms"
+        holder.binding.termCountTv.text = "$count terms"
         if (isSelect) {
 
             if (folderDAO.isFlashCardInFolder(folderId, flashcard.id)) {
@@ -59,12 +61,14 @@ class SetFolderViewAdapter(
             holder.binding.setFolderItem.setOnClickListener {
                 if (selectedItems.contains(flashcard)) {
                     selectedItems.remove(flashcard)
+                    folderDAO.removeFlashCardFromFolder(folderId, flashcard.id)
                     holder.binding.setFolderItem.background =
                         AppCompatResources.getDrawable(
                             holder.itemView.context,
                             com.daominh.quickmem.R.drawable.background_unselect
                         )
                 } else {
+                    folderDAO.addFlashCardToFolder(folderId, flashcard.id)
                     selectedItems.add(flashcard)
                     holder.binding.setFolderItem.background =
                         AppCompatResources.getDrawable(

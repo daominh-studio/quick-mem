@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.daominh.quickmem.data.dao.CardDAO
@@ -28,9 +29,6 @@ class QuizFolderActivity : AppCompatActivity() {
     private val cardDAO by lazy {
         CardDAO(this)
     }
-    private val flashCardDAO by lazy {
-        FlashCardDAO(this)
-    }
 
     private lateinit var correctAnswer: String
     private val askedCards = mutableListOf<Card>()
@@ -40,10 +38,11 @@ class QuizFolderActivity : AppCompatActivity() {
     private val folderDAO by lazy {
         FolderDAO(this)
     }
+    private var dialogCorrect: AlertDialog.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz_folder)
+        setContentView(binding.root)
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -78,27 +77,29 @@ class QuizFolderActivity : AppCompatActivity() {
             val cards = cardDAO.getCardByIsLearned(id, 0)
             val randomCard = cardDAO.getAllCardByFlashCardId(id)
 
-            for (folder in folderDAO.getAllFlashCardIdByFolderId(id)) {
+
+            //
+            for (folder in folderDAO.getAllFlashCardIdByFolderId(id)) {//ok
                 cards.addAll(cardDAO.getCardByIsLearned(folder, 0))
                 randomCard.addAll(cardDAO.getAllCardByFlashCardId(folder))
-                Toast.makeText(this@QuizFolderActivity, folder, Toast.LENGTH_SHORT).show()
-                if (cards.isNotEmpty()) {
-                    break
-                }
             }
 
             if (cards.isEmpty()) {
-                finishQuiz(1)
+                finishQuiz(2)
                 return@launch
-
             }
 
             val correctCard = cards.random()
+            Log.d("TAG", "setNextQuestion: $correctCard")
             randomCard.remove(correctCard)
 
             val incorrectCards = randomCard.shuffled().take(3)
 
             val allCards = (listOf(correctCard) + incorrectCards).shuffled()
+            Log.d("QuizFolderActivity", "allCards size: ${allCards.size}")
+            allCards.forEach { card ->
+                Log.d("QuizFolderActivity", "Card back: ${card.back}")
+            }
             val question = correctCard.front
             correctAnswer = correctCard.back
 
@@ -127,7 +128,6 @@ class QuizFolderActivity : AppCompatActivity() {
 
                 askedCards.add(correctCard)
 
-
             }
         }
     }
@@ -135,36 +135,36 @@ class QuizFolderActivity : AppCompatActivity() {
     private fun finishQuiz(status: Int) { //1 quiz, 2 learn
         runOnUiThread {
 
-            PopupDialog.getInstance(this)
-                .setStyle(Styles.SUCCESS)
-                .setHeading(getString(R.string.finish))
-                .setDescription(getString(R.string.finish_quiz))
-                .setDismissButtonText(getString(R.string.ok))
-                .setNegativeButtonText(getString(R.string.cancel))
-                .setPositiveButtonText(getString(R.string.ok))
-                .setCancelable(true)
-                .showDialog(object : OnDialogButtonClickListener() {
-                    override fun onDismissClicked(dialog: Dialog?) {
-                        super.onDismissClicked(dialog)
-                        dialog?.dismiss()
-                        finish()
-                    }
-                })
+            if (status == 1){
+                PopupDialog.getInstance(this)
+                    .setStyle(Styles.SUCCESS)
+                    .setHeading(getString(R.string.finish))
+                    .setDescription(getString(R.string.finish_quiz))
+                    .setDismissButtonText(getString(R.string.ok))
+                    .setCancelable(true)
+                    .showDialog(object : OnDialogButtonClickListener() {
+                        override fun onDismissClicked(dialog: Dialog?) {
+                            super.onDismissClicked(dialog)
+                            dialog?.dismiss()
+                            dialogCorrect?.create()?.dismiss()
+                            finish()
+                        }
+                    })
+            }
         }
 
     }
 
     private fun correctDialog(answer: String) {
-        val dialog = AlertDialog.Builder(this)
+        dialogCorrect = AlertDialog.Builder(this)
         val dialogBinding = DialogCorrectBinding.inflate(layoutInflater)
-        dialog.setView(dialogBinding.root)
-        dialog.setCancelable(true)
-        val builder = dialog.create()
+        dialogCorrect!!.setView(dialogBinding.root)
+        dialogCorrect!!.setCancelable(true)
+        val builder = dialogCorrect!!.create()
         dialogBinding.questionTv.text = answer
-        dialog.setOnDismissListener {
+        dialogCorrect!!.setOnDismissListener {
             startAnimations()
         }
-
 
         builder.show()
 
@@ -213,6 +213,12 @@ class QuizFolderActivity : AppCompatActivity() {
             })
             animator.start()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+        dialogCorrect?.create()?.dismiss()
     }
 
 }

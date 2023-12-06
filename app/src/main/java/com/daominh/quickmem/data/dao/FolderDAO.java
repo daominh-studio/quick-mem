@@ -258,6 +258,21 @@ public class FolderDAO {
         return flashCards;
     }
 
+    //remove flashcard from folder
+    public long removeFlashCardFromFolder(String folder_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        try {
+            result = sqLiteDatabase.delete(QMDatabaseHelper.TABLE_FOLDERS_FLASHCARDS, "folder_id = ? AND flashcard_id = ?", new String[]{folder_id, flashcard_id});
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "removeFlashCardFromFolder: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 
 
 }
