@@ -54,8 +54,9 @@ I hope you like it.
 <td>Sign In</td>
 <td>Sign Up</td>
 </tr>
-<p>Will add soon</p>
+
 </table>
+<p>Will add soon</p>
 
 ## Video
 Coming soon
