@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/add_member"
-        android:title="Add member" />
+            android:id="@+id/add_member"
+            android:icon="@drawable/add_user"
+            android:title="@string/add_member"/>
     <item
-        android:id="@+id/add_sets"
-        android:title="Add sets" />
+            android:id="@+id/add_sets"
+            android:icon="@drawable/copy"
+            android:title="@string/add_sets"/>
     <item
-        android:id="@+id/delete_class"
-        android:title="Delete class" />
+            android:id="@+id/edit_class"
+            android:title="@string/edit_class"
+            android:icon="@drawable/ic_edit"/>
+    <item
+            android:id="@+id/delete_class"
+            android:title="@string/delete_class"
+            android:icon="@drawable/ic_delete"/>
 </menu>

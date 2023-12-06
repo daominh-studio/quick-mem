@@ -1,5 +1,7 @@
 package com.daominh.quickmem.ui.activities.classes;
 
+import android.app.Dialog;
+import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -9,12 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.daominh.quickmem.AddMemberActivity;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ActivityViewClassBinding;
 import com.google.android.material.tabs.TabLayout;
+import com.kennyc.bottomsheet.BottomSheetListener;
+import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ViewClassActivity extends AppCompatActivity {
     private ActivityViewClassBinding binding;
@@ -63,20 +73,106 @@ public class ViewClassActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_view_class, menu);
+        getMenuInflater().inflate(R.menu.menu_view_set, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.add_member) {
+        if (item.getItemId() == R.id.menu) {
+            new BottomSheetMenuDialogFragment.Builder(this)
+                    .setSheet(R.menu.menu_view_class)
+                    .setTitle("Class")
+                    .setListener(new BottomSheetListener() {
+                        @Override
+                        public void onSheetShown(@NotNull BottomSheetMenuDialogFragment bottomSheetMenuDialogFragment, @Nullable Object o) {
 
-        } else if (id == R.id.add_sets){
+                        }
 
-        } else if (id == R.id.delete_class){
-            
+                        @Override
+                        public void onSheetItemSelected(@NotNull BottomSheetMenuDialogFragment bottomSheetMenuDialogFragment, @NotNull MenuItem menuItem, @Nullable Object o) {
+                            if (menuItem.getItemId() == R.id.add_member) {
+                                holderAddMember();
+
+                            } else if (menuItem.getItemId() == R.id.add_sets) {
+
+                            } else if (menuItem.getItemId() == R.id.edit_class) {
+
+                            } else if (menuItem.getItemId() == R.id.delete_class) {
+                                handleDeleteClass();
+
+                            }
+                        }
+
+                        @Override
+                        public void onSheetDismissed(@NotNull BottomSheetMenuDialogFragment bottomSheetMenuDialogFragment, @Nullable Object o, int i) {
+
+                        }
+                    })
+                    .setCloseTitle(getString(R.string.close))
+                    .setAutoExpand(true)
+                    .setCancelable(true)
+                    .show(getSupportFragmentManager());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleDeleteClass() {
+        PopupDialog.getInstance(this)
+                .setStyle(Styles.STANDARD)
+                .setHeading("Are you sure?")
+                .setDescription("You will not be able to recover this class!")
+                .setPositiveButtonText("Yes")
+                .setPopupDialogIcon(R.drawable.ic_delete)
+                .setNegativeButtonText("Cancel")
+                .setCancelable(true)
+                .showDialog(new OnDialogButtonClickListener() {
+                    @Override
+                    public void onPositiveClicked(Dialog dialog) {
+                        super.onPositiveClicked(dialog);
+                        if (groupDAO.deleteClass(id) > 0L) {
+                            PopupDialog.getInstance(ViewClassActivity.this)
+                                    .setStyle(Styles.SUCCESS)
+                                    .setHeading("Deleted!")
+                                    .setDescription("Your class has been deleted.")
+                                    .setDismissButtonText("OK")
+                                    .setCancelable(true)
+                                    .showDialog(new OnDialogButtonClickListener() {
+                                        @Override
+                                        public void onDismissClicked(Dialog dialog) {
+                                            super.onDismissClicked(dialog);
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    });
+                        } else {
+                            PopupDialog.getInstance(ViewClassActivity.this)
+                                    .setStyle(Styles.FAILED)
+                                    .setHeading("Error!")
+                                    .setDescription("Something went wrong!")
+                                    .setPositiveButtonText("OK")
+                                    .setCancelable(true)
+                                    .showDialog(new OnDialogButtonClickListener() {
+                                        @Override
+                                        public void onDismissClicked(Dialog dialog) {
+                                            super.onDismissClicked(dialog);
+                                            dialog.dismiss();
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onNegativeClicked(Dialog dialog) {
+                        super.onNegativeClicked(dialog);
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    private void holderAddMember() {
+        Intent intent = new Intent(this, AddMemberActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 }

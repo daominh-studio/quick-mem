@@ -149,4 +149,7 @@
     <string name="this_class_has_no_sets">This class has no sets</string>
     <string name="add_study_sets_to_share_them_with_your_class">Add study sets to share them with your class.</string>
     <string name="add_sets">Add sets</string>
+    <string name="add_member">Add member</string>
+    <string name="delete_class">Delete class</string>
+    <string name="edit_class">Edit</string>
 </resources>

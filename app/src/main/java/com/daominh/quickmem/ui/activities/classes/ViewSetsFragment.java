@@ -60,10 +60,8 @@ public class ViewSetsFragment extends Fragment {
 
     private void fetchFlashCards() {
         ArrayList<String> listId = groupDAO.getAllFlashCardInClass(userSharePreferences.getClassId());
-        Toast.makeText(requireActivity(), listId.size() + "", Toast.LENGTH_SHORT).show();
         for (String id : listId) {
             flashCards.add(flashCardDAO.getFlashCardById(id));
-            Toast.makeText(requireActivity(), id, Toast.LENGTH_SHORT).show();
         }
     }
 

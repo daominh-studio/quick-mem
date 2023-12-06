@@ -57,7 +57,7 @@ public class UserDAO {
         } catch (SQLException e) {
             Log.e("UserDAO", "checkEmail: " + e);
             return false;
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
     }
@@ -72,7 +72,7 @@ public class UserDAO {
         } catch (SQLException e) {
             Log.e("UserDAO", "checkUsername: " + e);
             return false;
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
     }
@@ -106,7 +106,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "checkPassword: " + e);
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return false;
@@ -145,8 +145,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserByIdentifier: " + e);
-        }
-        finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return null;
@@ -171,7 +170,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getPasswordUser: " + e);
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return null;
@@ -242,7 +241,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getAllUser: " + e);
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return users;
@@ -270,7 +269,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserById: " + e);
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return null;
@@ -280,7 +279,7 @@ public class UserDAO {
     public ArrayList<User> getListUserByIdClass(String idClass) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
         ArrayList<User> users = new ArrayList<>();
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id IN (SELECT id_user FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE id_class = '" + idClass + "')";
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id IN (SELECT user_id FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE class_id = '" + idClass + "')";
 
         try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
             while (cursor.moveToNext()) {
@@ -292,10 +291,60 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getListUserByIdClass: " + e);
-        }finally {
+        } finally {
             sqLiteDatabase.close();
         }
         return users;
+    }
+
+    //get all user just need id, username, avatar
+    public ArrayList<User> getAllUserJustNeed() {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        ArrayList<User> users = new ArrayList<>();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS;
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            while (cursor.moveToNext()) {
+                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex("id"));
+                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
+                @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
+                Log.e("UserDAO", "getAllUserJustNeed: " + id + " " + username + " " + avatar);
+
+                users.add(new User(id, null, null, username, null, avatar, 0, null, null, 0));
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getAllUserJustNeed: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        for (User user : users) {
+            if (user.getUsername().equals("admin")) {
+                users.remove(user);
+                break;
+            }
+        }
+        return users;
+    }
+
+    //get user by id class just need  username, avatar by id
+    public User getUserByIdClass(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
+                @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
+
+                return new User(id, null, null, username, null, avatar, 0, null, null, 0);
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getUserByIdClass: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return null;
     }
 
 }

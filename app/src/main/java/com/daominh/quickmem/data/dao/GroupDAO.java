@@ -290,4 +290,33 @@ public class GroupDAO {
         sqLiteDatabase.close();
         return classes;
     }
+
+    //delete class contain in table classes_flashcards and classes_users
+    public long deleteClass(String id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        //delete
+        try {
+            sqLiteDatabase.delete(
+                    QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS,
+                    "class_id = ?",
+                    new String[]{id}
+            );
+            sqLiteDatabase.delete(
+                    QMDatabaseHelper.TABLE_CLASSES_USERS,
+                    "class_id = ?",
+                    new String[]{id}
+            );
+            result = sqLiteDatabase.delete(
+                    QMDatabaseHelper.TABLE_CLASSES,
+                    "id = ?",
+                    new String[]{id}
+            );
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
 }

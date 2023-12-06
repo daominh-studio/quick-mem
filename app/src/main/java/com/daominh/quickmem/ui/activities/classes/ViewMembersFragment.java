@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.user.UserClassAdapter;
+import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
+import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentViewMembersBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
@@ -26,16 +28,18 @@ import java.util.ArrayList;
 public class ViewMembersFragment extends Fragment {
     private FragmentViewMembersBinding binding;
     UserSharePreferences userSharePreferences;
-
     private UserClassAdapter userClassAdapter;
     private UserDAO userDAO;
     private ArrayList<User> users = new ArrayList<>();
+    private Group group;
+    private GroupDAO groupDAO;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
         userDAO = new UserDAO(requireContext());
+        groupDAO = new GroupDAO(requireContext());
     }
 
     @Override
@@ -50,7 +54,10 @@ public class ViewMembersFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        group = groupDAO.getGroupById(userSharePreferences.getClassId());
+
         users = userDAO.getListUserByIdClass(userSharePreferences.getClassId());
+        users.add(userDAO.getUserByIdClass(group.getUser_id()));
         userClassAdapter = new UserClassAdapter(users);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         binding.membersRv.setLayoutManager(linearLayoutManager);

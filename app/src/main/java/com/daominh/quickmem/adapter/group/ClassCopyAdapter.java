@@ -1,5 +1,6 @@
 package com.daominh.quickmem.adapter.group;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ItemClassCopyBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.classes.ViewClassActivity;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,6 +36,7 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
         return new ClassViewHolder(binding.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull ClassCopyAdapter.ClassViewHolder holder, int position) {
         Group group = classes.get(position);
@@ -45,9 +48,10 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
         holder.binding.numberSetTv.setText(numberSet + " sets");
 
         holder.itemView.setOnClickListener(v -> {
+            UserSharePreferences userSharePreferences = new UserSharePreferences(context);
+            userSharePreferences.setClassId(group.getId());
             Intent intent = new Intent(context, ViewClassActivity.class);
             intent.putExtra("id", group.getId());
-
             context.startActivity(intent);
         });
     }
@@ -57,7 +61,7 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
         return classes.size();
     }
 
-    public class ClassViewHolder extends RecyclerView.ViewHolder {
+    public static class ClassViewHolder extends RecyclerView.ViewHolder {
         ItemClassCopyBinding binding;
 
         public ClassViewHolder(@NonNull @NotNull View itemView) {
