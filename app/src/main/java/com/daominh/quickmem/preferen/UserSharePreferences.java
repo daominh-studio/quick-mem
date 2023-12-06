@@ -15,6 +15,7 @@ public class UserSharePreferences {
     private static final String KEY_ROLE = "role_user";
     private static final String KEY_STATUS = "status";
     private static final String KEY_EMAIL = "email";
+    public static final String KEY_CLASS_ID = "class_id";
 
     private final SharedPreferences sharedPreferences;
 
@@ -41,18 +42,21 @@ public class UserSharePreferences {
     public String getId() {
         return sharedPreferences.getString(KEY_ID, "");
     }
+
     // get, set role user
-    public void setRole(int role){
+    public void setRole(int role) {
         sharedPreferences.edit().putInt(KEY_ROLE, role).apply();
     }
+
     public int getRole() {
         return sharedPreferences.getInt(KEY_ROLE, -1);
     }
 
     //set,get status
-    public void setStatus(int status){
+    public void setStatus(int status) {
         sharedPreferences.edit().putInt(KEY_STATUS, status).apply();
     }
+
     public int getStatus() {
         return sharedPreferences.getInt(KEY_STATUS, -1);
     }
@@ -87,12 +91,29 @@ public class UserSharePreferences {
         return sharedPreferences.getString(KEY_USER_NAME, "");
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         sharedPreferences.edit().putString(KEY_EMAIL, email).apply();
     }
+
     public String getEmail() {
         return sharedPreferences.getString(KEY_EMAIL, "");
     }
+
+    //set class id
+    public void setClassId(String classId) {
+        sharedPreferences.edit().putString(KEY_CLASS_ID, classId).apply();
+    }
+
+    //get class id
+    public String getClassId() {
+        return sharedPreferences.getString(KEY_CLASS_ID, "");
+    }
+
+    //remove class id
+    public void removeClassId() {
+        sharedPreferences.edit().remove(KEY_CLASS_ID).apply();
+    }
+
     //clear
     public void clear() {
         sharedPreferences.edit().clear().apply();

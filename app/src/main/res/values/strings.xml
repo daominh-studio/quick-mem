@@ -146,4 +146,7 @@
     <string name="enter_a_topic_or_keywords_n_tips_the_more_specific_the_better">Enter a topic or keywords \n Tips: The more specific, the better!</string>
     <string name="no_result_for_your_search_n_please_try_again">No result for your search, \n please try again.</string>
     <string name="cards_left_30">Cards left: 30</string>
+    <string name="this_class_has_no_sets">This class has no sets</string>
+    <string name="add_study_sets_to_share_them_with_your_class">Add study sets to share them with your class.</string>
+    <string name="add_sets">Add sets</string>
 </resources>

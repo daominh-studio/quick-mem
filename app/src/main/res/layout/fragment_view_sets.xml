@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This class has no sets"
+            android:text="@string/this_class_has_no_sets"
             android:textColor="@color/black"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold" />
@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add study sets to share them with your class."
+            android:text="@string/add_study_sets_to_share_them_with_your_class"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/round_button_course"
             android:paddingHorizontal="20dp"
-            android:text="Add sets"
+            android:text="@string/add_sets"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp" />

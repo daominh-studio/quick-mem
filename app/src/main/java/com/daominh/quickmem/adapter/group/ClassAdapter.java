@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ItemClassBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.classes.ViewClassActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,9 +49,10 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.binding.numberSetTv.setText(numberSet + " sets");
 
         holder.itemView.setOnClickListener(v -> {
+            UserSharePreferences userSharePreferences = new UserSharePreferences(context);
+            userSharePreferences.setClassId(group.getId());
             Intent intent = new Intent(context, ViewClassActivity.class);
             intent.putExtra("id", group.getId());
-
             context.startActivity(intent);
         });
     }

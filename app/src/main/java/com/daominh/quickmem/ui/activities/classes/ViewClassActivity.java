@@ -59,15 +59,6 @@ public class ViewClassActivity extends AppCompatActivity {
         Group group = groupDAO.getGroupById(id);
         binding.classNameTv.setText(group.getName());
 
-//        ViewSetsFragment viewSetsFragment = (ViewSetsFragment) myViewClassAdapter.getItem(0);
-//        if (viewSetsFragment != null) {
-//            int count = viewSetsFragment.getSetsCount();
-//            binding.termCountTv.setText("Count: "+count);
-//            Toast.makeText(this, "Count: " + count, Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-//        }
-
     }
 
     @Override

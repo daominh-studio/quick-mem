@@ -85,7 +85,7 @@ class QuizFolderActivity : AppCompatActivity() {
             }
 
             if (cards.isEmpty()) {
-                finishQuiz(2)
+                finishQuiz(1)
                 return@launch
             }
 

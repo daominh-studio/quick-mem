@@ -275,4 +275,27 @@ public class UserDAO {
         }
         return null;
     }
+
+    //get list user by id class just need id, username, avatar
+    public ArrayList<User> getListUserByIdClass(String idClass) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        ArrayList<User> users = new ArrayList<>();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id IN (SELECT id_user FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE id_class = '" + idClass + "')";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            while (cursor.moveToNext()) {
+                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex("id"));
+                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
+                @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
+
+                users.add(new User(id, null, null, username, null, avatar, 0, null, null, 0));
+            }
+        } catch (SQLException e) {
+            Log.e("UserDAO", "getListUserByIdClass: " + e);
+        }finally {
+            sqLiteDatabase.close();
+        }
+        return users;
+    }
+
 }

@@ -211,6 +211,22 @@ public class GroupDAO {
         return result;
     }
 
+    //get all flashcards in class return list id flashcard
+    public ArrayList<String> getAllFlashCardInClass(String class_id) {
+        ArrayList<String> flashcards = new ArrayList<>();
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        String query = "SELECT flashcard_id FROM " + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + " WHERE " + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + ".class_id = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{class_id});
+        if (cursor.moveToFirst()) {
+            do {
+                flashcards.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return flashcards;
+    }
+
 
     //get classes by id
     public Group getClassById(String id) {
