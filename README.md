@@ -20,6 +20,9 @@ I hope you like it.
 - [x] Learn by quiz
 - [] Learn by true/false
 - [] Learn by filling in the blank
+- [] Learn by matching
+- [] Notification
+- [] Firebase
 - [x] Learn by multiple choice
 - [x] Add to folder
 - [x] Add to class
