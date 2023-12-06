@@ -100,4 +100,10 @@ public class ViewSetsFragment extends Fragment {
         super.onDestroy();
         removeIdClass();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        setupRecyclerView();
+    }
 }

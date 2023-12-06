@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.daominh.quickmem.AddFlashCardToClassActivity;
 import com.daominh.quickmem.AddMemberActivity;
 import com.daominh.quickmem.EditClassActivity;
 import com.daominh.quickmem.R;
@@ -65,6 +66,11 @@ public class ViewClassActivity extends AppCompatActivity {
             }
         });
 
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeRefreshLayout.setRefreshing(false);
+            myViewClassAdapter.notifyDataSetChanged();
+        });
+
 
     }
 
@@ -73,6 +79,7 @@ public class ViewClassActivity extends AppCompatActivity {
         groupDAO = new GroupDAO(this);
         Group group = groupDAO.getGroupById(id);
         binding.classNameTv.setText(group.getName());
+        binding.termCountTv.setText(groupDAO.getNumberFlashCardInClass(id) + " sets");
     }
 
     @Override
@@ -99,6 +106,7 @@ public class ViewClassActivity extends AppCompatActivity {
                                 holderAddMember();
 
                             } else if (menuItem.getItemId() == R.id.add_sets) {
+                                handleAddSets();
 
                             } else if (menuItem.getItemId() == R.id.edit_class) {
                                 handleEditClass();
@@ -120,6 +128,12 @@ public class ViewClassActivity extends AppCompatActivity {
                     .show(getSupportFragmentManager());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleAddSets() {
+        Intent intent = new Intent(this, AddFlashCardToClassActivity.class);
+        intent.putExtra("flashcard_id", id);
+        startActivity(intent);
     }
 
     private void handleEditClass() {

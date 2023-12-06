@@ -19,7 +19,6 @@ class SetFolderViewAdapter(
     private val isSelect: Boolean = false,
     private val folderId: String = ""
 ) : RecyclerView.Adapter<SetFolderViewAdapter.SetFolderViewHolder>() {
-    private val selectedItems = ArrayList<FlashCard>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetFolderViewHolder {
@@ -49,7 +48,6 @@ class SetFolderViewAdapter(
                         holder.itemView.context,
                         com.daominh.quickmem.R.drawable.background_select
                     )
-                selectedItems.add(flashcard)
             } else {
                 holder.binding.setFolderItem.background =
                     AppCompatResources.getDrawable(
@@ -58,9 +56,12 @@ class SetFolderViewAdapter(
                     )
             }
 
-            holder.binding.setFolderItem.setOnClickListener {
-                if (selectedItems.contains(flashcard)) {
-                    selectedItems.remove(flashcard)
+
+            }
+
+        holder.binding.setFolderItem.setOnClickListener {
+            if (isSelect) {
+                if (folderDAO.isFlashCardInFolder(folderId, flashcard.id)) {
                     folderDAO.removeFlashCardFromFolder(folderId, flashcard.id)
                     holder.binding.setFolderItem.background =
                         AppCompatResources.getDrawable(
@@ -69,28 +70,22 @@ class SetFolderViewAdapter(
                         )
                 } else {
                     folderDAO.addFlashCardToFolder(folderId, flashcard.id)
-                    selectedItems.add(flashcard)
                     holder.binding.setFolderItem.background =
                         AppCompatResources.getDrawable(
                             holder.itemView.context,
                             com.daominh.quickmem.R.drawable.background_select
                         )
                 }
+            } else {
+                Intent(holder.itemView.context, ViewSetActivity::class.java).also {
+                    it.putExtra("id", flashcard.id)
+                    holder.itemView.context.startActivity(it)
+                }
             }
 
-        }else{
-            holder.binding.setFolderItem.setOnClickListener {
-                val intent = Intent(holder.itemView.context, ViewSetActivity::class.java)
-                intent.putExtra("id", flashcard.id)
-                holder.itemView.context.startActivity(intent)
-            }
         }
     }
 
-
-    fun getItemSelect(): ArrayList<FlashCard> {
-        return selectedItems
-    }
 
     override fun getItemCount(): Int {
         return flashcardList.size

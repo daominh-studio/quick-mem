@@ -39,7 +39,7 @@ class AddToClassActivity : AppCompatActivity() {
     }
 
     private fun setupNewClassIntent() {
-        binding.createNewClassTv.setOnClickListener{
+        binding.createNewClassTv.setOnClickListener {
             Intent(this, CreateClassActivity::class.java).also {
                 startActivity(it)
             }

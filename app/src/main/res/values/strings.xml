@@ -152,4 +152,5 @@
     <string name="add_member">Add member</string>
     <string name="delete_class">Delete class</string>
     <string name="edit_class">Edit</string>
+    <string name="name_class">Name class</string>
 </resources>
