@@ -14,7 +14,7 @@ class SelectDefineActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivitySelectDefineBinding.inflate(layoutInflater) }
     private val cardDAO by lazy { CardDAO(this) }
-    lateinit var cardList: List<Card>
+    lateinit var cardList: List<Card> //list of card
 
     private lateinit var defineListAdapter: DefineListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
