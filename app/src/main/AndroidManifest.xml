@@ -17,6 +17,9 @@
             android:theme="@style/Theme.QuickMem"
             tools:targetApi="31">
         <activity
+                android:name=".EditClassActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".AddMemberActivity"
                 android:exported="false"/>
         <activity

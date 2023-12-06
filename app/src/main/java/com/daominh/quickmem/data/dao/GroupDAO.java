@@ -319,4 +319,33 @@ public class GroupDAO {
         }
         return result;
     }
+
+    //update class
+    public long updateClass(Group group) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        ContentValues contentValues = new ContentValues();
+
+        //put
+        contentValues.put("name", group.getName());
+        contentValues.put("description", group.getDescription());
+        contentValues.put("status", group.getStatus());
+        contentValues.put("updated_at", group.getUpdated_at());
+
+        //update
+        try {
+            result = sqLiteDatabase.update(
+                    QMDatabaseHelper.TABLE_CLASSES,
+                    contentValues,
+                    "id = ?",
+                    new String[]{group.getId()}
+            );
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
 }

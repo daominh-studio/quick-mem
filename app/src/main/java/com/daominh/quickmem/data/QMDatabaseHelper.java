@@ -5,11 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class QMDatabaseHelper extends SQLiteOpenHelper {
-
     //create database name and version
     private static final String DATABASE_NAME = "quickmem.db";
     private static final int DATABASE_VERSION = 1;
-
     //create table name
     public static final String TABLE_USERS = "users";
     public static final String TABLE_CLASSES = "classes";
@@ -19,11 +17,9 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_CLASSES_USERS = "classes_users";
     public static final String TABLE_CLASSES_FLASHCARDS = "classes_flashcards";
     public static final String TABLE_FOLDERS_FLASHCARDS = "folders_flashcards";
-
     //command
     public static final String COMMAND_CREATE_TABLE = "CREATE TABLE ";
     public static final String COMMAND_DROP_TABLE = "DROP TABLE IF EXISTS ";
-
     //create sql query
     public static final String CREATE_TABLE_USERS = COMMAND_CREATE_TABLE + TABLE_USERS + " (" +
             "id TEXT PRIMARY KEY UNIQUE, " +

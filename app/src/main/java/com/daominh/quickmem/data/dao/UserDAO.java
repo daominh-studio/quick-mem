@@ -151,12 +151,6 @@ public class UserDAO {
         return null;
     }
 
-    //get avatar by id user
-    public String getAvatarUser(String id) {
-        User user = getUserByIdentifier(id);
-        return user != null ? user.getAvatar() : null;
-    }
-
     //get password by id user
     @SuppressLint("Range")
     public String getPasswordUser(String id) {
@@ -326,7 +320,7 @@ public class UserDAO {
         return users;
     }
 
-    //get user by id class just need  username, avatar by id
+    //get user by id class just need username, avatar by id
     public User getUserByIdClass(String id) {
         sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
         String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_USERS + " WHERE id = '" + id + "'";

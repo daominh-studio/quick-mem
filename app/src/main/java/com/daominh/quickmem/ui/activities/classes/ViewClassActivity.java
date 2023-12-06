@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.daominh.quickmem.AddMemberActivity;
+import com.daominh.quickmem.EditClassActivity;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
@@ -64,11 +65,14 @@ public class ViewClassActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void setUpData() {
         id = getIntent().getStringExtra("id");
         groupDAO = new GroupDAO(this);
         Group group = groupDAO.getGroupById(id);
         binding.classNameTv.setText(group.getName());
-
     }
 
     @Override
@@ -97,6 +101,7 @@ public class ViewClassActivity extends AppCompatActivity {
                             } else if (menuItem.getItemId() == R.id.add_sets) {
 
                             } else if (menuItem.getItemId() == R.id.edit_class) {
+                                handleEditClass();
 
                             } else if (menuItem.getItemId() == R.id.delete_class) {
                                 handleDeleteClass();
@@ -115,6 +120,12 @@ public class ViewClassActivity extends AppCompatActivity {
                     .show(getSupportFragmentManager());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleEditClass() {
+        Intent intent = new Intent(this, EditClassActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     private void handleDeleteClass() {
@@ -174,5 +185,11 @@ public class ViewClassActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddMemberActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpData();
     }
 }
