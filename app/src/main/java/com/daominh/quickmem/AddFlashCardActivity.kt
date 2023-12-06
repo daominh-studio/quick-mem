@@ -66,5 +66,10 @@ class AddFlashCardActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerView()
+    }
+
 
 }

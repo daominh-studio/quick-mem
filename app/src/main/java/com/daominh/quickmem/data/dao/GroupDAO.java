@@ -131,7 +131,9 @@ public class GroupDAO {
     public ArrayList<Group> getAllClasses() {
         ArrayList<Group> classes = new ArrayList<>();
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query(QMDatabaseHelper.TABLE_CLASSES, null, null, null, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(
+                QMDatabaseHelper.TABLE_CLASSES, null, null, null, null, null, null
+        );
         if (cursor.moveToFirst()) {
             do {
                 Group group = new Group();
@@ -170,6 +172,45 @@ public class GroupDAO {
         }
         return result;
     }
+
+    //remove flashcard from class
+    public long removeFlashCardFromClass(String class_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        long result = 0;
+
+        //delete
+        try {
+            result = sqLiteDatabase.delete(
+                    QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS,
+                    "class_id = ? AND flashcard_id = ?",
+                    new String[]{class_id, flashcard_id}
+            );
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return result;
+    }
+
+    //check if flashcard is in class
+    public boolean isFlashCardInClass(String class_id, String flashcard_id) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        boolean result = false;
+
+        String query = "SELECT * FROM "
+                + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS +
+                " WHERE " + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + ".class_id = ? AND "
+                + QMDatabaseHelper.TABLE_CLASSES_FLASHCARDS + ".flashcard_id = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{class_id, flashcard_id});
+        if (cursor.moveToFirst()) {
+            result = true;
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return result;
+    }
+
 
     //get classes by id
     public Group getClassById(String id) {

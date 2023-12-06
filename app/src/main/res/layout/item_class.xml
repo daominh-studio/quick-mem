@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_gray"
-        android:paddingBottom="@dimen/_5dp">
+        android:padding="@dimen/_10dp">
 
 
         <TextView
