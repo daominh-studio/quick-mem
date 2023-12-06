@@ -18,8 +18,8 @@ I hope you like it.
 - [x] Delete a card
 - [x] Learn by flashcard
 - [x] Learn by quiz
-- [x] Learn by true/false
-- [x] Learn by filling in the blank
+- [] Learn by true/false
+- [] Learn by filling in the blank
 - [x] Learn by multiple choice
 - [x] Add to folder
 - [x] Add to class
