@@ -2,9 +2,7 @@ package com.daominh.quickmem.ui.activities.learn
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.DefineListAdapter
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.model.Card

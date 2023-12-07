@@ -33,9 +33,11 @@
         <EditText
             android:id="@+id/class_et"
             android:layout_width="match_parent"
+            android:lineBreakStyle="strict"
+            android:clipToOutline="true"
             android:layout_height="match_parent"
             android:imeOptions="actionNext"
-            android:inputType="text" />
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +57,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:imeOptions="actionNext"
-            android:inputType="text" />
+            android:lineBreakStyle="strict"
+            android:clipToOutline="true"
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

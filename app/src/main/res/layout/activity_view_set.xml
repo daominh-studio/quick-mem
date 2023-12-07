@@ -44,15 +44,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_10dp"
                     android:src="@drawable/previous"
-                    android:id="@+id/previous_iv"/>
+                    android:id="@+id/previous_iv"
+                    android:contentDescription="@string/app_name"/>
 
             <TextView
                     android:id="@+id/previous_tv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:textStyle="bold"
-                    android:textSize="@dimen/_16dp"
-                    android:text="1"
+                    android:textSize="@dimen/_16sp"
+                    android:text="@string/_1"
                     android:layout_marginHorizontal="@dimen/_8ssp"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -63,8 +64,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:textStyle="bold"
-                    android:textSize="@dimen/_16dp"
-                    android:text="2"
+                    android:textSize="@dimen/_16sp"
+                    android:text="@string/_2"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:background="@drawable/bold_gray"/>
@@ -74,8 +75,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:textStyle="bold"
-                    android:textSize="@dimen/_16dp"
-                    android:text="3"
+                    android:textSize="@dimen/_16sp"
+                    android:text="@string/_3"
                     android:layout_marginHorizontal="@dimen/_8ssp"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -86,7 +87,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/next"
-                    android:id="@+id/next_iv"/>
+                    android:id="@+id/next_iv"
+                    android:contentDescription="@string/app_name"/>
 
 
         </LinearLayout>
@@ -134,7 +136,8 @@
                         app:layout_constraintTop_toBottomOf="@id/description_tv"
                         app:layout_constraintStart_toStartOf="@id/description_tv"
                         android:layout_marginTop="@dimen/_8ssp"
-                        android:layout_marginBottom="@dimen/_16ssp"/>
+                        android:layout_marginBottom="@dimen/_16ssp"
+                        android:contentDescription="@string/app_name"/>
 
                 <TextView
                         android:id="@+id/user_name_tv"
@@ -142,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_5dp"
                         android:text="@string/user_name"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/_18ssp"
                         android:textColor="@color/celestial_blue"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -210,7 +213,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:id="@+id/flashcards_iv"/>
+                            android:id="@+id/flashcards_iv"
+                            android:contentDescription="@string/app_name"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -262,7 +266,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:id="@+id/learn_iv"/>
+                            android:id="@+id/learn_iv"
+                            android:contentDescription="@string/app_name"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -287,6 +292,58 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_12ssp"
+                        android:elevation="@dimen/_8ssp"
+                        android:background="@drawable/radius"
+                        android:id="@+id/true_false_cl">
+
+                    <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/decision_making"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/true_false_iv"
+                            android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/true_false"
+                            android:textSize="@dimen/_16ssp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="@dimen/_8ssp"
+                            app:layout_constraintTop_toTopOf="@id/true_false_iv"
+                            app:layout_constraintStart_toEndOf="@id/true_false_iv"
+                            android:id="@+id/true_false_tv"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/true_false_description"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginStart="@dimen/_8ssp"
+                            app:layout_constraintTop_toBottomOf="@id/true_false_tv"
+                            app:layout_constraintStart_toEndOf="@id/true_false_iv"
+                            android:id="@+id/true_false_description_tv"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <LinearLayout
@@ -298,7 +355,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your progress"
+                    android:text="@string/your_progress"
                     android:textSize="@dimen/_20ssp"
                     android:textStyle="bold"
                     android:layout_marginBottom="@dimen/_10ssp"/>
@@ -306,7 +363,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Review your progress, and see how much you've learned."
+                    android:text="@string/review_your_progress_and_see_how_much_you_ve_learned"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     android:layout_marginBottom="@dimen/_10ssp"
@@ -328,7 +385,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/not_learn_tv"
-                        android:text="Not learn: 37 terms"/>
+                        android:text="@string/not_learn_37_terms"/>
             </LinearLayout>
 
             <LinearLayout
@@ -347,7 +404,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/is_learning_tv"
-                        android:text="Learning: 37 terms"/>
+                        android:text="@string/not_learn_37_terms"/>
             </LinearLayout>
 
             <LinearLayout
@@ -365,7 +422,7 @@
                         android:id="@+id/learned_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Not learn: 37 terms"/>
+                        android:text="@string/not_learn_37_terms"/>
             </LinearLayout>
 
         </LinearLayout>

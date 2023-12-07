@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.R;
+import com.daominh.quickmem.TrueFalseFlashCardsActivity;
 import com.daominh.quickmem.adapter.card.ViewTermsAdapter;
 import com.daominh.quickmem.adapter.card.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
@@ -45,15 +46,14 @@ import java.util.Date;
 
 public class ViewSetActivity extends AppCompatActivity {
     private ActivityViewSetBinding binding;
-    CardDAO cardDAO;
-    FlashCardDAO flashCardDAO;
-    ArrayList<Card> cards;
-    ViewSetAdapter viewSetAdapter;
-    LinearLayoutManager linearLayoutManager;
+    private CardDAO cardDAO;
+    private FlashCardDAO flashCardDAO;
+    private ArrayList<Card> cards;
+    private LinearLayoutManager linearLayoutManager;
     private static final String LIST_POSITION = "list_position";
-    int listPosition = 0;
-    UserSharePreferences userSharePreferences;
-    String idCard;
+    private int listPosition = 0;
+    private UserSharePreferences userSharePreferences;
+    private String idCard;
 
 
     @SuppressLint("SetTextI18n")
@@ -75,7 +75,20 @@ public class ViewSetActivity extends AppCompatActivity {
         setupUserDetails();
         setupReviewClickListener();
         setupLearnClickListener();
+        setTrueFalseClickListener();
         setupToolbarNavigation();
+    }
+
+    private void setTrueFalseClickListener() {
+        binding.trueFalseCl.setOnClickListener(v -> {
+            if (!isUserOwner()) {
+                showLearnErrorDialog();
+            } else {
+                Intent intent = new Intent(this, TrueFalseFlashCardsActivity.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupOnScrollListener() {
@@ -83,7 +96,6 @@ public class ViewSetActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 int centerPosition = linearLayoutManager.findFirstVisibleItemPosition() + 1;
                 binding.centerTv.setText(String.valueOf(centerPosition));
                 binding.previousTv.setText(centerPosition > 1 ? String.valueOf(centerPosition - 1) : "");
@@ -228,10 +240,10 @@ public class ViewSetActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
         cardDAO = new CardDAO(this);
         cards = cardDAO.getCardsByFlashCardId(id);
-        if (isUserOwner()){
+        if (isUserOwner()) {
             setUpProgress(cards);
         }
-        viewSetAdapter = new ViewSetAdapter(this, cards);
+        ViewSetAdapter viewSetAdapter = new ViewSetAdapter(this, cards);
         binding.recyclerViewSet.setAdapter(viewSetAdapter);
         viewSetAdapter.notifyDataSetChanged();
 
@@ -502,5 +514,6 @@ public class ViewSetActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setupCardData();
+        setupUserDetails();
     }
 }

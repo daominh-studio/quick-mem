@@ -68,7 +68,7 @@ class QuizActivity : AppCompatActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     private fun setNextQuestion() {
         scope.launch {
-            val cards = cardDAO.getCardByIsLearned(id, 0) // get list of cards that are not learned
+            val cards = cardDAO.getCardByIsLearned(id, 0) // get a list of cards that are not learned
             val randomCard = cardDAO.getAllCardByFlashCardId(id) // get all cards
 
             if (cards.isEmpty()) {
@@ -77,8 +77,8 @@ class QuizActivity : AppCompatActivity() {
 
             }
 
-            val correctCard = cards.random() // get random card from list of cards that are not learned
-            randomCard.remove(correctCard) // remove correct card from list of all cards
+            val correctCard = cards.random() // get a random card from a list of cards that are not learned
+            randomCard.remove(correctCard) // remove the correct card from a list of all cards
 
             val incorrectCards = randomCard.shuffled().take(3) // get 3 random cards from list of all cards
 

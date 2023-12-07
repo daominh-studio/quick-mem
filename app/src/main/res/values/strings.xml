@@ -153,4 +153,13 @@
     <string name="delete_class">Delete class</string>
     <string name="edit_class">Edit</string>
     <string name="name_class">Name class</string>
+    <string name="question">Question</string>
+    <string name="true_false">True or False</string>
+    <string name="true_false_description">Learn super fast</string>
+    <string name="your_progress">Your progress</string>
+    <string name="review_your_progress_and_see_how_much_you_ve_learned">Review your progress, and see how much you\'ve learned.</string>
+    <string name="not_learn_37_terms">Not learn: 37 terms</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
 </resources>

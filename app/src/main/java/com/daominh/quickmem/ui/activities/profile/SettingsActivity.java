@@ -1,5 +1,6 @@
 package com.daominh.quickmem.ui.activities.profile;
 
+import android.app.Dialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.databinding.ActivitySettingsBinding;
 
@@ -20,7 +22,11 @@ import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
 import com.daominh.quickmem.ui.activities.profile.change.ChangeEmailActivity;
 import com.daominh.quickmem.ui.activities.profile.change.ChangePasswordActivity;
 import com.daominh.quickmem.ui.activities.profile.change.ChangeUsernameActivity;
+import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.daominh.quickmem.utils.PasswordHasher;
+import com.saadahmedsoft.popupdialog.PopupDialog;
+import com.saadahmedsoft.popupdialog.Styles;
+import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
 import java.util.Objects;
 
@@ -55,9 +61,34 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.logOutBtn.setOnClickListener(v -> {
-            userSharePreferences = new UserSharePreferences(SettingsActivity.this);
-            userSharePreferences.clear();
-            startActivity(new Intent(SettingsActivity.this, SignInActivity.class));
+            PopupDialog.getInstance(SettingsActivity.this)
+                    .setStyle(Styles.STANDARD)
+                    .setHeading("Log out!")
+                    .setDescription("Are you sure")
+                    .setPopupDialogIcon(R.drawable.baseline_logout_24)
+                    .setCancelable(true)
+                    .setPositiveButtonText("OK")
+                    .showDialog(new OnDialogButtonClickListener() {
+                        @Override
+                        public void onPositiveClicked(Dialog dialog) {
+                            super.onPositiveClicked(dialog);
+                            userSharePreferences = new UserSharePreferences(SettingsActivity.this);
+                            userSharePreferences.clear();
+                            Intent intent = new Intent(SettingsActivity.this, SignInActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onNegativeClicked(Dialog dialog) {
+                            super.onNegativeClicked(dialog);
+                            dialog.dismiss();
+                        }
+                    });
+
 
         });
     }
