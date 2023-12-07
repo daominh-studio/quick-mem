@@ -45,9 +45,9 @@ I hope you like it.
 
 <table>
   <tr>
-    <td><img src="./screenshorts/welcomescreen.png" width="200"></td>
-    <td><img src="./screenshorts/signin.png" width="200"></td>
-    <td><img src="./screenshorts/signup.png" width="200"></td>
+    <td><img src="./screenshorts/welcomescreen.png" width="200" alt=""></td>
+    <td><img src="./screenshorts/signin.png" width="200" alt=""></td>
+    <td><img src="./screenshorts/signup.png" width="200" alt=""></td>
 </tr>
 <tr>
 <td>Welcome</td>
