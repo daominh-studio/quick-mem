@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.group
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.user.UserClassAdapter
 import com.daominh.quickmem.data.dao.GroupDAO
 import com.daominh.quickmem.data.dao.UserDAO

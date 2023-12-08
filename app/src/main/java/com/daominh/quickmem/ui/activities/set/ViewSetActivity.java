@@ -14,7 +14,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.R;
-import com.daominh.quickmem.TrueFalseFlashCardsActivity;
+import com.daominh.quickmem.ui.activities.learn.TrueFalseFlashCardsActivity;
 import com.daominh.quickmem.adapter.card.ViewTermsAdapter;
 import com.daominh.quickmem.adapter.card.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;

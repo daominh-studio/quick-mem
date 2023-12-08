@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.learn
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.dao.FolderDAO

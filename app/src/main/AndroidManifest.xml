@@ -17,19 +17,19 @@
             android:theme="@style/Theme.QuickMem"
             tools:targetApi="31">
         <activity
-                android:name=".TrueFalseFlashCardsActivity"
+                android:name=".ui.activities.learn.TrueFalseFlashCardsActivity"
                 android:exported="false"/>
         <activity
-                android:name=".AddFlashCardToClassActivity"
+                android:name=".ui.activities.set.AddFlashCardToClassActivity"
                 android:exported="false"/>
         <activity
-                android:name=".EditClassActivity"
+                android:name=".ui.activities.group.EditClassActivity"
                 android:exported="false"/>
         <activity
-                android:name=".AddMemberActivity"
+                android:name=".ui.activities.group.AddMemberActivity"
                 android:exported="false"/>
         <activity
-                android:name=".QuizFolderActivity"
+                android:name=".ui.activities.learn.QuizFolderActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.set.EditFlashCardActivity"
@@ -44,7 +44,7 @@
                 android:name=".ui.activities.classes.ViewClassActivity"
                 android:exported="false"/>
         <activity
-                android:name=".AddFlashCardActivity"
+                android:name=".ui.activities.set.AddFlashCardActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.folder.ViewFolderActivity"

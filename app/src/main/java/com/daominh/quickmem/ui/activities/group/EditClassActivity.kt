@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.group
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.GroupDAO
 import com.daominh.quickmem.databinding.ActivityEditClassBinding
 import java.text.SimpleDateFormat

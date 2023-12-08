@@ -12,9 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.daominh.quickmem.AddFlashCardToClassActivity;
-import com.daominh.quickmem.AddMemberActivity;
-import com.daominh.quickmem.EditClassActivity;
+import com.daominh.quickmem.ui.activities.set.AddFlashCardToClassActivity;
+import com.daominh.quickmem.ui.activities.group.AddMemberActivity;
+import com.daominh.quickmem.ui.activities.group.EditClassActivity;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;

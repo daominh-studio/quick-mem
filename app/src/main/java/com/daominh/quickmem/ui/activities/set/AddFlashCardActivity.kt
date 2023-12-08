@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.set
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.model.FlashCard

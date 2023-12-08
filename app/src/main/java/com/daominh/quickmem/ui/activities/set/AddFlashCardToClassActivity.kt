@@ -1,4 +1,4 @@
-package com.daominh.quickmem
+package com.daominh.quickmem.ui.activities.set
 
 import android.annotation.SuppressLint
 import android.content.Intent
