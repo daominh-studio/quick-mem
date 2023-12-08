@@ -6,6 +6,7 @@
                                    app:cardPreventCornerOverlap="false"
                                    app:cardUseCompatPadding="true"
                                    android:id="@+id/folder_cv"
+
                                    android:layout_gravity="center|top"
                                    android:elevation="@dimen/_8ssp"
                                    app:cardCornerRadius="@dimen/_10dp">
@@ -13,13 +14,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:id="@+id/folder_cl"
+            android:background="@color/white_gray"
             android:layout_height="wrap_content">
 
         <ImageView
                 android:layout_marginTop="@dimen/_10dp"
                 android:id="@+id/folder_iv"
                 android:layout_width="@dimen/_30ssp"
-                android:background="@color/white_gray"
                 android:layout_height="40dp"
                 android:src="@mipmap/ic_folder"
                 android:layout_marginStart="@dimen/_16dp"

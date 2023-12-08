@@ -258,13 +258,10 @@ public class CreateSetActivity extends AppCompatActivity {
     }
 
     private boolean saveAllCards() {
-        var i = 0;
         for (Card card : cards) {
-            Log.d("cardtest", "positin: " + i + " - " + card.getFront() + " " + card.getBack());
             if (!saveCard(card)) {
                 return false;
             }
-            i++;
         }
         return true;
     }

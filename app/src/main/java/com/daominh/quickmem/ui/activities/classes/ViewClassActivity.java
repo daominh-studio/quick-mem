@@ -18,6 +18,7 @@ import com.daominh.quickmem.EditClassActivity;
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
+import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ActivityViewClassBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
@@ -180,6 +181,74 @@ public class ViewClassActivity extends AppCompatActivity {
                                             });
                                 }
 
+                            } else if (menuItem.getItemId() == R.id.leave_class) {
+                                if (!isOwner()) {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.STANDARD)
+                                            .setHeading("Are you sure?")
+                                            .setDescription("You will loss access to this class!")
+                                            .setPositiveButtonText("Yes")
+                                            .setPopupDialogIcon(R.drawable.baseline_logout_24)
+                                            .setNegativeButtonText("Cancel")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onPositiveClicked(Dialog dialog) {
+                                                    super.onPositiveClicked(dialog);
+                                                    UserDAO userDAO = new UserDAO(ViewClassActivity.this);
+                                                    if (userDAO.removeUserFromClass(userSharePreference.getId(), userSharePreference.getClassId()) > 0L) {
+                                                        PopupDialog.getInstance(ViewClassActivity.this)
+                                                                .setStyle(Styles.SUCCESS)
+                                                                .setHeading("Leave!")
+                                                                .setDescription("Your class has been leave!.")
+                                                                .setDismissButtonText("OK")
+                                                                .setCancelable(true)
+                                                                .showDialog(new OnDialogButtonClickListener() {
+                                                                    @Override
+                                                                    public void onDismissClicked(Dialog dialog) {
+                                                                        super.onDismissClicked(dialog);
+                                                                        dialog.dismiss();
+                                                                        finish();
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        PopupDialog.getInstance(ViewClassActivity.this)
+                                                                .setStyle(Styles.FAILED)
+                                                                .setHeading("Error!")
+                                                                .setDescription("Something went wrong!")
+                                                                .setPositiveButtonText("OK")
+                                                                .setCancelable(true)
+                                                                .showDialog(new OnDialogButtonClickListener() {
+                                                                    @Override
+                                                                    public void onDismissClicked(Dialog dialog) {
+                                                                        super.onDismissClicked(dialog);
+                                                                        dialog.dismiss();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onNegativeClicked(Dialog dialog) {
+                                                    super.onNegativeClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                } else {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading("Error!")
+                                            .setDescription("You are the owner of this class!")
+                                            .setPositiveButtonText("OK")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }
                             }
                         }
 

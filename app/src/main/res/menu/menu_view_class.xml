@@ -16,4 +16,8 @@
             android:id="@+id/delete_class"
             android:title="@string/delete_class"
             android:icon="@drawable/ic_delete"/>
+    <item
+            android:id="@+id/leave_class"
+            android:title="@string/leave_class"
+            android:icon="@drawable/baseline_logout_24"/>
 </menu>

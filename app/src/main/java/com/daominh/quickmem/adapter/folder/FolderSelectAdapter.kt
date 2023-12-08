@@ -31,8 +31,18 @@ class FolderSelectAdapter(
         holder.binding.folderCv.setOnClickListener {
             if (folderDAO.isFlashCardInFolder(folder.id, flashcardId)) {
                 folderDAO.removeFlashCardFromFolder(folder.id, flashcardId)
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Removed from ${folder.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 folderDAO.addFlashCardToFolder(folder.id, flashcardId)
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Added to ${folder.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             updateBackground(holder, folder, folderDAO)
         }
@@ -45,16 +55,15 @@ class FolderSelectAdapter(
                     holder.itemView.context,
                     com.daominh.quickmem.R.drawable.background_select
                 )
-            Toast.makeText(holder.itemView.context, "Added to folder", Toast.LENGTH_SHORT).show()
         } else {
             holder.binding.folderCv.background =
                 AppCompatResources.getDrawable(
                     holder.itemView.context,
                     com.daominh.quickmem.R.drawable.background_unselect
                 )
-            Toast.makeText(holder.itemView.context, "Removed from folder", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun getItemCount(): Int {
         return folderList.size
     }
