@@ -72,7 +72,7 @@ class QuizActivity : AppCompatActivity() {
             val randomCard = cardDAO.getAllCardByFlashCardId(id) // get all cards
 
             if (cards.isEmpty()) {
-                finishQuiz(1)
+                finishQuiz()
                 return@launch
 
             }
@@ -116,7 +116,7 @@ class QuizActivity : AppCompatActivity() {
         }
     }
 
-    private fun finishQuiz(status: Int) { //1 quiz, 2 learn
+    private fun finishQuiz() { //1 quiz, 2 learn
         runOnUiThread {
 
             PopupDialog.getInstance(this)

@@ -32,7 +32,7 @@ public class ViewSearchActivity extends AppCompatActivity {
     }
 
     private void setupBackButton() {
-        binding.backIv.setOnClickListener(v -> onBackPressed());
+        binding.backIv.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void setupData() {

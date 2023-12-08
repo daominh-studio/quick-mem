@@ -32,7 +32,7 @@ public class CoursesActivity extends AppCompatActivity {
         });
 
         setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void openDialog() {
