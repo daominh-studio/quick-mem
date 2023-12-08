@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
         binding.nameProfileTv.setText(userSharePreferences.getUserName());
         Picasso.get().load(userSharePreferences.getAvatar()).into(binding.profileIv);
 
-        binding.courseBtn.setOnClickListener(view1 -> startActivity(new Intent(requireActivity(), CoursesActivity.class)));
         binding.settingsBtn.setOnClickListener(view12 -> startActivity(new Intent(requireActivity(), SettingsActivity.class)));
     }
 }
