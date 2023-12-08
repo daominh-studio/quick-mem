@@ -238,7 +238,6 @@ class EditFlashCardActivity : AppCompatActivity() {
             }
 
             for (card_id in listIdCard) {
-                Toast.makeText(this, card_id, Toast.LENGTH_SHORT).show()
                 cardDAO.deleteCardById(card_id) >= 0
 
 

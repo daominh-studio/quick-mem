@@ -43,7 +43,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         Group group = classes.get(position);
         holder.binding.classNameTv.setText(group.getName());
         UserSharePreferences userSharePreferences = new UserSharePreferences(context);
-        if (Objects.equals(group.getId(), userSharePreferences.getClassId())) {
+        if (Objects.equals(group.getUser_id(), userSharePreferences.getId())) {
             holder.binding.isAdminTv.setVisibility(View.VISIBLE);
         }
         GroupDAO groupDAO = new GroupDAO(context);

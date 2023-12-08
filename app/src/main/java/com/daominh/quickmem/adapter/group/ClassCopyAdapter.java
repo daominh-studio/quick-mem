@@ -42,7 +42,7 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
     public void onBindViewHolder(@NonNull @NotNull ClassCopyAdapter.ClassViewHolder holder, int position) {
         Group group = classes.get(position);
         UserSharePreferences userSharePreferences = new UserSharePreferences(context);
-        if (Objects.equals(group.getId(), userSharePreferences.getClassId())) {
+        if (Objects.equals(group.getUser_id(), userSharePreferences.getId())) {
             holder.binding.isAdminTv.setVisibility(View.VISIBLE);
         }
         holder.binding.classNameTv.setText(group.getName());

@@ -445,11 +445,11 @@ public class ViewSetActivity extends AppCompatActivity {
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
             if (cardDAO.insertCard(card) > 0L) {
-                Toast.makeText(this, getString(R.string.review_success), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getString(R.string.review_error), Toast.LENGTH_SHORT).show();
             }
         }
+        Toast.makeText(this, getString(R.string.review_success), Toast.LENGTH_SHORT).show();
     }
 
 
