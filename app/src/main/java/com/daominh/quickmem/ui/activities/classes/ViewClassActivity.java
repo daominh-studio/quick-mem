@@ -200,6 +200,7 @@ public class ViewClassActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddFlashCardToClassActivity.class);
         intent.putExtra("flashcard_id", id);
         startActivity(intent);
+        finish();
     }
 
     private void handleEditClass() {

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.daominh.quickmem.R;
 import com.daominh.quickmem.adapter.user.UserClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.dao.UserDAO;
@@ -52,10 +51,11 @@ public class ViewMembersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Group group = groupDAO.getGroupById(userSharePreferences.getClassId());
-
-        ArrayList<User> users = userDAO.getListUserByIdClass(userSharePreferences.getClassId());
+        ArrayList<User> users = new ArrayList<>();
         users.add(userDAO.getUserByIdClass(group.getUser_id()));
-        UserClassAdapter userClassAdapter = new UserClassAdapter(users, false, "");
+        users.addAll(userDAO.getListUserByIdClass(userSharePreferences.getClassId()));
+
+        UserClassAdapter userClassAdapter = new UserClassAdapter(users, false, group.getId());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         binding.membersRv.setLayoutManager(linearLayoutManager);
         binding.membersRv.setAdapter(userClassAdapter);

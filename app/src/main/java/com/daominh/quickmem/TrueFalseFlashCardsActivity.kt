@@ -47,7 +47,6 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
             val incorrectAnswer = cardListAll.shuffled().take(1)
 
             val random = (0..1).random()
-            Log.d("TrueFalsee", "random: $random")
             if (random == 0) {
                 binding.questionTv.text = randomCard.front
                 binding.answerTv.text = randomCard.back
@@ -60,11 +59,9 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
                 if (random == 0) {
                     correctDialog(randomCard.back)
                     cardDAO.updateIsLearnedCardById(randomCard.id, 1)
-                    Log.d("TrueFalsee", "true1: ${randomCard.id}")
                     setUpQuestion()
                 } else {
                     wrongDialog(randomCard.back, randomCard.front, incorrectAnswer[0].back)
-                    Log.d("TrueFalsee", "false:1 ${randomCard.id}")
                     setUpQuestion()
                 }
             }
@@ -72,11 +69,9 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
                 if (random == 1) {
                     correctDialog(randomCard.back)
                     cardDAO.updateIsLearnedCardById(randomCard.id, 1)
-                    Log.d("TrueFalsee", "true: ${randomCard.id}")
                     setUpQuestion()
                 } else {
                     wrongDialog(randomCard.back, randomCard.front, incorrectAnswer[0].back)
-                    Log.d("TrueFalsee", "false: ${randomCard.id}")
                     setUpQuestion()
                 }
             }
@@ -84,6 +79,7 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
 
 
     }
+
     private fun finishQuiz() { //1 quiz, 2 learn
         runOnUiThread {
 

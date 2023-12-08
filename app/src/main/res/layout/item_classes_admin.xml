@@ -6,7 +6,6 @@
     android:layout_gravity="center_horizontal"
     android:layout_marginHorizontal="@dimen/_30ssp"
     android:layout_marginVertical="@dimen/_10dp"
-    android:background="@color/white_gray"
     android:elevation="@dimen/_8ssp"
     app:cardCornerRadius="@dimen/_10dp"
     app:cardPreventCornerOverlap="false"
@@ -15,7 +14,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_gray"
         android:paddingHorizontal="17dp"
         android:paddingBottom="@dimen/_16dp">
 

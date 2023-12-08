@@ -1,6 +1,7 @@
 package com.daominh.quickmem
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.dao.GroupDAO
 import com.daominh.quickmem.databinding.ActivityAddFlashcardToClassBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
+import com.daominh.quickmem.ui.activities.classes.ViewClassActivity
 
 class AddFlashCardToClassActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -35,7 +37,11 @@ class AddFlashCardToClassActivity : AppCompatActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            val id = intent.getStringExtra("flashcard_id")
+            val intent = Intent(this, ViewClassActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+            finish()
         }
     }
 

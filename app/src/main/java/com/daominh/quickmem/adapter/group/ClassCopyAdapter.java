@@ -16,10 +16,12 @@ import com.daominh.quickmem.ui.activities.classes.ViewClassActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.ClassViewHolder> {
     private final Context context;
     private final ArrayList<Group> classes;
+
 
     public ClassCopyAdapter(Context context, ArrayList<Group> classes) {
         this.context = context;
@@ -39,6 +41,10 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
     @Override
     public void onBindViewHolder(@NonNull @NotNull ClassCopyAdapter.ClassViewHolder holder, int position) {
         Group group = classes.get(position);
+        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
+        if (Objects.equals(group.getId(), userSharePreferences.getClassId())) {
+            holder.binding.isAdminTv.setVisibility(View.VISIBLE);
+        }
         holder.binding.classNameTv.setText(group.getName());
         GroupDAO groupDAO = new GroupDAO(context);
         int numberMember = groupDAO.getNumberMemberInClass(group.getId()) + 1;
@@ -47,7 +53,6 @@ public class ClassCopyAdapter extends RecyclerView.Adapter<ClassCopyAdapter.Clas
         holder.binding.numberSetTv.setText(numberSet + " sets");
 
         holder.itemView.setOnClickListener(v -> {
-            UserSharePreferences userSharePreferences = new UserSharePreferences(context);
             userSharePreferences.setClassId(group.getId());
             Intent intent = new Intent(context, ViewClassActivity.class);
             intent.putExtra("id", group.getId());

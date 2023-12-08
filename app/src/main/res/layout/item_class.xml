@@ -4,7 +4,6 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_10dp"
-    android:background="@color/white_gray"
     android:elevation="@dimen/_8ssp"
     app:cardCornerRadius="@dimen/_10dp"
     app:cardPreventCornerOverlap="false"
@@ -13,7 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_gray"
         android:padding="@dimen/_10dp">
 
 
@@ -80,6 +78,19 @@
             app:layout_constraintBottom_toBottomOf="@id/user_iv"
             app:layout_constraintStart_toEndOf="@id/user_iv"
             app:layout_constraintTop_toTopOf="@id/user_iv" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/is_admin_tv"
+                android:visibility="gone"
+                android:text="@string/is_admin"
+                android:textColor="@color/dark_gray"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

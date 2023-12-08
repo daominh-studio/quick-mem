@@ -3,13 +3,10 @@ package com.daominh.quickmem.adapter.user
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
-import com.daominh.quickmem.adapter.folder.FolderSelectAdapter
-import com.daominh.quickmem.data.dao.FolderDAO
+import com.daominh.quickmem.data.dao.GroupDAO
 import com.daominh.quickmem.data.dao.UserDAO
-import com.daominh.quickmem.data.model.Folder
 import com.daominh.quickmem.data.model.User
 import com.daominh.quickmem.databinding.ItemUserBinding
 import com.squareup.picasso.Picasso
@@ -40,8 +37,11 @@ class UserClassAdapter(
         } else {
             Picasso.get().load("https://i.imgur.com/2xW3YHZ.png").into(holder.binding.userIv)
         }
-        Log.d("UserClassAdapter", "onBindViewHolder: $isAddMember")
-
+        val groupDAO = GroupDAO(holder.itemView.context)
+        val group = groupDAO.getGroupById(classId)
+        if (group.user_id == user.id) {
+            holder.binding.isAdminTv.visibility = ViewGroup.VISIBLE
+        }
         if (isAddMember) {
             updateBackground(holder, user, UserDAO(holder.itemView.context))
             holder.binding.constraintLayout.setOnClickListener {
@@ -52,8 +52,6 @@ class UserClassAdapter(
                             com.daominh.quickmem.R.drawable.background_unselect
                         )
                     userDAO.removeUserFromClass(user.id, classId)
-                    Log.d("UserClassAdapter", "onBindViewHolder: ${userDAO.checkUserInClass(user.id, classId)}")
-
                 } else {
                     holder.binding.constraintLayout.background =
                         AppCompatResources.getDrawable(
@@ -61,7 +59,6 @@ class UserClassAdapter(
                             com.daominh.quickmem.R.drawable.background_select
                         )
                     userDAO.addUserToClass(user.id, classId)
-                    Log.d("UserClassAdapter", "onBindViewHolder: ${userDAO.checkUserInClass(user.id, classId)}")
                 }
             }
 
@@ -70,6 +67,7 @@ class UserClassAdapter(
     }
 
     private fun updateBackground(holder: UserClassViewHolder, user: User, userDAO: UserDAO) {
+
         if (userDAO.checkUserInClass(user.id, classId)) {
             holder.binding.constraintLayout.background =
                 AppCompatResources.getDrawable(
