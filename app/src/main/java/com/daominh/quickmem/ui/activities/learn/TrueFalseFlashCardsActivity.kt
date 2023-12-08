@@ -21,7 +21,6 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -89,7 +88,7 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
                 .setDismissButtonText(getString(R.string.ok))
                 .setNegativeButtonText(getString(R.string.cancel))
                 .setPositiveButtonText(getString(R.string.ok))
-                .setCancelable(true)
+                .setCancelable(false)
                 .showDialog(object : OnDialogButtonClickListener() {
                     override fun onDismissClicked(dialog: Dialog?) {
                         super.onDismissClicked(dialog)

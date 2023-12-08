@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -200,10 +201,6 @@ public class ViewSetActivity extends AppCompatActivity {
                                     public void onDismissClicked(Dialog dialog) {
                                         super.onDismissClicked(dialog);
                                         dialog.dismiss();
-                                        Intent intent = new Intent(ViewSetActivity.this, ViewSetActivity.class);
-                                        intent.putExtra("id", idCard);
-                                        startActivity(intent);
-                                        finish();
                                     }
                                 });
                     }
@@ -301,15 +298,35 @@ public class ViewSetActivity extends AppCompatActivity {
 
                             int itemId = menuItem.getItemId();
                             if (itemId == R.id.edit) {
-                                handleEditOption(id);
+                                if (isUserOwner()) {
+                                    handleEditOption(id);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (itemId == R.id.delete_set) {
-                                handleDeleteSetOption(id);
+                                if (isUserOwner()) {
+                                    handleDeleteSetOption(id);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (itemId == R.id.add_to_folder) {
-                                handleAddToFolderOption(id);
+                                if (isUserOwner()) {
+                                    handleAddToFolderOption(id);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (itemId == R.id.add_to_class) {
-                                handleAddToClassOption(id);
+                                if (isUserOwner()) {
+                                    handleAddToClassOption(id);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             } else if (itemId == R.id.reset) {
-                                handleResetOption(id);
+                                if (isUserOwner()) {
+                                    handleResetOption(id);
+                                } else {
+                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
@@ -484,7 +501,9 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
     private boolean isUserOwner() {
+        Log.d("isUserOwner", "isUserOwner: " + userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id()));
         return userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id());
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -502,18 +521,18 @@ public class ViewSetActivity extends AppCompatActivity {
             }
         }
 
-      if (isUserOwner()){
-          binding.notLearnTv.setText("Not learned: " + notLearned);
-          binding.isLearningTv.setText("Learning: " + learning);
-          binding.learnedTv.setText("Learned: " + learned);
-      }else {
-          binding.notLearnTv.setText("Not learned: " + cards.size());
-          binding.isLearningTv.setText("Learning: " + 0);
-          binding.learnedTv.setText("Learned: " + 0);
-          binding.notLearnTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-          binding.isLearningTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-          binding.learnedTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-      }
+        if (isUserOwner()) {
+            binding.notLearnTv.setText("Not learned: " + notLearned);
+            binding.isLearningTv.setText("Learning: " + learning);
+            binding.learnedTv.setText("Learned: " + learned);
+        } else {
+            binding.notLearnTv.setText("Not learned: " + cards.size());
+            binding.isLearningTv.setText("Learning: " + 0);
+            binding.learnedTv.setText("Learned: " + 0);
+            binding.notLearnTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            binding.isLearningTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            binding.learnedTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
 
     }
 

@@ -6,7 +6,7 @@
                                    app:cardPreventCornerOverlap="false"
                                    app:cardUseCompatPadding="true"
                                    android:id="@+id/folder_cv"
-
+                                   android:layout_marginBottom="@dimen/_10dp"
                                    android:layout_gravity="center|top"
                                    android:elevation="@dimen/_8ssp"
                                    app:cardCornerRadius="@dimen/_10dp">

@@ -164,7 +164,7 @@ class QuizFolderActivity : AppCompatActivity() {
         val builder = dialogCorrect!!.create()
         dialogBinding.questionTv.text = answer
         dialogCorrect!!.setOnDismissListener {
-            startAnimations()
+          //  startAnimations()
         }
 
         builder.show()
@@ -184,7 +184,7 @@ class QuizFolderActivity : AppCompatActivity() {
             builder.dismiss()
         }
         builder.setOnDismissListener {
-            startAnimations()
+            //startAnimations()
         }
         builder.show()
     }

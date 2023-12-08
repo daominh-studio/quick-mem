@@ -146,7 +146,7 @@ class QuizActivity : AppCompatActivity() {
         val builder = dialog.create()
         dialogBinding.questionTv.text = answer
         dialog.setOnDismissListener {
-            startAnimations()
+           // startAnimations()
         }
 
 
@@ -167,7 +167,7 @@ class QuizActivity : AppCompatActivity() {
             builder.dismiss()
         }
         builder.setOnDismissListener {
-            startAnimations()
+            //startAnimations()
         }
         builder.show()
     }

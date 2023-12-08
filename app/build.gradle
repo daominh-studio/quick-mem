@@ -14,7 +14,7 @@ android {
         minSdk 24
         //noinspection OldTargetApi
         targetSdk 33
-        versionCode 1
+        versionCode 2
         versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,7 +42,7 @@ android {
     }
 }
 lokalenow{
-    listLang = ['vi', 'en']
+    listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
 }
 
 dependencies {
