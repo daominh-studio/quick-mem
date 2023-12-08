@@ -66,16 +66,20 @@ class EditFlashCardActivity : AppCompatActivity() {
         binding.cardsLv.adapter = cardAdapter
 
         binding.addFab.setOnClickListener {
-            val newCard = Card()
-            cards.add(newCard)
-            cardAdapter.notifyItemInserted(cards.size - 1)
+            if (!checkTwoCardsEmpty()) {
+                val newCard = Card()
+                cards.add(newCard)
+                cardAdapter.notifyItemInserted(cards.size - 1)
 
-            binding.cardsLv.scrollToPosition(cards.size - 1)
-            binding.cardsLv.post {
-                val viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
-                viewHolder?.itemView?.requestFocus()
+                binding.cardsLv.scrollToPosition(cards.size - 1)
+                binding.cardsLv.post {
+                    val viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
+                    viewHolder?.itemView?.requestFocus()
+                }
+                updateTotalCards()
+            } else {
+                Toast.makeText(this, "Please enter question and answer", Toast.LENGTH_SHORT).show()
             }
-            updateTotalCards()
 
         }
         val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -203,10 +207,10 @@ class EditFlashCardActivity : AppCompatActivity() {
         val flashCardId = intent.getStringExtra("flashcard_id") ?: return
 
         for (card in cards) {
-            if (card.front == null){
+            if (card.front == null) {
                 return
             }
-            if (card.back == null){
+            if (card.back == null) {
                 return
             }
             if (card.front.isEmpty() || card.back.isEmpty()) {
@@ -266,8 +270,23 @@ class EditFlashCardActivity : AppCompatActivity() {
             viewHolder?.itemView?.requestFocus()
         }
     }
-    private fun updateTotalCards(){
+
+    private fun updateTotalCards() {
         binding.totalCardsTv.text = String.format("Total Cards: %d", cards.size)
+    }
+
+    fun checkTwoCardsEmpty(): Boolean {
+        // check if 2 cards are empty return true
+        var emptyCount = 0
+        for (card in cards) {
+            if (card.front == null || card.front.isEmpty() || card.back == null || card.back.isEmpty()) {
+                emptyCount++
+                if (emptyCount == 2) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun getCurrentDate(): String {

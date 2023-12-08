@@ -111,12 +111,19 @@ public class CreateSetActivity extends AppCompatActivity {
 
     private void setupAddFab() {
         binding.addFab.setOnClickListener(v -> {
-            cards.add(new Card());
-            //scroll to last item
-            binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
-            //notify adapter
-            cardAdapter.notifyItemInserted(cards.size() - 1);
-            updateTotalCards();
+            if (!checkTwoCardsEmpty()) {
+
+                cards.add(new Card());
+                //scroll to last item
+                binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
+                //notify adapter
+                cardAdapter.notifyItemInserted(cards.size() - 1);
+                updateTotalCards();
+
+            } else {
+                Toast.makeText(this, "Please enter front and back", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 
@@ -319,6 +326,20 @@ public class CreateSetActivity extends AppCompatActivity {
         } else {
             return getCurrentDateOldApi();
         }
+    }
+
+    public boolean checkTwoCardsEmpty() {
+        // check if 2 cards are empty return true
+        int emptyCount = 0;
+        for (Card card : cards) {
+            if (card.getFront() == null || card.getFront().isEmpty() || card.getBack() == null || card.getBack().isEmpty()) {
+                emptyCount++;
+                if (emptyCount == 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private String genUUID() {

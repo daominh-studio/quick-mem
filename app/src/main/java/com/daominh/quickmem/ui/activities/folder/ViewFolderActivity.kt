@@ -129,7 +129,6 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
 
     private fun handleAddSet() {
         val id = intent.getStringExtra("id")
-        Toast.makeText(this, "Add set$id", Toast.LENGTH_SHORT).show()
         val newIntent = Intent(this, AddFlashCardActivity::class.java)
         newIntent.putExtra("id_folder", id)
         startActivity(newIntent)
@@ -242,6 +241,8 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         binding.setRv.layoutManager = linearLayoutManager
         binding.setRv.adapter = adapter
         adapter.notifyDataSetChanged()
+
+        setupFolderDetails()
 
     }
 }
