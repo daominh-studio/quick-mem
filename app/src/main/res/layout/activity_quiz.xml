@@ -40,6 +40,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/timeline_progress"
                 android:elevation="1dp"
+                android:max="100"
+                android:progress="0"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

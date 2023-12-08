@@ -18,6 +18,7 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
     private val binding by lazy { ActivityTrueFalseFlashCardsBinding.inflate(layoutInflater) }
     private val cardDAO by lazy { CardDAO(this) }
     private lateinit var cardList: ArrayList<Card>
+    private var progress = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -27,6 +28,14 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
         }
 
         setUpQuestion()
+        setUpProgressBar()
+    }
+
+    private fun setUpProgressBar(): Int {
+        val id = intent.getStringExtra("id")
+        cardList = cardDAO.getCardByIsLearned(id, 0)
+        binding.timelineProgress.max = cardList.size
+        return cardList.size
     }
 
     private fun setUpQuestion() {
@@ -58,6 +67,8 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
                     correctDialog(randomCard.back)
                     cardDAO.updateIsLearnedCardById(randomCard.id, 1)
                     setUpQuestion()
+                    progress++
+                    increaseProgress()
                 } else {
                     wrongDialog(randomCard.back, randomCard.front, incorrectAnswer[0].back)
                     setUpQuestion()
@@ -68,17 +79,22 @@ class TrueFalseFlashCardsActivity : AppCompatActivity() {
                     correctDialog(randomCard.back)
                     cardDAO.updateIsLearnedCardById(randomCard.id, 1)
                     setUpQuestion()
+                    progress++
+                    increaseProgress()
                 } else {
                     wrongDialog(randomCard.back, randomCard.front, incorrectAnswer[0].back)
                     setUpQuestion()
                 }
             }
         }
+    }
 
-
+    private fun increaseProgress() {
+        binding.timelineProgress.progress = progress
     }
 
     private fun finishQuiz() { //1 quiz, 2 learn
+        binding.timelineProgress.progress = setUpProgressBar()
         runOnUiThread {
 
             PopupDialog.getInstance(this)

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.daominh.quickmem.R
@@ -31,6 +32,7 @@ class QuizActivity : AppCompatActivity() {
         FlashCardDAO(this)
     }
 
+    private var progress = 0
     private lateinit var correctAnswer: String
     private val askedCards = mutableListOf<Card>()
     private lateinit var id: String
@@ -45,8 +47,9 @@ class QuizActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
         setNextQuestion()
+        val max = cardDAO.getCardByIsLearned(id, 0).size
+        binding.timelineProgress.max = max
     }
 
     private fun checkAnswer(selectedAnswer: String, cardId: String): Boolean {
@@ -56,12 +59,19 @@ class QuizActivity : AppCompatActivity() {
                 cardDAO.updateIsLearnedCardById(cardId, 1)
             }
             setNextQuestion()
+            progress++
+            setUpProgressBar()
             true
         } else {
             wrongDialog(correctAnswer, binding.tvQuestion.text.toString(), selectedAnswer)
             setNextQuestion()
             false
         }
+    }
+
+    private fun setUpProgressBar() {
+        binding.timelineProgress.progress = progress
+        Log.d("progresss", progress.toString())
     }
 
 
@@ -146,7 +156,7 @@ class QuizActivity : AppCompatActivity() {
         val builder = dialog.create()
         dialogBinding.questionTv.text = answer
         dialog.setOnDismissListener {
-           // startAnimations()
+            // startAnimations()
         }
 
 

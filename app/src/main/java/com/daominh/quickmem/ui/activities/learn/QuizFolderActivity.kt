@@ -32,6 +32,7 @@ class QuizFolderActivity : AppCompatActivity() {
     }
 
     private lateinit var correctAnswer: String
+    private var progress = 0
     private val askedCards = mutableListOf<Card>()
     private lateinit var id: String
     private val job = Job()
@@ -52,7 +53,7 @@ class QuizFolderActivity : AppCompatActivity() {
         }
 
         setNextQuestion()
-
+        setUpProgressBar()
 
     }
 
@@ -64,6 +65,8 @@ class QuizFolderActivity : AppCompatActivity() {
                 cardDAO.updateIsLearnedCardById(cardId, 1)
             }
             setNextQuestion()
+            progress++
+            increaseProgress()
             true
         } else {
             wrongDialog(correctAnswer, binding.tvQuestion.text.toString(), selectedAnswer)
@@ -72,11 +75,26 @@ class QuizFolderActivity : AppCompatActivity() {
         }
     }
 
+    private fun increaseProgress() {
+        binding.timelineProgress.progress = progress
+    }
+
+    private fun setUpProgressBar(): Int {
+        id = intent.getStringExtra("id") ?: "" // get folder id
+        val randomCard = cardDAO.getAllCardByFlashCardId(id)
+        for (folder in folderDAO.getAllFlashCardIdByFolderId(id)) {
+            randomCard.addAll(cardDAO.getAllCardByFlashCardId(folder))
+        }
+        val max = randomCard.size
+        binding.timelineProgress.max = max
+        return max
+    }
+
     private fun setNextQuestion() {
         scope.launch {
-            id = intent.getStringExtra("id") ?: ""
-            val cards = cardDAO.getCardByIsLearned(id, 0)
-            val randomCard = cardDAO.getAllCardByFlashCardId(id)
+            id = intent.getStringExtra("id") ?: "" // get folder id
+            val cards = cardDAO.getCardByIsLearned(id, 0) // get card by folder id
+            val randomCard = cardDAO.getAllCardByFlashCardId(id) // get all card by folder id
 
 
             //
@@ -134,9 +152,10 @@ class QuizFolderActivity : AppCompatActivity() {
     }
 
     private fun finishQuiz(status: Int) { //1 quiz, 2 learn
-        runOnUiThread {
 
-            if (status == 1){
+        binding.timelineProgress.progress = setUpProgressBar()
+        runOnUiThread {
+            if (status == 1) {
                 PopupDialog.getInstance(this)
                     .setStyle(Styles.SUCCESS)
                     .setHeading(getString(R.string.finish))
@@ -164,7 +183,7 @@ class QuizFolderActivity : AppCompatActivity() {
         val builder = dialogCorrect!!.create()
         dialogBinding.questionTv.text = answer
         dialogCorrect!!.setOnDismissListener {
-          //  startAnimations()
+            //  startAnimations()
         }
 
         builder.show()
