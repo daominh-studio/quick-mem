@@ -7,22 +7,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.databinding.ItemCardAddBinding;
-import com.daominh.quickmem.utils.OnItemClickListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private final Context context;
     private final ArrayList<Card> cards;
-    private OnItemClickListener onItemClickListener;
 
     public CardAdapter(Context context, ArrayList<Card> cards) {
         this.context = context;
@@ -42,6 +38,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     public void onBindViewHolder(@NonNull @NotNull CardAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Card card = cards.get(position);
+        holder.removeTextWatchers();
 
         if (position > 1) {
             holder.binding.termEt.requestFocus();
@@ -50,23 +47,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         holder.binding.termEt.setText(card.getFront());
         holder.binding.definitionEt.setText(card.getBack());
 
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(position);
-            }
-        });
-        holder.binding.termEt.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus && onItemClickListener != null) {
-                onItemClickListener.onItemClick(position);
-            }
-        });
 
-        holder.binding.definitionEt.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus && onItemClickListener != null) {
-                onItemClickListener.onItemClick(position);
-            }
-        });
-        holder.binding.termEt.addTextChangedListener(new TextWatcher() {
+        TextWatcher frontWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 card.setFront(s.toString());
@@ -81,9 +63,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             public void afterTextChanged(Editable s) {
                 card.setFront(s.toString());
             }
-        });
+        };
 
-        holder.binding.definitionEt.addTextChangedListener(new TextWatcher() {
+        TextWatcher backWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 card.setBack(s.toString());
@@ -98,7 +80,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             public void afterTextChanged(Editable s) {
                 card.setBack(s.toString());
             }
-        });
+        };
+
+        holder.setTextWatchers(frontWatcher, backWatcher);
 
     }
 
@@ -107,18 +91,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return cards.size();
     }
 
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-
-
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private final ItemCardAddBinding binding;
+        private TextWatcher frontWatcher;
+        private TextWatcher backWatcher;
 
         public CardViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             this.binding = ItemCardAddBinding.bind(itemView);
+        }
+
+        public void removeTextWatchers() {
+            if (frontWatcher != null) {
+                binding.termEt.removeTextChangedListener(frontWatcher);
+            }
+            if (backWatcher != null) {
+                binding.definitionEt.removeTextChangedListener(backWatcher);
+            }
+        }
+
+        public void setTextWatchers(TextWatcher frontWatcher, TextWatcher backWatcher) {
+            this.frontWatcher = frontWatcher;
+            this.backWatcher = backWatcher;
+            binding.termEt.addTextChangedListener(frontWatcher);
+            binding.definitionEt.addTextChangedListener(backWatcher);
         }
     }
 }

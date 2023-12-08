@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,8 +91,8 @@ public class CreateSetActivity extends AppCompatActivity {
     private void setupCardsList() {
         //create list two set
         cards = new ArrayList<>();
-        cards.add(new Card());
-        cards.add(new Card());
+//        cards.add(new Card());
+//        cards.add(new Card());
         updateTotalCards();
     }
 
@@ -113,7 +114,10 @@ public class CreateSetActivity extends AppCompatActivity {
         binding.addFab.setOnClickListener(v -> {
             if (!checkTwoCardsEmpty()) {
 
-                cards.add(new Card());
+                Card newCard = new Card();
+                newCard.setFront("");
+                newCard.setBack("");
+                cards.add(newCard);
                 //scroll to last item
                 binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
                 //notify adapter
@@ -256,10 +260,13 @@ public class CreateSetActivity extends AppCompatActivity {
     }
 
     private boolean saveAllCards() {
+        var i = 0;
         for (Card card : cards) {
+            Log.d("cardtest", "positin: " + i + " - " + card.getFront() + " " + card.getBack());
             if (!saveCard(card)) {
                 return false;
             }
+            i++;
         }
         return true;
     }
