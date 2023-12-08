@@ -32,21 +32,15 @@ class EditFlashCardActivity : AppCompatActivity() {
     private val binding: ActivityEditFlashCardBinding by lazy {
         ActivityEditFlashCardBinding.inflate(layoutInflater)
     }
-
     private val flashCardDAO: FlashCardDAO by lazy {
         FlashCardDAO(this)
     }
-
     private val cardDAO: CardDAO by lazy {
         CardDAO(this)
     }
-
     private lateinit var cardAdapter: CardAdapter
-
-    private var cardPosition: Int = 0
     private var cards: ArrayList<Card> = ArrayList()
     private var listIdCard: ArrayList<String> = ArrayList()
-    private lateinit var userSharePreferences: UserSharePreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -58,8 +52,6 @@ class EditFlashCardActivity : AppCompatActivity() {
         }
 
         val flashCardId = intent.getStringExtra("flashcard_id")
-        Toast.makeText(this, flashCardId + "", Toast.LENGTH_SHORT).show()
-
         val flashCard = flashCardDAO.getFlashCardById(flashCardId)
 
         binding.subjectEt.setText(flashCard.name)
@@ -67,29 +59,23 @@ class EditFlashCardActivity : AppCompatActivity() {
         binding.privateSwitch.isChecked = flashCard.is_public == 1
 
         cards = cardDAO.getCardsByFlashCardId(flashCardId)
+        updateTotalCards()
         cardAdapter = CardAdapter(this, cards)
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.cardsLv.layoutManager = layoutManager
         binding.cardsLv.adapter = cardAdapter
 
-        cardAdapter.setOnItemClickListener { position: Int ->
-            cardPosition = position
-            updateToolbarTitle()
-        }
         binding.addFab.setOnClickListener {
             val newCard = Card()
             cards.add(newCard)
             cardAdapter.notifyItemInserted(cards.size - 1)
 
             binding.cardsLv.scrollToPosition(cards.size - 1)
-
-
-
             binding.cardsLv.post {
-                val viewHolder =
-                    binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
+                val viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
                 viewHolder?.itemView?.requestFocus()
             }
+            updateTotalCards()
 
         }
         val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -109,6 +95,7 @@ class EditFlashCardActivity : AppCompatActivity() {
 
                     // Removing item from recycler view
                     cards.removeAt(position)
+                    updateTotalCards()
                     if (cardDAO.checkCardExist(deletedItem.id)) {
                         listIdCard.add(deletedItem.id)
                     }
@@ -121,6 +108,7 @@ class EditFlashCardActivity : AppCompatActivity() {
                         // Check if the position is valid before adding the item back
                         if (position >= 0 && position <= cards.size) {
                             cards.add(position, deletedItem)
+                            updateTotalCards()
 
                             if (listIdCard.contains(deletedItem.id)) {
                                 listIdCard.remove(deletedItem.id)
@@ -181,14 +169,6 @@ class EditFlashCardActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(binding.cardsLv)
     }
 
-    private fun updateToolbarTitle() {
-        if (cardPosition >= 0 && cardPosition < cards.size) {
-            val positionToShow: Int = cardPosition + 1
-            val totalItems: Int = cards.size
-            val title = "$positionToShow/$totalItems"
-            supportActionBar?.title = title
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_create_set, menu)
@@ -285,6 +265,9 @@ class EditFlashCardActivity : AppCompatActivity() {
             val viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(position)
             viewHolder?.itemView?.requestFocus()
         }
+    }
+    private fun updateTotalCards(){
+        binding.totalCardsTv.text = String.format("Total Cards: %d", cards.size)
     }
 
     private fun getCurrentDate(): String {

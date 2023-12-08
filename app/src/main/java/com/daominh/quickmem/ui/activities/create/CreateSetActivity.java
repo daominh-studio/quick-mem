@@ -78,7 +78,13 @@ public class CreateSetActivity extends AppCompatActivity {
     }
 
     private void setupDescriptionTextView() {
-        binding.descriptionTv.setOnClickListener(v -> binding.descriptionTil.setVisibility(View.VISIBLE));
+        binding.descriptionTv.setOnClickListener(v -> {
+            if (binding.descriptionTil.getVisibility() == View.GONE) {
+                binding.descriptionTil.setVisibility(View.VISIBLE);
+            } else {
+                binding.descriptionTil.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setupCardsList() {
@@ -86,6 +92,11 @@ public class CreateSetActivity extends AppCompatActivity {
         cards = new ArrayList<>();
         cards.add(new Card());
         cards.add(new Card());
+        updateTotalCards();
+    }
+
+    private void updateTotalCards() {
+        binding.totalCardsTv.setText(String.format("Total Cards: %s", cards.size()));
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -103,16 +114,9 @@ public class CreateSetActivity extends AppCompatActivity {
             cards.add(new Card());
             //scroll to last item
             binding.cardsLv.smoothScrollToPosition(cards.size() - 1);
-
             //notify adapter
             cardAdapter.notifyItemInserted(cards.size() - 1);
-
-            binding.cardsLv.post(() -> {
-                RecyclerView.ViewHolder viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(cards.size() - 1);
-                if (viewHolder != null) {
-                    viewHolder.itemView.requestFocus();
-                }
-            });
+            updateTotalCards();
         });
     }
 
@@ -150,6 +154,7 @@ public class CreateSetActivity extends AppCompatActivity {
 
         // Removing item from recycler view
         cards.remove(position);
+        updateTotalCards();
         cardAdapter.notifyItemRemoved(position);
 
         // Showing Snack bar with an Undo option
@@ -160,6 +165,7 @@ public class CreateSetActivity extends AppCompatActivity {
             if (position >= 0 && position <= cards.size()) {
                 cards.add(position, deletedItem);
                 cardAdapter.notifyItemInserted(position);
+                updateTotalCards();
             } else {
                 // If the position isn't valid, show a message or handle the error appropriately
                 Toast.makeText(getApplicationContext(), "Error restoring item", Toast.LENGTH_LONG).show();

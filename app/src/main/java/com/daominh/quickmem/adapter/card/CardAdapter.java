@@ -66,6 +66,39 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 onItemClickListener.onItemClick(position);
             }
         });
+        holder.binding.termEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                card.setFront(s.toString());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                card.setFront(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                card.setFront(s.toString());
+            }
+        });
+
+        holder.binding.definitionEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                card.setBack(s.toString());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                card.setBack(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                card.setBack(s.toString());
+            }
+        });
 
     }
 
