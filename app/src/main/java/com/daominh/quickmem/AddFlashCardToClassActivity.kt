@@ -24,26 +24,29 @@ class AddFlashCardToClassActivity : AppCompatActivity() {
         UserSharePreferences(this)
     }
     private lateinit var adapter: SetClassAdapter
-    @SuppressLint("NotifyDataSetChanged")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setupToolbar()
+        setupRecyclerView()
+    }
 
+    private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupRecyclerView() {
         val id = intent.getStringExtra("flashcard_id")
         val flashCards = flashCardDAO.getAllFlashCardByUserId(userSharePreferences.id)
-
         adapter = SetClassAdapter(flashCards, id!!)
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.classRv.layoutManager = linearLayoutManager
         binding.classRv.adapter = adapter
         adapter.notifyDataSetChanged()
-
-
-
     }
 }

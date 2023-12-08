@@ -1,21 +1,26 @@
 package com.daominh.quickmem
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daominh.quickmem.adapter.user.UserClassAdapter
+import com.daominh.quickmem.data.dao.GroupDAO
 import com.daominh.quickmem.data.dao.UserDAO
 import com.daominh.quickmem.data.model.User
 import com.daominh.quickmem.databinding.ActivityAddMemberBinding
+import com.daominh.quickmem.ui.activities.classes.ViewClassActivity
 
 class AddMemberActivity : AppCompatActivity() {
     private val binding by lazy { ActivityAddMemberBinding.inflate(layoutInflater) }
     private val userDAO by lazy { UserDAO(this) }
     private lateinit var userAdapter: UserClassAdapter
     private lateinit var users: ArrayList<User>
+    private val groupDAO by lazy { GroupDAO(this) }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +30,15 @@ class AddMemberActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        val group = groupDAO.getGroupById(intent.getStringExtra("id")!!)
 
         users = userDAO.getAllUserJustNeed()
-        userAdapter = UserClassAdapter(users)
+        users.removeIf(
+            fun(user: User): Boolean {
+                return user.id == group.user_id
+            }
+        )
+        userAdapter = UserClassAdapter(users, true, intent.getStringExtra("id")!!)
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.memberRv.layoutManager = layoutManager
         binding.memberRv.adapter = userAdapter
@@ -65,8 +76,18 @@ class AddMemberActivity : AppCompatActivity() {
                     return true
                 }
             })
-        } else if (item.itemId == R.id.done) {
-            onBackPressedDispatcher.onBackPressed()
+        }else if (item.itemId == R.id.done) {
+            if (intent.hasExtra("id")) {
+                val id = intent.getStringExtra("id")!!
+                val intent = Intent(this, ViewClassActivity::class.java)
+                intent.putExtra("id", id)
+                startActivity(intent)
+                finish()
+            } else {
+                // handle the case where the intent does not have an extra with the key "id"
+                Toast.makeText(this, "Error: missing id", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

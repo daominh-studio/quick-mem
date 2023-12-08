@@ -26,7 +26,7 @@ class ViewTermsAdapter(
         val card = cards[position]
 
         val status = card.status
-        //change color of card
+        // change color of card
         if (status == 1) {
             holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.holo_green_light))
         } else if (status == 2) {
@@ -52,7 +52,6 @@ class ViewTermsAdapter(
                                 null,
                                 null
                             )
-
                         }
                     } else {
                         Toast.makeText(holder.itemView.context, "Initialization failed", Toast.LENGTH_SHORT).show()
@@ -61,11 +60,10 @@ class ViewTermsAdapter(
             }
 
         }
-
-
     }
 
     override fun getItemCount(): Int {
+
         return cards.size
     }
 
@@ -76,5 +74,4 @@ class ViewTermsAdapter(
             textToSpeech?.shutdown()
         }
     }
-
 }

@@ -227,27 +227,7 @@ public class GroupDAO {
         return flashcards;
     }
 
-
-    //get classes by id
-    public Group getClassById(String id) {
-        Group group = new Group();
-        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query(QMDatabaseHelper.TABLE_CLASSES, null, "id = ?", new String[]{id}, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                group.setId(cursor.getString(0));
-                group.setName(cursor.getString(1));
-                group.setDescription(cursor.getString(2));
-                group.setUser_id(cursor.getString(3));
-                group.setCreated_at(cursor.getString(4));
-                group.setUpdated_at(cursor.getString(5));
-                group.setStatus(cursor.getInt(6));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        sqLiteDatabase.close();
-        return group;
-    }
+    //get class by id
 
     public Group getGroupById(String id) {
         Group group = null;

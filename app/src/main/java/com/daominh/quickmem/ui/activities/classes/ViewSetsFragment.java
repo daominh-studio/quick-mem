@@ -1,6 +1,7 @@
 package com.daominh.quickmem.ui.activities.classes;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daominh.quickmem.AddFlashCardToClassActivity;
 import com.daominh.quickmem.adapter.flashcard.SetCopyAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.dao.GroupDAO;
@@ -36,6 +38,7 @@ public class ViewSetsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         flashCardDAO = new FlashCardDAO(requireActivity());
         groupDAO = new GroupDAO(requireActivity());
+        userSharePreferences = new UserSharePreferences(requireActivity());
     }
 
     @Override
@@ -56,6 +59,12 @@ public class ViewSetsFragment extends Fragment {
         fetchFlashCards();
         setupVisibility();
         setupRecyclerView();
+
+        binding.addSetsBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), AddFlashCardToClassActivity.class);
+            intent.putExtra("flashcard_id", userSharePreferences.getClassId());
+            startActivity(intent);
+        });
     }
 
     private void fetchFlashCards() {
@@ -84,21 +93,11 @@ public class ViewSetsFragment extends Fragment {
         binding.setsRv.setHasFixedSize(true);
         setsAdapter.notifyDataSetChanged();
     }
-    private void removeIdClass(){
-        userSharePreferences = new UserSharePreferences(requireActivity());
-        userSharePreferences.removeClassId();
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         setupRecyclerView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        removeIdClass();
     }
 
     @Override

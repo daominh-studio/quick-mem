@@ -316,6 +316,7 @@ public class UserDAO {
                 users.remove(user);
                 break;
             }
+
         }
         return users;
     }
@@ -339,6 +340,53 @@ public class UserDAO {
             sqLiteDatabase.close();
         }
         return null;
+    }
+
+    // check if user is in class
+    public boolean checkUserInClass(String userId, String classId) {
+        sqLiteDatabase = qmDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE user_id = '" + userId + "' AND class_id = '" + classId + "'";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+            return cursor.getCount() > 0;
+        } catch (SQLException e) {
+            Log.e("UserDAO", "checkUserInClass: " + e);
+            return false;
+        } finally {
+            sqLiteDatabase.close();
+        }
+    }
+
+    // remove user from class
+    public long removeUserFromClass(String userId, String classId) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        String query = "DELETE FROM " + QMDatabaseHelper.TABLE_CLASSES_USERS + " WHERE user_id = '" + userId + "' AND class_id = '" + classId + "'";
+
+        try {
+            return sqLiteDatabase.delete(QMDatabaseHelper.TABLE_CLASSES_USERS, "user_id = ? AND class_id = ?", new String[]{userId, classId});
+        } catch (SQLException e) {
+            Log.e("UserDAO", "removeUserFromClass: " + e);
+            return 0;
+        } finally {
+            sqLiteDatabase.close();
+        }
+    }
+
+    // add user to class
+    public long addUserToClass(String userId, String classId) {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("class_id", classId);
+
+        try {
+            return sqLiteDatabase.insert(QMDatabaseHelper.TABLE_CLASSES_USERS, null, contentValues);
+        } catch (SQLException e) {
+            Log.e("UserDAO", "addUserToClass: " + e);
+            return 0;
+        } finally {
+            sqLiteDatabase.close();
+        }
     }
 
 }

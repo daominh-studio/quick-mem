@@ -117,5 +117,4 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             cards.set(position, card);
         }
     }
-
 }

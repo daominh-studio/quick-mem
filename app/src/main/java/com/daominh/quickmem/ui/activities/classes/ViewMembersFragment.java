@@ -55,7 +55,7 @@ public class ViewMembersFragment extends Fragment {
 
         ArrayList<User> users = userDAO.getListUserByIdClass(userSharePreferences.getClassId());
         users.add(userDAO.getUserByIdClass(group.getUser_id()));
-        UserClassAdapter userClassAdapter = new UserClassAdapter(users);
+        UserClassAdapter userClassAdapter = new UserClassAdapter(users, false, "");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         binding.membersRv.setLayoutManager(linearLayoutManager);
         binding.membersRv.setAdapter(userClassAdapter);

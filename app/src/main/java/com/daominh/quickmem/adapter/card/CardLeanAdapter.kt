@@ -50,8 +50,6 @@ class CardLeanAdapter(
             binding.cardViewFlip.setOnClickListener {
                 binding.cardViewFlip.flipTheView()
             }
-
         }
     }
-
 }

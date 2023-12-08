@@ -20,6 +20,7 @@ import com.daominh.quickmem.adapter.group.MyViewClassAdapter;
 import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.ActivityViewClassBinding;
+import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.google.android.material.tabs.TabLayout;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
@@ -33,7 +34,8 @@ public class ViewClassActivity extends AppCompatActivity {
     private ActivityViewClassBinding binding;
     private GroupDAO groupDAO;
     int currentTabPosition = 0;
-    String id;
+    private String id;
+    private UserSharePreferences userSharePreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,6 @@ public class ViewClassActivity extends AppCompatActivity {
             myViewClassAdapter.notifyDataSetChanged();
         });
 
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -105,16 +106,79 @@ public class ViewClassActivity extends AppCompatActivity {
                         @Override
                         public void onSheetItemSelected(@NotNull BottomSheetMenuDialogFragment bottomSheetMenuDialogFragment, @NotNull MenuItem menuItem, @Nullable Object o) {
                             if (menuItem.getItemId() == R.id.add_member) {
-                                holderAddMember();
-
+                                if (isOwner()) {
+                                    holderAddMember();
+                                } else {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading("Error!")
+                                            .setDescription("You are not the owner of this class!")
+                                            .setPositiveButtonText("OK")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }
                             } else if (menuItem.getItemId() == R.id.add_sets) {
-                                handleAddSets();
+                                if (isOwner()) {
+                                    handleAddSets();
+                                } else {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading("Error!")
+                                            .setDescription("You are not the owner of this class!")
+                                            .setPositiveButtonText("OK")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }
 
                             } else if (menuItem.getItemId() == R.id.edit_class) {
-                                handleEditClass();
+                                if (isOwner()) {
+                                    handleEditClass();
+                                } else {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading("Error!")
+                                            .setDescription("You are not the owner of this class!")
+                                            .setPositiveButtonText("OK")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }
 
                             } else if (menuItem.getItemId() == R.id.delete_class) {
-                                handleDeleteClass();
+                                if (isOwner()) {
+                                    handleDeleteClass();
+                                } else {
+                                    PopupDialog.getInstance(ViewClassActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading("Error!")
+                                            .setDescription("You are not the owner of this class!")
+                                            .setPositiveButtonText("OK")
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                }
 
                             }
                         }
@@ -201,6 +265,14 @@ public class ViewClassActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddMemberActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+        finish();
+    }
+
+    private boolean isOwner() {
+        userSharePreference = new UserSharePreferences(this);
+        String currentUserId = userSharePreference.getId();
+        String ownerId = groupDAO.getGroupById(id).getUser_id();
+        return currentUserId.equals(ownerId);
     }
 
     @Override
