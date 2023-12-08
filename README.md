@@ -18,7 +18,7 @@ I hope you like it.
 - [x] Delete a card
 - [x] Learn by flashcard
 - [x] Learn by quiz
-- [] Learn by true/false
+- [x] Learn by true/false
 - [] Learn by filling in the blank
 - [] Learn by matching
 - [] Notification
