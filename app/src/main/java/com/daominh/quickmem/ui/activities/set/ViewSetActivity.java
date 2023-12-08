@@ -240,9 +240,7 @@ public class ViewSetActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
         cardDAO = new CardDAO(this);
         cards = cardDAO.getCardsByFlashCardId(id);
-        if (isUserOwner()) {
-            setUpProgress(cards);
-        }
+        setUpProgress(cards);
         ViewSetAdapter viewSetAdapter = new ViewSetAdapter(this, cards);
         binding.recyclerViewSet.setAdapter(viewSetAdapter);
         viewSetAdapter.notifyDataSetChanged();
@@ -504,9 +502,18 @@ public class ViewSetActivity extends AppCompatActivity {
             }
         }
 
-        binding.notLearnTv.setText("Not learned: " + notLearned);
-        binding.isLearningTv.setText("Learning: " + learning);
-        binding.learnedTv.setText("Learned: " + learned);
+      if (isUserOwner()){
+          binding.notLearnTv.setText("Not learned: " + notLearned);
+          binding.isLearningTv.setText("Learning: " + learning);
+          binding.learnedTv.setText("Learned: " + learned);
+      }else {
+          binding.notLearnTv.setText("Not learned: " + cards.size());
+          binding.isLearningTv.setText("Learning: " + 0);
+          binding.learnedTv.setText("Learned: " + 0);
+          binding.notLearnTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+          binding.isLearningTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+          binding.learnedTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+      }
 
     }
 

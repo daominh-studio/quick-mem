@@ -34,7 +34,7 @@
                     android:id="@+id/info_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Personal Info"
+                    android:text="@string/personal_info"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="hadao04"
+                            android:text="@string/user_name"
                             android:textSize="@dimen/_16ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/username_textview"/>
@@ -107,7 +107,7 @@
                             android:id="@+id/email_textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Email"
+                            android:text="@string/email"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -119,7 +119,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="hadao04@gmail.com"
+                            android:text="@string/hadao04_gmail_com"
                             android:textSize="@dimen/_16ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/email_textview"/>
@@ -150,7 +150,7 @@
                             android:id="@+id/password_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Change password"
+                            android:text="@string/change_password"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -166,14 +166,47 @@
                             app:layout_constraintTop_toTopOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@drawable/background_view_setting"/>
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                        android:id="@+id/role_cl"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@drawable/background_animation_in_settings"-->
+<!--                        android:padding="10dp">-->
+
+<!--                    <TextView-->
+<!--                            android:id="@+id/role_tv"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/change_role"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/_20ssp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--                    <ImageView-->
+<!--                            android:layout_width="30dp"-->
+<!--                            android:layout_height="30dp"-->
+<!--                            android:src="@drawable/ic_arrow_right"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
             </LinearLayout>
+
 
             <TextView
                     android:id="@+id/notifi_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="Notifications"
+                    android:text="@string/notifications"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +236,7 @@
                             android:id="@+id/notify_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Push notifications"
+                            android:text="@string/push_notifications"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -219,7 +252,8 @@
                             android:track="@drawable/background_switch_settings"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -229,7 +263,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="About"
+                    android:text="@string/about"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -259,7 +293,7 @@
                             android:id="@+id/privacy_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Privacy policy"
+                            android:text="@string/privacy_policy"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -292,7 +326,7 @@
                             android:id="@+id/term_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Terms of service"
+                            android:text="@string/terms_of_service"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -325,7 +359,7 @@
                             android:id="@+id/open_source_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Open source licenses"
+                            android:text="@string/open_source_licenses"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -358,7 +392,7 @@
                             android:id="@+id/help_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Help Center"
+                            android:text="@string/help_center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_20ssp"
                             android:textStyle="bold"
@@ -382,7 +416,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="30dp"
                     android:background="@drawable/background_courses_setting"
-                    android:text="Log out"
+                    android:text="@string/sign_out"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/around_about_ll"/>

@@ -40,7 +40,7 @@ public class ViewSearchActivity extends AppCompatActivity {
     }
 
     private void setupSets() {
-        flashCards = flashCardDAO.getAllFlashCard();
+        flashCards = flashCardDAO.getAllFlashCardPublic();
         setAllAdapter = new SetAllAdapter(this, flashCards);
         binding.setsRv.setLayoutManager(new LinearLayoutManager(this));
         binding.setsRv.setAdapter(setAllAdapter);

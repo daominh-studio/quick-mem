@@ -163,4 +163,16 @@
     <string name="_2">2</string>
     <string name="_1">1</string>
     <string name="is_admin">owner</string>
+    <string name="change_role">Change role</string>
+    <string name="change_password">Change password</string>
+    <string name="hadao04_gmail_com">hadao04@gmail.com</string>
+    <string name="push_notifications">Push notifications</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="open_source_licenses">Open source licenses</string>
+    <string name="help_center">Help Center</string>
+    <string name="sign_out">Sign out</string>
+    <string name="about">About</string>
+    <string name="notifications">Notifications</string>
+    <string name="personal_info">Personal Info</string>
 </resources>
