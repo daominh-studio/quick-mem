@@ -76,7 +76,7 @@ This project is mantained by:
 * [Daocon](https://github.com/Daocon)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GPL-3.0 license - see the [LICENSE.md](LICENSE) file for details
 
 ## Acknowledgments
 * [Android Studio](https://developer.android.com/studio)
