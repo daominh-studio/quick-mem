@@ -1,4 +1,4 @@
-## Quick
+## Quick - quick memory 
 
 It's an app learning by flashcard using Kotlin, Java, and SQLite.
 I use a lot of libraries to make it easy to use and make it more beautiful.
