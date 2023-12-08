@@ -67,8 +67,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             }
         });
 
-        holder.binding.termEt.addTextChangedListener(createTextWatcher(card, holder.binding.termEt, Card::setFront));
-        holder.binding.definitionEt.addTextChangedListener(createTextWatcher(card, holder.binding.definitionEt, Card::setBack));
     }
 
     @Override
@@ -88,33 +86,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         public CardViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             this.binding = ItemCardAddBinding.bind(itemView);
-        }
-    }
-
-    private TextWatcher createTextWatcher(Card card, EditText editText, BiConsumer<Card, String> setter) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                updateCard(card, editText, setter);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateCard(card, editText, setter);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateCard(card, editText, setter);
-            }
-        };
-    }
-
-    private void updateCard(Card card, EditText editText, BiConsumer<Card, String> setter) {
-        setter.accept(card, editText.getText().toString());
-        int position = cards.indexOf(card);
-        if (position != -1) {
-            cards.set(position, card);
         }
     }
 }
