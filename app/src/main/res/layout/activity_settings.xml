@@ -166,10 +166,10 @@
                             app:layout_constraintTop_toTopOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="3dp"
-                        android:background="@drawable/background_view_setting"/>
+<!--                <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="3dp"-->
+<!--                        android:background="@drawable/background_view_setting"/>-->
 
 <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--                        android:id="@+id/role_cl"-->
