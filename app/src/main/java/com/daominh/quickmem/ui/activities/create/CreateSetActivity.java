@@ -91,8 +91,8 @@ public class CreateSetActivity extends AppCompatActivity {
     private void setupCardsList() {
         //create list two set
         cards = new ArrayList<>();
-//        cards.add(new Card());
-//        cards.add(new Card());
+        cards.add(new Card());
+        cards.add(new Card());
         updateTotalCards();
     }
 
@@ -115,8 +115,6 @@ public class CreateSetActivity extends AppCompatActivity {
             if (!checkTwoCardsEmpty()) {
 
                 Card newCard = new Card();
-                newCard.setFront("");
-                newCard.setBack("");
                 cards.add(newCard);
                 //scroll to last item
                 binding.cardsLv.smoothScrollToPosition(cards.size() - 1);

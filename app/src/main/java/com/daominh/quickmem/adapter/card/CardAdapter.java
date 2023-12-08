@@ -51,34 +51,34 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextWatcher frontWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                card.setFront(s.toString());
+                card.setFront(s.toString().trim());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                card.setFront(s.toString());
+                card.setFront(s.toString().trim());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                card.setFront(s.toString());
+                card.setFront(s.toString().trim());
             }
         };
 
         TextWatcher backWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                card.setBack(s.toString());
+                card.setBack(s.toString().trim());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                card.setBack(s.toString());
+                card.setBack(s.toString().trim());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                card.setBack(s.toString());
+                card.setBack(s.toString().trim());
             }
         };
 
