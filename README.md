@@ -12,11 +12,11 @@ I hope you like it.
 
 - improve learning by flashcard
 - improve searching
-- add login with google and facebook to easy to use
+- add login with Google and Facebook to easy to use
 - add notification
 - add firebase
-- add learn by matching
-- add learn by filling in the blank
+- add learning by matching
+- add learning by filling in the blank
 - clean ui
 
 ## Features
