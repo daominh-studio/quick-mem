@@ -172,7 +172,7 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         assert firebaseUser != null;
-                        getUser(0, email, firebaseUser.getUid());
+                        getUser(firebaseUser.getUid());
 
                     } else {
                         Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show();
@@ -193,8 +193,20 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
         String email = userDAO.getEmailByUsername(username);
-//        user = getUser(1, email);
-//        handleUserStatus(user);
+        firebaseFirestore.collection(Table.USER.toString()).whereEqualTo("email", email).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.isEmpty()) {
+                        return;
+                    }
+                    for (int i = 0; i < queryDocumentSnapshots.size(); i++) {
+                        String uid = queryDocumentSnapshots.getDocuments().get(i).getId();
+                        getUser( uid);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                    WaitDialog.dismiss();
+                });
     }
 
     private void handleUserStatus(User user) {
@@ -265,15 +277,10 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(new Intent(SignInActivity.this, AuthenticationActivity.class));
     }
 
-    private User getUser(int number, String input, String uid) {
+    private User getUser( String uid) {
         Log.d("SignInActivity", "getUser: " + uid);
         userDAO = new UserDAO(SignInActivity.this);
         User user = new User();
-        String email = input;
-        if (number == 1) {
-
-        }
-        email = userDAO.getEmailByUsername(input); //get email by username
         firebaseFirestore.collection(Table.USER.toString()).document(uid).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     user.setId(documentSnapshot.getString("id"));
