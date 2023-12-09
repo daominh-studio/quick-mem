@@ -117,6 +117,8 @@ dependencies {
     //simple search view
     implementation 'com.github.Ferfalk:SimpleSearchView:0.2.1'
 
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
 
 }

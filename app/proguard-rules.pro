@@ -13,6 +13,16 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+-keep class com.google.android.gms.** { *; }
+-dontwarn javax.annotation.Nullable
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.OpenSSLProvider
 
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
