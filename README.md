@@ -101,7 +101,7 @@ Clone this repository and import into **Android Studio**
 git clone https://github.com/daominh-studio/quickmem.git
 ```
 
-Download and install from [Release](https://github.com/daominh-studio/quick-mem/releases)
+####  Download and install from [Release](https://github.com/daominh-studio/quick-mem/releases)
 
 ## Maintainers
 
