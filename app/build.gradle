@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
     id("io.github.farimarwat.lokalenow") version "1.2"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -120,6 +121,10 @@ dependencies {
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
 
 
 }

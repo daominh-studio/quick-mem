@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001542464049",
+    "project_id": "daominh-studio",
+    "storage_bucket": "daominh-studio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001542464049:android:c88aa268e41d8456399b10",
+        "android_client_info": {
+          "package_name": "com.daominh.quickmem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJzmdLzI_-A9AQ_8Vyrb6YpfaFXSEODFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
