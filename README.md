@@ -72,9 +72,9 @@ I hope you like it.
 <td>View Flashcard</td>
 </tr>
 <tr>
-    <td><img src="./screenshorts/flipcard.png.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/mutiplechoice.png.png" width="200" alt=""></td>
-    <td><img src="./screenshorts/truefalse.png.png" width="200" alt=""></td>
+    <td><img src="./screenshorts/flipcard.png" width="200" alt=""></td>
+    <td><img src="./screenshorts/mutiplechoice.png" width="200" alt=""></td>
+    <td><img src="./screenshorts/truefalse.png" width="200" alt=""></td>
 </tr>
 <tr>
 <td>Flip Card</td>
