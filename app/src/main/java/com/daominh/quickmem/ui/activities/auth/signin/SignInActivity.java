@@ -38,7 +38,6 @@ import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 import java.util.Objects;
 
 public class SignInActivity extends AppCompatActivity {
-    private User user;
     private UserDAO userDAO;
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -172,8 +171,9 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        user = getUser(0, email, firebaseUser.getUid());
-                        handleUserStatus(user);
+                        assert firebaseUser != null;
+                        getUser(0, email, firebaseUser.getUid());
+
                     } else {
                         Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show();
                     }
@@ -199,6 +199,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleUserStatus(User user) {
         if (user.getStatus() == 0) {
+            Log.d("SignInActivityy", "handleUserStatus: " + user.getStatus());
             PopupDialog.getInstance(SignInActivity.this)
                     .setStyle(Styles.FAILED)
                     .setHeading(getString(R.string.loginFailed))
@@ -267,28 +268,33 @@ public class SignInActivity extends AppCompatActivity {
     private User getUser(int number, String input, String uid) {
         Log.d("SignInActivity", "getUser: " + uid);
         userDAO = new UserDAO(SignInActivity.this);
+        User user = new User();
         String email = input;
         if (number == 1) {
-            email = userDAO.getEmailByUsername(input); //get email by username
-            firebaseFirestore.collection(Table.USER.toString()).document(uid).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        user = new User();
-                        user.setId(documentSnapshot.getString("id"));
-                        user.setName(documentSnapshot.getString("name"));
-                        user.setEmail(documentSnapshot.getString("email"));
-                        user.setUsername(documentSnapshot.getString("username"));
-                        user.setPassword(documentSnapshot.getString("password"));
-                        user.setAvatar(documentSnapshot.getString("avatar"));
-                        user.setRole(Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("role"))));
-                        user.setBirthday(documentSnapshot.getString("birthday"));
-                        user.setCreated_at(documentSnapshot.getString("created_at"));
-                        user.setUpdated_at(documentSnapshot.getString("updated_at"));
-                        user.setStatus(Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("status"))));
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
-                    });
+
         }
+        email = userDAO.getEmailByUsername(input); //get email by username
+        firebaseFirestore.collection(Table.USER.toString()).document(uid).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    user.setId(documentSnapshot.getString("id"));
+                    user.setName(documentSnapshot.getString("name"));
+                    user.setEmail(documentSnapshot.getString("email"));
+                    user.setUsername(documentSnapshot.getString("username"));
+                    user.setPassword(documentSnapshot.getString("password"));
+                    user.setAvatar(documentSnapshot.getString("avatar"));
+                    user.setRole(documentSnapshot.getLong("role").intValue());
+                    user.setBirthday(documentSnapshot.getString("birthday"));
+                    user.setCreated_at(documentSnapshot.getString("created_at"));
+                    user.setUpdated_at(documentSnapshot.getString("updated_at"));
+                    user.setStatus(documentSnapshot.getLong("status").intValue());
+                    Log.d("SignInActivityy", "getUser: " + user.toString());
+                    handleUserStatus(user);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                    WaitDialog.dismiss();
+                });
+        WaitDialog.dismiss();
         return user;
     }
 
@@ -355,7 +361,7 @@ public class SignInActivity extends AppCompatActivity {
                 binding.emailEt.setError(null);
                 alertDialog.dismiss();
             }
-            user = userDAO.getUserByEmail(email);
+            User user = userDAO.getUserByEmail(email);
             Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
         }
     }

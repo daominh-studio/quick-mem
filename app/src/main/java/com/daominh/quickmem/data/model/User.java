@@ -1,5 +1,8 @@
 package com.daominh.quickmem.data.model;
 
+import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
+
 public class User {
     private String id;
     private String name;
@@ -117,6 +120,25 @@ public class User {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name=" + name +
+                ", email=" + email +
+                ", username=" + username +
+                ", password=" + password +
+                ", avatar=" + avatar +
+                ", role=" + role +
+                ", birthday=" + birthday +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                ", status=" + status +
+                '}';
     }
 
     @Override
