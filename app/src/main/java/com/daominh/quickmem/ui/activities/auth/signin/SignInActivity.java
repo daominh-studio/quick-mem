@@ -23,6 +23,7 @@ import com.daominh.quickmem.databinding.DialogForgotUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
@@ -30,6 +31,7 @@ import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 public class SignInActivity extends AppCompatActivity {
     private User user;
     private UserDAO userDAO;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +145,15 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
         user = getUser(0, email);
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        handleUserStatus(user);
+                    } else {
+                        Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         handleUserStatus(user);
     }
 
@@ -267,8 +278,6 @@ public class SignInActivity extends AppCompatActivity {
             binding.emailEt.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
         }, 100);
     }
-
-
 
 
     //check format email

@@ -177,4 +177,5 @@
     <string name="notifications">Notificaciones</string>
     <string name="personal_info">Información personal</string>
     <string name="leave_class">salir de clase</string>
+    <string name="default_web_client_id">1:1001542464049:android:c88aa268e41d8456399b10</string>
 </resources>

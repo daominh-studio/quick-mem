@@ -108,4 +108,9 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

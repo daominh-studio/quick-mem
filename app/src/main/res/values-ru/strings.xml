@@ -177,4 +177,5 @@
     <string name="notifications">Уведомления</string>
     <string name="personal_info">Личная информация</string>
     <string name="leave_class">Покинуть курс</string>
+    <string name="default_web_client_id">1:1001542464049:андроид:c88aa268e41d8456399b10</string>
 </resources>

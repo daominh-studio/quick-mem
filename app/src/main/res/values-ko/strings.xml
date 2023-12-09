@@ -177,4 +177,5 @@
     <string name="notifications">알림</string>
     <string name="personal_info">개인적인 정보</string>
     <string name="leave_class">수업 나가기</string>
+    <string name="default_web_client_id">1:1001542464049:Android:c88aa268e41d8456399b10</string>
 </resources>

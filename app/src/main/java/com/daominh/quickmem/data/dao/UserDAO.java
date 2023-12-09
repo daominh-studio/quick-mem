@@ -10,6 +10,7 @@ import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.utils.PasswordHasher;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,11 @@ public class UserDAO {
 
     private final QMDatabaseHelper qmDatabaseHelper;
     private SQLiteDatabase sqLiteDatabase;
+    private FirebaseFirestore firebaseFirestore;
 
     public UserDAO(Context context) {
         qmDatabaseHelper = new QMDatabaseHelper(context);
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     //insert user

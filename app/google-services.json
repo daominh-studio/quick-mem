@@ -12,7 +12,20 @@
           "package_name": "com.daominh.quickmem"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1001542464049-0pbhh81cr07e880qobdf9suol65samat.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daominh.quickmem",
+            "certificate_hash": "dc570bb31088e144299f362f0f768e421c0f614e"
+          }
+        },
+        {
+          "client_id": "1001542464049-hgsljbhbr0v366mmu8ogkakm633cutug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAJzmdLzI_-A9AQ_8Vyrb6YpfaFXSEODFo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001542464049-hgsljbhbr0v366mmu8ogkakm633cutug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

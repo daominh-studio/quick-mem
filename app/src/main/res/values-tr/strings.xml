@@ -177,4 +177,5 @@
     <string name="notifications">Bildirimler</string>
     <string name="personal_info">Kişisel bilgi</string>
     <string name="leave_class">Dersten ayrıl</string>
+    <string name="default_web_client_id">1:1001542464049:android:c88aa268e41d8456399b10</string>
 </resources>

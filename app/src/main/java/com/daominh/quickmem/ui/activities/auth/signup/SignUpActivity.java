@@ -11,6 +11,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -21,26 +23,42 @@ import com.daominh.quickmem.databinding.ActivitySignupBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
-import com.daominh.quickmem.utils.PasswordHasher;
+import com.daominh.quickmem.utils.*;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.kongzue.dialogx.dialogs.TipDialog;
+import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private UserDAO userDAO;
     private static final int MAX_LENGTH = 30;
     private static final String link = "https://avatar-nqm.koyeb.app/images";
-
+    private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    public static final int RC_SIGN_IN = 9001;
+    private CheckNetWork checkNetWork;
     ActivitySignupBinding binding;
 
     @Override
@@ -58,6 +76,8 @@ public class SignUpActivity extends AppCompatActivity {
         setupPasswordEditText();
         setupSignUpButton();
         setupOnBackPressedCallback();
+
+
     }
 
     private void setupToolbar() {
@@ -73,7 +93,13 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         binding.googleBtn.setOnClickListener(v -> {
-            // intentToMain();
+            GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient googleSignInClient = com.google.android.gms.auth.api.signin.GoogleSignIn.getClient(this, googleSignInOptions);
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
 
@@ -143,12 +169,23 @@ public class SignUpActivity extends AppCompatActivity {
             if (!handleEmailTextChanged(email, binding)) return;
             if (!handlePasswordTextChanged(password, binding)) return;
 
-            int role = 2;
+            int role;
             if (binding.radioYesNo.getCheckedRadioButtonId() == binding.radioYes.getId()) {
                 role = 1;
+            } else {
+                role = 2;
             }
-
-            handleSignUp(date, email, password, role);
+            checkNetWork = new CheckNetWork(this);
+            checkNetWork.isConnected().observe(this, aBoolean -> {
+                if (aBoolean) {
+                    WaitDialog.show(this, "Loading...");
+                    Log.d("isNetworkConnected", "setupSignUpButton: " + aBoolean);
+                    handleSignUp(date, email, password, role);
+                } else {
+                    TipDialog.show("No internet connection", WaitDialog.TYPE.ERROR, 2000);
+                    Log.d("isNetworkConnected", "setupSignUpButton: " + aBoolean);
+                }
+            });
         });
     }
 
@@ -159,32 +196,90 @@ public class SignUpActivity extends AppCompatActivity {
         newUser.setEmail(email);
         newUser.setAvatar(randomAvatar());
         newUser.setName("");
+        newUser.setPassword(PasswordHasher.hashPassword(password));
         newUser.setUsername(userNameFromEmail(email));
         newUser.setRole(role);
-        newUser.setPassword(PasswordHasher.hashPassword(password));
         newUser.setCreated_at(date);
         newUser.setUpdated_at(date);
         newUser.setStatus(1); // Assuming 1 is the status for active users
 
-        // Insert the new user into the database
-        userDAO = new UserDAO(this);
-        long result = userDAO.insertUser(newUser);
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) { // Firebase sign up successful
+                        Log.d("SignUpActivity", "handleSignUp: Firebase sign up successful");
 
-        // Check the result of the insert operation
-        if (result > 0) {
-            // The user was inserted successfully
-            Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                        // Insert the new user into Firebase Firestore
+                        Map<String, Object> user = new HashMap<>();
+                        user.put(UserTable.ID.toString(), newUser.getId());
+                        user.put(UserTable.NAME.toString(), newUser.getName());
+                        user.put(UserTable.EMAIL.toString(), newUser.getEmail());
+                        user.put(UserTable.USERNAME.toString(), newUser.getUsername());
+                        user.put(UserTable.AVATAR.toString(), newUser.getAvatar());
+                        user.put(UserTable.ROLE.toString(), newUser.getRole());
+                        user.put(UserTable.CREATED_AT.toString(), newUser.getCreated_at());
+                        user.put(UserTable.UPDATED_AT.toString(), newUser.getUpdated_at());
+                        user.put(UserTable.STATUS.toString(), newUser.getStatus());
 
-            // Save the user to shared preferences
-            saveUserToSharedPreferences(newUser);
+                        // Insert the new user into Firebase Firestore
+                        firebaseFirestore.collection(Table.USER.toString())
+                                .document(newUser.getId())
+                                .set(user)
+                                .addOnSuccessListener(unused -> {
+                                    // Insert the new user into the database
+                                    userDAO = new UserDAO(SignUpActivity.this);
+                                    long result = userDAO.insertUser(newUser);
+                                    // Check the result of the insert operation
+                                    if (result > 0) {
+                                        // The user was inserted successfully
+                                        Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
 
-            // Navigate to the main activity
-            intentToMain();
-        } else {
-            // The insert operation failed
-            Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
-        }
-        Log.d("SignUpActivity", "handleSignUp: " + result + newUser.getAvatar());
+                                        // Save the user to shared preferences
+                                        saveUserToSharedPreferences(newUser);
+                                        WaitDialog.dismiss();
+
+                                        // Navigate to the main activity
+                                        intentToMain();
+
+                                    } else {
+                                        // The insert operation failed
+                                        Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(e -> Log.d("SignUpActivity", "handleSignUp: Firebase Firestore insert failed"));
+
+                    } else {
+                        Log.d("SignUpActivity", "handleSignUp: Firebase sign up failed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        WaitDialog.dismiss();
+                        String errorCode = ((FirebaseAuthException) e).getErrorCode();
+                        switch (errorCode) {
+                            case "ERROR_INVALID_EMAIL":
+                                binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
+                                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                                binding.emailEt.requestFocus();
+                                break;
+                            case "ERROR_WEAK_PASSWORD":
+                                binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
+                                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                                binding.passwordEt.requestFocus();
+                                break;
+                            case "ERROR_EMAIL_ALREADY_IN_USE":
+                                binding.emailTil.setHelperText(getString(R.string.email_is_exist));
+                                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                                binding.emailEt.requestFocus();
+                                break;
+                            default:
+                                Toast.makeText(SignUpActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        TipDialog.show("Sign up failed", WaitDialog.TYPE.ERROR, 2000);
+                    }
+                });
+
     }
 
     //random between 0 and 30
@@ -252,59 +347,9 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private String getCurrentDate() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return currentDate.format(formatter);
-        } else {
-            // Handle a case for Android versions less than Oreo
-            // Here we're using SimpleDateFormat, which is available on all Android versions
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(new Date());
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private boolean isDateGreaterThanCurrentDate(String dateStr) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = formatter.parse(dateStr);
-            Date currentDate = new Date();
-            assert date != null;
-            return date.after(currentDate);
-        } catch (ParseException e) {
-            Log.e("SignupActivity", "isDateGreaterThanCurrentDate: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
-            return false;
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private boolean isAgeGreaterThan18(String dateStr) {
-        if (dateStr == null || dateStr.trim().isEmpty()) {
-            // Handle the case where the date string is empty
-            return false;
-        }
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = formatter.parse(dateStr);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.add(Calendar.YEAR, -22);
-            Date eighteenYearsAgo = calendar.getTime();
-            assert date != null;
-            return date.before(eighteenYearsAgo);
-        } catch (ParseException e) {
-            Log.e("SignUpActivity", "isAgeGreaterThan18: Error parsing date. Ensure the date is in the format dd/MM/yyyy.", e);
-            return false;
-        }
-    }
-
-
     private boolean handleDateTextChanged(String text, ActivitySignupBinding binding) {
-        String currentDate = getCurrentDate();
+        CustomDate customDate = new CustomDate();
+        String currentDate = customDate.getCurrentDate();
         if (text.equals(currentDate)) {
             binding.dateTil.setHelperText(getString(R.string.date_error));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
@@ -313,7 +358,7 @@ public class SignUpActivity extends AppCompatActivity {
             binding.dateEt.requestFocus();
 
             return false;
-        } else if (isDateGreaterThanCurrentDate(text)) {
+        } else if (customDate.isDateGreaterThanCurrentDate(text)) {
             binding.dateTil.setHelperText(getString(R.string.date_geater_than_current_date));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             binding.teacherLl.setVisibility(View.GONE);
@@ -321,7 +366,7 @@ public class SignUpActivity extends AppCompatActivity {
             binding.dateEt.requestFocus();
 
             return false;
-        } else if (isAgeGreaterThan18(text)) {
+        } else if (customDate.isAgeGreaterThan22(text)) {
             binding.teacherLl.setVisibility(View.VISIBLE);
             binding.dateTil.setHelperText(getString(R.string.date_of_birth));
             binding.dateTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
@@ -397,16 +442,56 @@ public class SignUpActivity extends AppCompatActivity {
     private void enableButton(Boolean check, ActivitySignupBinding binding) {
         if (check) {
             binding.signUpBtn.setEnabled(true);
-            binding.signUpBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.button_background));
+            binding.signUpBtn.setBackground(AppCompatResources.getDrawable(
+                    this,
+                    R.drawable.button_background)
+            );
         } else {
             binding.signUpBtn.setEnabled(false);
-            binding.signUpBtn.setBackground(AppCompatResources.getDrawable(this, R.drawable.background_button_disable));
+            binding.signUpBtn.setBackground(AppCompatResources.getDrawable(
+                    this,
+                    R.drawable.background_button_disable)
+            );
         }
     }
 
     private boolean isEmailExist(String email) {
         userDAO = new UserDAO(this);
         return userDAO.checkEmail(email);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                //Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(com.google.android.gms.common.api.ApiException.class);
+                Log.d("SignUpActivity", "firebaseAuthWithGoogle:" + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (com.google.android.gms.common.api.ApiException e) {
+                //Google Sign In failed, update UI appropriately
+                Log.w("SignUpActivity", "Google sign in failed", e);
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("SignUpActivity", "firebaseAuthWithGoogle:success");
+                        startActivity(new Intent(this, MainActivity.class));
+                        finish();
+                    } else {
+                        Log.w("SignUpActivity", "firebaseAuthWithGoogle:failure", task.getException());
+                        Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
