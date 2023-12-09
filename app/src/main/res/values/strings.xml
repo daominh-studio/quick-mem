@@ -219,4 +219,7 @@
     <string name="sign_up_failed">Sign up failed!</string>
     <string name="authentication_failed">Authentication failed!</string>
     <string name="email_example">example@example.com</string>
+    <string name="user_is_blocked">You was blocked!</string>
+    <string name="too_many_request">Too many request!</string>
+    <string name="operation_not_allowed">Operation not allowed</string>
 </resources>

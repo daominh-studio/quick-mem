@@ -25,8 +25,11 @@ import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
 import com.daominh.quickmem.utils.CheckNetWork;
+import com.daominh.quickmem.utils.PasswordHasher;
 import com.daominh.quickmem.utils.Table;
+import com.daominh.quickmem.utils.UserTable;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kongzue.dialogx.dialogs.TipDialog;
@@ -148,6 +151,7 @@ public class SignInActivity extends AppCompatActivity {
     private void handleSignIn(String email, String password, ActivitySigninBinding binding) {
         userDAO = new UserDAO(SignInActivity.this);
 
+
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             handleEmailSignIn(email, password, binding);
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -156,17 +160,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void handleEmailSignIn(String email, String password, ActivitySigninBinding binding) {
-        if (!userDAO.checkEmail(email)) {
-            binding.emailTil.setHelperText(getString(R.string.email_is_not_exist));
-            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-            return;
-        }
-        if (!userDAO.checkPasswordEmail(email, password)) {
-            binding.passwordTil.setHelperText(getString(R.string.password_is_not_correct));
-            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-            return;
-        }
-
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -175,32 +168,74 @@ public class SignInActivity extends AppCompatActivity {
                         getUser(firebaseUser.getUid());
 
                     } else {
-                        Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                        WaitDialog.dismiss();
+                        TipDialog.show(
+                                getString(R.string.loginFailed),
+                                WaitDialog.TYPE.ERROR,
+                                2000
+                        );
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                    WaitDialog.dismiss();
+                    String errorCode = ((FirebaseAuthException) e).getErrorCode();
+                    switch (errorCode) {
+                        case "ERROR_INVALID_EMAIL":
+                            binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
+                        case "ERROR_WRONG_PASSWORD":
+                            binding.passwordTil.setHelperText(getString(R.string.password_is_not_correct));
+                            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
+                        case "ERROR_USER_NOT_FOUND":
+                            binding.emailTil.setHelperText(getString(R.string.email_is_not_exist));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
+                        case "ERROR_USER_DISABLED":
+                            binding.emailTil.setHelperText(getString(R.string.user_is_blocked));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
+                        case "ERROR_TOO_MANY_REQUESTS":
+                            binding.emailTil.setHelperText(getString(R.string.too_many_request));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
+                        case "ERROR_OPERATION_NOT_ALLOWED":
+                            binding.emailTil.setHelperText(getString(R.string.operation_not_allowed));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            break;
                     }
                 });
 
     }
 
     private void handleUsernameSignIn(String username, String password, ActivitySigninBinding binding) {
-        if (!userDAO.checkUsername(username)) {
-            binding.emailTil.setHelperText(getString(R.string.user_is_not_exist));
-            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-            return;
-        }
-        if (!userDAO.checkPasswordUsername(username, password)) {
-            binding.passwordTil.setHelperText(getString(R.string.password_is_not_correct));
-            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-            return;
-        }
-        String email = userDAO.getEmailByUsername(username);
-        firebaseFirestore.collection(Table.USER.toString()).whereEqualTo("email", email).get()
+        password = PasswordHasher.hashPassword(password);
+        String finalPassword = password;
+        firebaseFirestore.collection(Table.USER.toString())
+                .whereEqualTo("username", username)
+                .whereEqualTo("password", password)
+                .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots.isEmpty()) {
+                        binding.emailTil.setHelperText(getString(R.string.user_is_not_exist));
+                        binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                        WaitDialog.dismiss();
                         return;
                     }
                     for (int i = 0; i < queryDocumentSnapshots.size(); i++) {
-                        String uid = queryDocumentSnapshots.getDocuments().get(i).getId();
-                        getUser( uid);
+
+                        if (queryDocumentSnapshots.getDocuments().get(i).getString(UserTable.PASSWORD.toString()).equals(finalPassword)) {
+                            String uid = queryDocumentSnapshots.getDocuments().get(i).getId();
+                            getUser(uid);
+                        } else {
+                            binding.passwordTil.setHelperText(getString(R.string.password_is_not_correct));
+                            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            WaitDialog.dismiss();
+                            return;
+
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -277,7 +312,7 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(new Intent(SignInActivity.this, AuthenticationActivity.class));
     }
 
-    private User getUser( String uid) {
+    private User getUser(String uid) {
         Log.d("SignInActivity", "getUser: " + uid);
         userDAO = new UserDAO(SignInActivity.this);
         User user = new User();

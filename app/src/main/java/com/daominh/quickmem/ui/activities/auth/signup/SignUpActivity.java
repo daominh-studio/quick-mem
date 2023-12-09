@@ -210,6 +210,7 @@ public class SignUpActivity extends AppCompatActivity {
                         user.put(UserTable.NAME.toString(), newUser.getName());
                         user.put(UserTable.EMAIL.toString(), newUser.getEmail());
                         user.put(UserTable.USERNAME.toString(), newUser.getUsername());
+                        user.put(UserTable.PASSWORD.toString(), newUser.getPassword());
                         user.put(UserTable.AVATAR.toString(), newUser.getAvatar());
                         user.put(UserTable.ROLE.toString(), newUser.getRole());
                         user.put(UserTable.BIRTHDAY.toString(), newUser.getBirthday());
