@@ -85,10 +85,7 @@ I hope you like it.
 <p>Will add soon</p>
 
 ## Video
-
-<video width="320" height="240" controls>
-  <source src="./video/videodemo.mp4" type="video/mp4">
-</video>
+[![Demo Video](http://img.youtube.com/vi/BdAxVovGtYc/2.jpg)](https://www.youtube.com/watch?v=BdAxVovGtYc "Demo Video")
 
 ## Contributing
 
