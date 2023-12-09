@@ -43,9 +43,9 @@ android {
         options.compilerArgs << "-Xlint:deprecation"
     }
 }
-lokalenow {
-    listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
-}
+//lokalenow {
+//    listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
+//}
 
 dependencies {
 

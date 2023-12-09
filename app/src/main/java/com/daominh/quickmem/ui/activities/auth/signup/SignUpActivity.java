@@ -1,6 +1,5 @@
 package com.daominh.quickmem.ui.activities.auth.signup;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,7 +10,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,26 +26,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.*;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.kongzue.dialogx.dialogs.TipDialog;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerDialog;
 import com.swnishan.materialdatetimepicker.datepicker.MaterialDatePickerView;
-import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -55,11 +42,12 @@ public class SignUpActivity extends AppCompatActivity {
     private UserDAO userDAO;
     private static final int MAX_LENGTH = 30;
     private static final String link = "https://avatar-nqm.koyeb.app/images";
+    public static final String QUICKMEM = "quickmem";
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static final int RC_SIGN_IN = 9001;
     private CheckNetWork checkNetWork;
-    ActivitySignupBinding binding;
+    private ActivitySignupBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,18 +166,21 @@ public class SignUpActivity extends AppCompatActivity {
             checkNetWork = new CheckNetWork(this);
             checkNetWork.isConnected().observe(this, aBoolean -> {
                 if (aBoolean) {
-                    WaitDialog.show(this, "Loading...");
-                    Log.d("isNetworkConnected", "setupSignUpButton: " + aBoolean);
+                    WaitDialog.show(this, getString(R.string.loading));
                     handleSignUp(date, email, password, role);
                 } else {
-                    TipDialog.show("No internet connection", WaitDialog.TYPE.ERROR, 2000);
-                    Log.d("isNetworkConnected", "setupSignUpButton: " + aBoolean);
+                    TipDialog.show(
+                            getString(R.string.no_internet_connection),
+                            WaitDialog.TYPE.ERROR,
+                            2000
+                    );
                 }
             });
         });
     }
 
     private void handleSignUp(String date, String email, String password, int role) {
+        CustomDate customDate = new CustomDate();
         // Create a new User object
         User newUser = new User();
         newUser.setId(UUID.randomUUID().toString());
@@ -199,8 +190,9 @@ public class SignUpActivity extends AppCompatActivity {
         newUser.setPassword(PasswordHasher.hashPassword(password));
         newUser.setUsername(userNameFromEmail(email));
         newUser.setRole(role);
-        newUser.setCreated_at(date);
-        newUser.setUpdated_at(date);
+        newUser.setBirthday(date);
+        newUser.setCreated_at(customDate.getCurrentDate());
+        newUser.setUpdated_at(customDate.getCurrentDate());
         newUser.setStatus(1); // Assuming 1 is the status for active users
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -208,14 +200,19 @@ public class SignUpActivity extends AppCompatActivity {
                     if (task.isSuccessful()) { // Firebase sign up successful
                         Log.d("SignUpActivity", "handleSignUp: Firebase sign up successful");
 
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
                         // Insert the new user into Firebase Firestore
                         Map<String, Object> user = new HashMap<>();
+                        assert firebaseUser != null;
+                        newUser.setId(firebaseUser.getUid());
                         user.put(UserTable.ID.toString(), newUser.getId());
                         user.put(UserTable.NAME.toString(), newUser.getName());
                         user.put(UserTable.EMAIL.toString(), newUser.getEmail());
                         user.put(UserTable.USERNAME.toString(), newUser.getUsername());
                         user.put(UserTable.AVATAR.toString(), newUser.getAvatar());
                         user.put(UserTable.ROLE.toString(), newUser.getRole());
+                        user.put(UserTable.BIRTHDAY.toString(), newUser.getBirthday());
                         user.put(UserTable.CREATED_AT.toString(), newUser.getCreated_at());
                         user.put(UserTable.UPDATED_AT.toString(), newUser.getUpdated_at());
                         user.put(UserTable.STATUS.toString(), newUser.getStatus());
@@ -231,7 +228,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     // Check the result of the insert operation
                                     if (result > 0) {
                                         // The user was inserted successfully
-                                        Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, getString(R.string.sign_up_successful), Toast.LENGTH_SHORT).show();
 
                                         // Save the user to shared preferences
                                         saveUserToSharedPreferences(newUser);
@@ -242,7 +239,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     } else {
                                         // The insert operation failed
-                                        Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, getString(R.string.sign_up_failed), Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(e -> Log.d("SignUpActivity", "handleSignUp: Firebase Firestore insert failed"));
@@ -251,33 +248,31 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.d("SignUpActivity", "handleSignUp: Firebase sign up failed");
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        WaitDialog.dismiss();
-                        String errorCode = ((FirebaseAuthException) e).getErrorCode();
-                        switch (errorCode) {
-                            case "ERROR_INVALID_EMAIL":
-                                binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
-                                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                                binding.emailEt.requestFocus();
-                                break;
-                            case "ERROR_WEAK_PASSWORD":
-                                binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
-                                binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                                binding.passwordEt.requestFocus();
-                                break;
-                            case "ERROR_EMAIL_ALREADY_IN_USE":
-                                binding.emailTil.setHelperText(getString(R.string.email_is_exist));
-                                binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-                                binding.emailEt.requestFocus();
-                                break;
-                            default:
-                                Toast.makeText(SignUpActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        TipDialog.show("Sign up failed", WaitDialog.TYPE.ERROR, 2000);
+                .addOnFailureListener(e -> {
+                    WaitDialog.dismiss();
+                    String errorCode = ((FirebaseAuthException) e).getErrorCode();
+                    Log.d("SignUpActivity", "handleSignUp: Firebase sign up failed: " + errorCode);
+                    switch (errorCode) {
+                        case "ERROR_INVALID_EMAIL":
+                            binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            binding.emailEt.requestFocus();
+                            break;
+                        case "ERROR_WEAK_PASSWORD":
+                            binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
+                            binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            binding.passwordEt.requestFocus();
+                            break;
+                        case "ERROR_EMAIL_ALREADY_IN_USE":
+                            binding.emailTil.setHelperText(getString(R.string.email_is_exist));
+                            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+                            binding.emailEt.requestFocus();
+                            break;
+                        default:
+                            Toast.makeText(this, getString(R.string.sign_up_failed), Toast.LENGTH_SHORT).show();
+                            break;
                     }
+                    TipDialog.show(getString(R.string.sign_up_failed), WaitDialog.TYPE.ERROR, 2000);
                 });
 
     }
@@ -289,14 +284,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private String userNameFromEmail(String email) {
-        if (email.contains("@")) {
-            String userName = email.substring(0, email.indexOf("@"));
-            if (userName.length() > 18 || userName.length() < 4) {
-                return "quickmem" + new Random().nextInt(100000);
-            }
-            return userName;
+        if (email.length() >= 5 && email.length() <= 18) {
+            return email.split("@")[0];
         } else {
-            return email.substring(0, email.indexOf("@"));
+            return QUICKMEM + new Random().nextInt(1000000);
         }
     }
 
@@ -317,7 +308,6 @@ public class SignUpActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-
     private void intentToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -332,8 +322,8 @@ public class SignUpActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             MaterialDatePickerDialog builder = MaterialDatePickerDialog.Builder
                     .setTitle(getString(R.string.date_picker_title))
-                    .setPositiveButtonText("OK")
-                    .setNegativeButtonText("Cancel")
+                    .setPositiveButtonText(getString(R.string.ok))
+                    .setNegativeButtonText(getString(R.string.cancel))
                     .setDate(OffsetDateTime.now().toInstant().toEpochMilli())
                     .setDateFormat(MaterialDatePickerView.DateFormat.DD_MM_YYYY)
                     .setFadeAnimation(350L, 1050L, .3f, .7f)
@@ -489,7 +479,7 @@ public class SignUpActivity extends AppCompatActivity {
                         finish();
                     } else {
                         Log.w("SignUpActivity", "firebaseAuthWithGoogle:failure", task.getException());
-                        Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -80,6 +80,11 @@ enum class UserTable {
             return "role"
         }
     },
+    BIRTHDAY {
+        override fun toString(): String {
+            return "birthday"
+        }
+    },
     CREATED_AT {
         override fun toString(): String {
             return "created_at"

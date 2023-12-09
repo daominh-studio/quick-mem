@@ -34,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
                         android:fontFamily="@font/alfa_slab_one"
-                        android:text="@string/quickmem"
+                        android:text="@string/app_name"
                         android:textColor="@color/white"
                         android:textSize="30sp"
                         android:textStyle="bold"

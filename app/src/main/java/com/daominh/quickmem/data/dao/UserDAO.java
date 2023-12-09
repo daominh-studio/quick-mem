@@ -36,6 +36,7 @@ public class UserDAO {
         contentValues.put("password", user.getPassword());
         contentValues.put("avatar", user.getAvatar());
         contentValues.put("role", user.getRole());
+        contentValues.put("birthday", user.getBirthday());
         contentValues.put("created_at", user.getCreated_at());
         contentValues.put("updated_at", user.getUpdated_at());
         contentValues.put("status", user.getStatus());
@@ -140,11 +141,12 @@ public class UserDAO {
                 String username = cursor.getString(cursor.getColumnIndex("username"));
                 String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
                 int role = cursor.getInt(cursor.getColumnIndex("role"));
+                String birthday = cursor.getString(cursor.getColumnIndex("birthday"));
                 String created_at = cursor.getString(cursor.getColumnIndex("created_at"));
                 String updated_at = cursor.getString(cursor.getColumnIndex("updated_at"));
                 int status = cursor.getInt(cursor.getColumnIndex("status"));
 
-                return new User(id, name, email, username, null, avatar, role, created_at, updated_at, status);
+                return new User(id, name, email, username, null, avatar, role, birthday, created_at, updated_at, status);
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserByIdentifier: " + e);
@@ -230,11 +232,12 @@ public class UserDAO {
                 String username = cursor.getString(cursor.getColumnIndex("username"));
                 String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
                 int role = cursor.getInt(cursor.getColumnIndex("role"));
+                String birthday = cursor.getString(cursor.getColumnIndex("birthday"));
                 String created_at = cursor.getString(cursor.getColumnIndex("created_at"));
                 String updated_at = cursor.getString(cursor.getColumnIndex("updated_at"));
                 int status = cursor.getInt(cursor.getColumnIndex("status"));
 
-                users.add(new User(id, name, email, username, null, avatar, role, created_at, updated_at, status));
+                users.add(new User(id, name, email, username, null, avatar, role, birthday, created_at, updated_at, status));
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getAllUser: " + e);
@@ -258,11 +261,12 @@ public class UserDAO {
                 String username = cursor.getString(cursor.getColumnIndex("username"));
                 String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
                 int role = cursor.getInt(cursor.getColumnIndex("role"));
+                String birthday = cursor.getString(cursor.getColumnIndex("birthday"));
                 String created_at = cursor.getString(cursor.getColumnIndex("created_at"));
                 String updated_at = cursor.getString(cursor.getColumnIndex("updated_at"));
                 int status = cursor.getInt(cursor.getColumnIndex("status"));
 
-                return new User(id, name, email, username, null, avatar, role, created_at, updated_at, status);
+                return new User(id, name, email, username, null, avatar, role, birthday, created_at, updated_at, status);
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserById: " + e);
@@ -284,7 +288,7 @@ public class UserDAO {
                 @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
                 @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
 
-                users.add(new User(id, null, null, username, null, avatar, 0, null, null, 0));
+                users.add(new User(id, null, null, username, null, avatar, 0, null, null, null, 0));
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getListUserByIdClass: " + e);
@@ -307,7 +311,7 @@ public class UserDAO {
                 @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
                 Log.e("UserDAO", "getAllUserJustNeed: " + id + " " + username + " " + avatar);
 
-                users.add(new User(id, null, null, username, null, avatar, 0, null, null, 0));
+                users.add(new User(id, null, null, username, null, avatar, 0, null, null, null, 0));
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getAllUserJustNeed: " + e);
@@ -335,7 +339,7 @@ public class UserDAO {
                 @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
                 @SuppressLint("Range") String avatar = cursor.getString(cursor.getColumnIndex("avatar"));
 
-                return new User(id, null, null, username, null, avatar, 0, null, null, 0);
+                return new User(id, null, null, username, null, avatar, 0, null, null, null, 0);
             }
         } catch (SQLException e) {
             Log.e("UserDAO", "getUserByIdClass: " + e);

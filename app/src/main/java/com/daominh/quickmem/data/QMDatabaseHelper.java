@@ -29,6 +29,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
             "password TEXT NOT NULL, " +
             "avatar TEXT, " +
             "role INTEGER NOT NULL, " +
+            "birthday TEXT NOT NULL," +
             "created_at TEXT NOT NULL, " +
             "updated_at TEXT NOT NULL, " +
             "status INTEGER NOT NULL" +
@@ -117,7 +118,7 @@ public class QMDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CLASSES_FLASHCARDS);
         db.execSQL(CREATE_TABLE_FOLDERS_FLASHCARDS);
 
-        db.execSQL("INSERT INTO users VALUES('1','admin','admin12345@gmail.com','admin','41e5653fc7aeb894026d6bb7b2db7f65902b454945fa8fd65a6327047b5277fb','',0,'2023/11/19','2023/11/19',1)");
+        db.execSQL("INSERT INTO users VALUES('1','admin','admin12345@gmail.com','admin','41e5653fc7aeb894026d6bb7b2db7f65902b454945fa8fd65a6327047b5277fb','',0,'','2023/11/19','2023/11/19',1)");
     }
 
     @Override

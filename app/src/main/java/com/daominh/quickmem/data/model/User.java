@@ -8,6 +8,7 @@ public class User {
     private String password;
     private String avatar;
     private int role;
+    private String birthday;
     private String created_at;
     private String updated_at;
     private int status;
@@ -15,7 +16,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, String name, String email, String username, String password, String avatar, int role, String created_at, String updated_at, int status) {
+    public User(String id, String name, String email, String username, String password, String avatar, int role,String birthday, String created_at, String updated_at, int status) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -23,6 +24,7 @@ public class User {
         this.password = password;
         this.avatar = avatar;
         this.role = role;
+        this.birthday = birthday;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.status = status;
@@ -107,6 +109,14 @@ public class User {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     @Override

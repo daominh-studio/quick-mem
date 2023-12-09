@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,15 +24,25 @@ import com.daominh.quickmem.databinding.DialogForgotUsernameBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 import com.daominh.quickmem.ui.activities.auth.AuthenticationActivity;
+import com.daominh.quickmem.utils.CheckNetWork;
+import com.daominh.quickmem.utils.Table;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.kongzue.dialogx.dialogs.TipDialog;
+import com.kongzue.dialogx.dialogs.WaitDialog;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
+import java.util.Objects;
+
 public class SignInActivity extends AppCompatActivity {
     private User user;
     private UserDAO userDAO;
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private CheckNetWork checkNetWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +127,22 @@ public class SignInActivity extends AppCompatActivity {
             final String email = binding.emailEt.getText().toString();
             String password = binding.passwordEt.getText().toString();
 
-            if (handleEmailTextChanged(email, binding) && handlePasswordTextChanged(password, binding)) {
-                handleSignIn(email, password, binding);
-            }
+            checkNetWork = new CheckNetWork(SignInActivity.this);
+            checkNetWork.isConnected().observe(this, aBoolean -> {
+                if (aBoolean) {
+                    WaitDialog.show(this, getString(R.string.loading));
+                    if (handleEmailTextChanged(email, binding) && handlePasswordTextChanged(password, binding)) {
+                        handleSignIn(email, password, binding);
+                    }
+                } else {
+                    TipDialog.show(
+                            getString(R.string.no_internet_connection),
+                            WaitDialog.TYPE.ERROR,
+                            2000
+                    );
+                }
+            });
+
         });
     }
 
@@ -134,7 +158,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleEmailSignIn(String email, String password, ActivitySigninBinding binding) {
         if (!userDAO.checkEmail(email)) {
-            Toast.makeText(this, "email", Toast.LENGTH_SHORT).show();
             binding.emailTil.setHelperText(getString(R.string.email_is_not_exist));
             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             return;
@@ -144,17 +167,18 @@ public class SignInActivity extends AppCompatActivity {
             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
             return;
         }
-        user = getUser(0, email);
+
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        user = getUser(0, email, firebaseUser.getUid());
                         handleUserStatus(user);
                     } else {
                         Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        handleUserStatus(user);
     }
 
     private void handleUsernameSignIn(String username, String password, ActivitySigninBinding binding) {
@@ -169,8 +193,8 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
         String email = userDAO.getEmailByUsername(username);
-        user = getUser(1, email);
-        handleUserStatus(user);
+//        user = getUser(1, email);
+//        handleUserStatus(user);
     }
 
     private void handleUserStatus(User user) {
@@ -240,13 +264,32 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(new Intent(SignInActivity.this, AuthenticationActivity.class));
     }
 
-    private User getUser(int number, String input) {
+    private User getUser(int number, String input, String uid) {
+        Log.d("SignInActivity", "getUser: " + uid);
         userDAO = new UserDAO(SignInActivity.this);
         String email = input;
         if (number == 1) {
-            email = userDAO.getEmailByUsername(input);
+            email = userDAO.getEmailByUsername(input); //get email by username
+            firebaseFirestore.collection(Table.USER.toString()).document(uid).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        user = new User();
+                        user.setId(documentSnapshot.getString("id"));
+                        user.setName(documentSnapshot.getString("name"));
+                        user.setEmail(documentSnapshot.getString("email"));
+                        user.setUsername(documentSnapshot.getString("username"));
+                        user.setPassword(documentSnapshot.getString("password"));
+                        user.setAvatar(documentSnapshot.getString("avatar"));
+                        user.setRole(Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("role"))));
+                        user.setBirthday(documentSnapshot.getString("birthday"));
+                        user.setCreated_at(documentSnapshot.getString("created_at"));
+                        user.setUpdated_at(documentSnapshot.getString("updated_at"));
+                        user.setStatus(Integer.parseInt(Objects.requireNonNull(documentSnapshot.getString("status"))));
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                    });
         }
-        return user = userDAO.getUserByEmail(email);
+        return user;
     }
 
     private void openDialogUsername() {

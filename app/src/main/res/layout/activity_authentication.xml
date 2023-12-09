@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/quickmem"
         android:textColor="@color/celestial_blue"
         android:textSize="30sp"
         android:textStyle="bold"
