@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/celestial_blue</item>
         <item name="colorPrimaryDark">@color/celestial_blue</item>
         <item name="colorAccent">@color/celestial_blue</item>
-        <item name="android:windowBackground">@color/light_gray</item>
+        <item name="android:windowBackground">@color/white_gray</item>
         <item name="android:statusBarColor">@color/celestial_blue</item>
         <!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
         <!--        <item name="android:windowTranslucentStatus" tools:targetApi="m">true</item>-->
@@ -25,7 +25,7 @@
         <item name="colorPrimary">@color/celestial_blue</item>
         <item name="colorPrimaryDark">@color/celestial_blue</item>
         <item name="colorAccent">@color/celestial_blue</item>
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/white_gray</item>
         <item name="android:statusBarColor">@color/celestial_blue</item>
     </style>
 

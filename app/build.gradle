@@ -23,6 +23,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -41,7 +42,7 @@ android {
         options.compilerArgs << "-Xlint:deprecation"
     }
 }
-lokalenow{
+lokalenow {
     listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
 }
 
