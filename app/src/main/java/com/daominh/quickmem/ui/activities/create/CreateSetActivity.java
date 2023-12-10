@@ -34,8 +34,12 @@ import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ActivityCreateSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
+import com.daominh.quickmem.utils.CARDTable;
+import com.daominh.quickmem.utils.FlashcardTable;
+import com.daominh.quickmem.utils.Table;
 import com.google.android.material.snackbar.Snackbar;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
@@ -43,12 +47,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateSetActivity extends AppCompatActivity {
     private CardAdapter cardAdapter;
     private ArrayList<Card> cards;
     private ActivityCreateSetBinding binding;
     private final String id = genUUID();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -242,14 +250,15 @@ public class CreateSetActivity extends AppCompatActivity {
             binding.subjectTil.setError(null);
         }
 
-        if (!saveAllCards()) {
-            return;
-        }
-
         if (!saveFlashCard(subject, description)) {
             Toast.makeText(this, "Insert flashcard failed", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (!saveAllCards()) {
+            return;
+        }
+
 
         Intent intent = new Intent(this, ViewSetActivity.class);
         intent.putExtra("id", id);
@@ -296,6 +305,22 @@ public class CreateSetActivity extends AppCompatActivity {
             return false;
         }
 
+        // Create a new map of values to be added to Firestore
+        Map<String, Object> cardMap = new HashMap<>();
+        cardMap.put(CARDTable.ID.toString(), card.getId());
+        cardMap.put(CARDTable.FRONT.toString(), card.getFront());
+        cardMap.put(CARDTable.BACK.toString(), card.getBack());
+        cardMap.put(CARDTable.STATUS.toString(), card.getStatus());
+        cardMap.put(CARDTable.IS_LEARNED.toString(), card.getIsLearned());
+        cardMap.put(CARDTable.FLASHCARD_ID.toString(), card.getFlashcard_id());
+        cardMap.put(CARDTable.CREATED_AT.toString(), card.getCreated_at());
+        cardMap.put(CARDTable.UPDATED_AT.toString(), card.getUpdated_at());
+
+        // Add the cardMap to Firestore
+        firebaseFirestore.collection("cards").document(card.getId()).set(cardMap)
+                .addOnSuccessListener(aVoid -> Log.d("Firestore", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Firestore", "Error writing document", e));
+
         return true;
     }
 
@@ -318,6 +343,21 @@ public class CreateSetActivity extends AppCompatActivity {
                 flashCard.setIs_public(0);
             }
         });
+
+        // Create a new map of values to be added to Firestore
+        Map<String, Object> flashCardMap = new HashMap<>();
+        flashCardMap.put(FlashcardTable.NAME.toString(), flashCard.getName());
+        flashCardMap.put(FlashcardTable.DESCRIPTION.toString(), flashCard.getDescription());
+        flashCardMap.put(FlashcardTable.USER_ID.toString(), flashCard.getUser_id());
+        flashCardMap.put(FlashcardTable.CREATED_AT.toString(), flashCard.getCreated_at());
+        flashCardMap.put(FlashcardTable.UPDATED_AT.toString(), flashCard.getUpdated_at());
+        flashCardMap.put(FlashcardTable.ID.toString(), flashCard.getId());
+        flashCardMap.put(FlashcardTable.IS_PUBLIC.toString(), flashCard.getIs_public());
+
+        // Add the flashCardMap to Firestore
+        firebaseFirestore.collection(Table.FLASHCARD.toString()).document(flashCard.getId()).set(flashCardMap)
+                .addOnSuccessListener(aVoid -> Log.d("Firestore", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Firestore", "Error writing document", e));
 
         return flashCardDAO.insertFlashCard(flashCard) > 0;
     }

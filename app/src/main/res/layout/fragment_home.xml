@@ -90,7 +90,7 @@
                             android:layout_marginStart="@dimen/_25ssp"
                             android:text="@string/search"
                             android:textColor="@color/gray"
-                            android:textSize="@dimen/_16dp"
+                            android:textSize="@dimen/_16sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/search_iv"
@@ -230,7 +230,7 @@
                         android:visibility="visible"
                         android:background="@drawable/background_cardnew"
                         android:paddingVertical="@dimen/_15ssp"
-                        android:paddingStart="18dp"
+                        android:paddingStart="@dimen/_18ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/get_started_tv">

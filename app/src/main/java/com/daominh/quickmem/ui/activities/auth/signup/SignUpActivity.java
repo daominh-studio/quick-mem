@@ -235,8 +235,18 @@ public class SignUpActivity extends AppCompatActivity {
                                         saveUserToSharedPreferences(newUser);
                                         WaitDialog.dismiss();
 
+                                        if (task.isSuccessful()){
+                                            firebaseUser.sendEmailVerification()
+                                                    .addOnCompleteListener(verificationTask -> {
+                                                        if (verificationTask.isSuccessful()) {
+                                                            Log.d("SignUpActivity", "Email sent.");
+                                                        }
+                                                    });
+                                        }
+
                                         // Navigate to the main activity
                                         intentToMain();
+
 
                                     } else {
                                         // The insert operation failed
@@ -258,22 +268,27 @@ public class SignUpActivity extends AppCompatActivity {
                             binding.emailTil.setHelperText(getString(R.string.email_is_invalid));
                             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
                             binding.emailEt.requestFocus();
+                            enableButton(false, binding);
                             break;
                         case "ERROR_WEAK_PASSWORD":
                             binding.passwordTil.setHelperText(getString(R.string.password_is_invalid));
                             binding.passwordTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
                             binding.passwordEt.requestFocus();
+                            enableButton(false, binding);
                             break;
                         case "ERROR_EMAIL_ALREADY_IN_USE":
                             binding.emailTil.setHelperText(getString(R.string.email_is_exist));
                             binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
                             binding.emailEt.requestFocus();
+                            enableButton(false, binding);
                             break;
                         default:
                             Toast.makeText(this, getString(R.string.sign_up_failed), Toast.LENGTH_SHORT).show();
+                            enableButton(false, binding);
                             break;
                     }
                     TipDialog.show(getString(R.string.sign_up_failed), WaitDialog.TYPE.ERROR, 2000);
+                    enableButton(false, binding);
                 });
 
     }
@@ -390,19 +405,19 @@ public class SignUpActivity extends AppCompatActivity {
             binding.emailEt.requestFocus();
 
             return false;
-        } else if (isEmailExist(text)) {
-            binding.emailTil.setHelperText(getString(R.string.email_is_exist));
-            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
-            enableButton(false, binding);
-            binding.emailEt.requestFocus();
-        } else {
-            binding.emailTil.setHelperText(getString(R.string.email));
-            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
-            enableButton(true, binding);
-
-            return true;
         }
-        return false;
+
+//        else if (isEmailExist(text)) {
+//            binding.emailTil.setHelperText(getString(R.string.email_is_exist));
+//            binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.RED));
+//            enableButton(false, binding);
+//            binding.emailEt.requestFocus();
+//        }
+
+        binding.emailTil.setHelperText(getString(R.string.email));
+        binding.emailTil.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
+        enableButton(true, binding);
+        return true;
     }
 
     private boolean handlePasswordTextChanged(String text, ActivitySignupBinding binding) {
@@ -446,10 +461,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmailExist(String email) {
-        userDAO = new UserDAO(this);
-        return userDAO.checkEmail(email);
-    }
+//    private boolean isEmailExist(String email) {
+//        userDAO = new UserDAO(this);
+//        return userDAO.checkEmail(email);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {

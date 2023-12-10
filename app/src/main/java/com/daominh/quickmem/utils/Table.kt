@@ -106,3 +106,84 @@ enum class UserTable {
         }
     },
 }
+
+enum class FlashcardTable {
+    ID {
+        override fun toString(): String {
+            return "id"
+        }
+    },
+    NAME {
+        override fun toString(): String {
+            return "name"
+        }
+    },
+    DESCRIPTION {
+        override fun toString(): String {
+            return "description"
+        }
+    },
+    USER_ID {
+        override fun toString(): String {
+            return "user_id"
+        }
+    },
+
+    CREATED_AT {
+        override fun toString(): String {
+            return "created_at"
+        }
+    },
+    UPDATED_AT {
+        override fun toString(): String {
+            return "updated_at"
+        }
+    },
+    IS_PUBLIC {
+        override fun toString(): String {
+            return "is_public"
+        }
+    },
+}
+enum class CARDTable {
+    ID {
+        override fun toString(): String {
+            return "id"
+        }
+    },
+    FRONT {
+        override fun toString(): String {
+            return "front"
+        }
+    },
+    BACK {
+        override fun toString(): String {
+            return "back"
+        }
+    },
+    STATUS {
+        override fun toString(): String {
+            return "status"
+        }
+    },
+    IS_LEARNED {
+        override fun toString(): String {
+            return "is_learned"
+        }
+    },
+    FLASHCARD_ID {
+        override fun toString(): String {
+            return "flashcard_id"
+        }
+    },
+    CREATED_AT {
+        override fun toString(): String {
+            return "created_at"
+        }
+    },
+    UPDATED_AT {
+        override fun toString(): String {
+            return "updated_at"
+        }
+    },
+}

@@ -38,7 +38,7 @@ import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
 
-import java.util.Objects;
+
 
 public class SignInActivity extends AppCompatActivity {
     private UserDAO userDAO;
@@ -485,7 +485,18 @@ public class SignInActivity extends AppCompatActivity {
         }
         binding.emailOrUsernameEt.setError(null);
         alertDialog.dismiss();
-        Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+        String email = binding.emailOrUsernameEt.getText().toString();
+
+
+        firebaseAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, getString(R.string.check_your_email), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show());
     }
 
     //check format email

@@ -3,6 +3,7 @@ package com.daominh.quickmem.ui.fragments.home;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.daominh.quickmem.ui.activities.search.ViewSearchActivity;
+import com.daominh.quickmem.utils.FlashcardTable;
+import com.daominh.quickmem.utils.Table;
+import com.google.firebase.firestore.FirebaseFirestore;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -46,6 +50,7 @@ public class HomeFragment extends Fragment {
     private FolderDAO folderDAO;
     private GroupDAO groupDAO;
     private String idUser;
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class HomeFragment extends Fragment {
         setupFlashCards();
         setupFolders();
         setupClasses();
-        setupVisibility();
+
         setupSwipeRefreshLayout();
         setupSearchBar();
         setupCreateSetsButton();
@@ -89,12 +94,39 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void setupFlashCards() {
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
-        binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
-        binding.setsRv.setAdapter(setsAdapter);
-        setsAdapter.notifyDataSetChanged();
+        //get all flashcards by user id from firebase
+        firebaseFirestore.collection(Table.FLASHCARD.toString()).whereEqualTo(FlashcardTable.USER_ID.toString(), idUser).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                flashCards = new ArrayList<>();
+                for (int i = 0; i < task.getResult().size(); i++) {
+                    FlashCard flashCard = new FlashCard();
+                    flashCard.setId(task.getResult().getDocuments().get(i).getId());
+                    flashCard.setUser_id(task.getResult().getDocuments().get(i).getString(FlashcardTable.USER_ID.toString()));
+                    flashCard.setName(task.getResult().getDocuments().get(i).getString(FlashcardTable.NAME.toString()));
+                    flashCard.setIs_public(((Long) task.getResult().getDocuments().get(i).get(FlashcardTable.IS_PUBLIC.toString())).intValue());
+                    flashCard.setDescription(task.getResult().getDocuments().get(i).getString(FlashcardTable.DESCRIPTION.toString()));
+                    flashCard.setCreated_at(task.getResult().getDocuments().get(i).getString(FlashcardTable.CREATED_AT.toString()));
+                    flashCard.setUpdated_at(task.getResult().getDocuments().get(i).getString(FlashcardTable.UPDATED_AT.toString()));
+                    flashCards.add(flashCard);
+                }
+                setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
+                Log.d("TAGGG", "setupFlashCards: " + flashCards.size());
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
+                binding.setsRv.setLayoutManager(linearLayoutManager);
+                binding.setsRv.setAdapter(setsAdapter);
+                setsAdapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(requireActivity(), "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+//        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
+//        binding.setsRv.setLayoutManager(linearLayoutManager);
+//        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
+//        binding.setsRv.setAdapter(setsAdapter);
+//        setsAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -187,23 +219,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateVisibility() {
-        if (flashCards.isEmpty()) {
+        if (flashCards == null || flashCards.isEmpty()) {
             binding.setsCl.setVisibility(View.GONE);
         } else {
             binding.setsCl.setVisibility(View.VISIBLE);
         }
-        if (folders.isEmpty()) {
+        if (folders == null || folders.isEmpty()) {
             binding.folderCl.setVisibility(View.GONE);
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
         }
-        if (classes.isEmpty()) {
+        if (classes == null || classes.isEmpty()) {
             binding.classCl.setVisibility(View.GONE);
         } else {
             binding.classCl.setVisibility(View.VISIBLE);
         }
 
-        if (flashCards.isEmpty() && folders.isEmpty() && classes.isEmpty()) {
+        if ((flashCards == null || flashCards.isEmpty()) &&
+                (folders == null || folders.isEmpty()) &&
+                (classes == null || classes.isEmpty())) {
             binding.emptyCl.setVisibility(View.VISIBLE);
         } else {
             binding.emptyCl.setVisibility(View.GONE);
