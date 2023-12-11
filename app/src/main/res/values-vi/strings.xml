@@ -25,7 +25,7 @@
     <string name="are_you_a_teacher">Bạn có phải là giáo viên?</string>
     <string name="yes">Đúng</string>
     <string name="no">KHÔNG</string>
-    <string name="agree_to_terms_and_conditions">Bằng cách đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của QuickMem</string>
+    <string name="agree_to_terms_and_conditions">Bằng việc đăng ký, tôi chấp nhận \n Điều khoản dịch vụ và Chính sách quyền riêng tư của QuickMem</string>
     <string name="date_picker_title">Xin vui lòng nhập ngày sinh của bạn</string>
     <string name="ok">ĐƯỢC RỒI</string>
     <string name="cancel">Hủy bỏ</string>

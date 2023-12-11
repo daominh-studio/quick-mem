@@ -12,20 +12,10 @@
             tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
-            android:id="@+id/bookFragment"
-            android:name="com.daominh.quickmem.ui.fragments.home.BookFragment"
-            android:label="fragment_book"
-            tools:layout="@layout/fragment_book"/>
-    <fragment
             android:id="@+id/libraryFragment"
             android:name="com.daominh.quickmem.ui.fragments.home.LibraryFragment"
             android:label="fragment_library"
             tools:layout="@layout/fragment_library"/>
-    <fragment
-            android:id="@+id/profileFragment"
-            android:name="com.daominh.quickmem.ui.fragments.home.ProfileFragment"
-            android:label="fragment_profile"
-            tools:layout="@layout/fragment_profile"/>
     <dialog
             android:id="@+id/createFragment"
             android:name="com.daominh.quickmem.ui.fragments.home.CreateFragment"

@@ -32,20 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private void setupNavigation() {
 
         userSharePreferences = new UserSharePreferences(MainActivity.this);
-        int role = userSharePreferences.getRole();
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
         int navGraphId;
         int menuId;
 
-        if (role == 0) {
-            navGraphId = R.navigation.main_nav_admin;
-            menuId = R.menu.menu_nav_admin;
-        } else {
-            navGraphId = R.navigation.main_nav;
-            menuId = R.menu.menu_nav;
-        }
+        navGraphId = R.navigation.main_nav;
+        menuId = R.menu.menu_nav;
+
 
         navController.setGraph(navGraphId);
         binding.bottomNavigationView.getMenu().clear();

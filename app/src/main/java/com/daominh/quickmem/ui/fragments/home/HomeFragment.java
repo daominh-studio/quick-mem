@@ -14,15 +14,12 @@ import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.daominh.quickmem.adapter.group.ClassAdapter;
 import com.daominh.quickmem.adapter.folder.FolderAdapter;
 import com.daominh.quickmem.adapter.flashcard.SetsAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.dao.FolderDAO;
-import com.daominh.quickmem.data.dao.GroupDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.data.model.Folder;
-import com.daominh.quickmem.data.model.Group;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
@@ -38,13 +35,10 @@ public class HomeFragment extends Fragment {
     private UserSharePreferences userSharePreferences;
     private SetsAdapter setsAdapter;
     private FolderAdapter folderAdapter;
-    private ClassAdapter classAdapter;
     private ArrayList<FlashCard> flashCards;
     private ArrayList<Folder> folders;
-    private ArrayList<Group> classes;
     private FlashCardDAO flashCardDAO;
     private FolderDAO folderDAO;
-    private GroupDAO groupDAO;
     private String idUser;
 
     @Override
@@ -52,10 +46,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
         flashCardDAO = new FlashCardDAO(requireActivity());
         folderDAO = new FolderDAO(requireActivity());
-        groupDAO = new GroupDAO(requireActivity());
     }
 
     @Override
@@ -70,11 +62,9 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
 
         setupFlashCards();
         setupFolders();
-        setupClasses();
         setupVisibility();
         setupSwipeRefreshLayout();
         setupSearchBar();
@@ -107,16 +97,6 @@ public class HomeFragment extends Fragment {
         folderAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void setupClasses() {
-        classes = groupDAO.getClassesOwnedByUser(idUser);
-        classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
-        classAdapter = new ClassAdapter(requireActivity(), classes);
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
-        binding.classesRv.setLayoutManager(linearLayoutManager2);
-        binding.classesRv.setAdapter(classAdapter);
-        classAdapter.notifyDataSetChanged();
-    }
 
     private void setupVisibility() {
         if (flashCards.isEmpty()) {
@@ -128,11 +108,6 @@ public class HomeFragment extends Fragment {
             binding.folderCl.setVisibility(View.GONE);
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
-        }
-        if (classes.isEmpty()) {
-            binding.classCl.setVisibility(View.GONE);
-        } else {
-            binding.classCl.setVisibility(View.VISIBLE);
         }
     }
 
@@ -157,7 +132,6 @@ public class HomeFragment extends Fragment {
     private void refreshData() {
         refreshFlashCards();
         refreshFolders();
-        refreshClasses();
         updateVisibility();
     }
 
@@ -177,14 +151,6 @@ public class HomeFragment extends Fragment {
         folderAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void refreshClasses() {
-        classes = groupDAO.getClassesOwnedByUser(idUser);
-        classes.addAll(groupDAO.getClassesUserIsMemberOf(idUser));
-        classAdapter = new ClassAdapter(requireActivity(), classes);
-        binding.classesRv.setAdapter(classAdapter);
-        classAdapter.notifyDataSetChanged();
-    }
 
     private void updateVisibility() {
         if (flashCards.isEmpty()) {
@@ -197,17 +163,7 @@ public class HomeFragment extends Fragment {
         } else {
             binding.folderCl.setVisibility(View.VISIBLE);
         }
-        if (classes.isEmpty()) {
-            binding.classCl.setVisibility(View.GONE);
-        } else {
-            binding.classCl.setVisibility(View.VISIBLE);
-        }
 
-        if (flashCards.isEmpty() && folders.isEmpty() && classes.isEmpty()) {
-            binding.emptyCl.setVisibility(View.VISIBLE);
-        } else {
-            binding.emptyCl.setVisibility(View.GONE);
-        }
     }
 
     @Override

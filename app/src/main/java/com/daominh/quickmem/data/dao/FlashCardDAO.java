@@ -32,7 +32,6 @@ public class FlashCardDAO {
         contentValues.put("id", flashcard.getId());
         contentValues.put("name", flashcard.getName());
         contentValues.put("description", flashcard.getDescription());
-        contentValues.put("user_id", flashcard.getUser_id());
         contentValues.put("created_at", flashcard.getCreated_at());
         contentValues.put("updated_at", flashcard.getUpdated_at());
         contentValues.put("is_public", flashcard.getIs_public());
@@ -65,7 +64,6 @@ public class FlashCardDAO {
                     flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
                     flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
                     flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
                     flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
@@ -118,7 +116,6 @@ public class FlashCardDAO {
                     flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
                     flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
                     flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
                     flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
@@ -148,7 +145,6 @@ public class FlashCardDAO {
                     flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
                     flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
                     flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
                     flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
@@ -176,7 +172,6 @@ public class FlashCardDAO {
         contentValues.put("id", flashcard.getId());
         contentValues.put("name", flashcard.getName());
         contentValues.put("description", flashcard.getDescription());
-        contentValues.put("user_id", flashcard.getUser_id());
         contentValues.put("created_at", flashcard.getCreated_at());
         contentValues.put("updated_at", flashcard.getUpdated_at());
         contentValues.put("is_public", flashcard.getIs_public());
@@ -209,7 +204,6 @@ public class FlashCardDAO {
                     flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
                     flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
                     flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                    flashCard.setUser_id(cursor.getString(cursor.getColumnIndex("user_id")));
                     flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
                     flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
                     flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));

@@ -305,7 +305,6 @@ public class CreateSetActivity extends AppCompatActivity {
         flashCard.setName(subject);
         flashCard.setDescription(description);
         UserSharePreferences userSharePreferences = new UserSharePreferences(this);
-        flashCard.setUser_id(userSharePreferences.getId());
         flashCard.setCreated_at(getCurrentDate());
         flashCard.setUpdated_at(getCurrentDate());
         flashCard.setId(id);

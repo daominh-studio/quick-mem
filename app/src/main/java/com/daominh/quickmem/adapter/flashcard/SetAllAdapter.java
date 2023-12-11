@@ -11,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daominh.quickmem.data.dao.CardDAO;
-import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.FlashCard;
-import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ItemSetAllBinding;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.squareup.picasso.Picasso;
@@ -49,13 +47,9 @@ public class SetAllAdapter extends RecyclerView.Adapter<SetAllAdapter.SetsViewHo
         FlashCard set = sets.get(position);
         CardDAO cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
-        UserDAO userDAO = new UserDAO(context);
-        User user = userDAO.getUserById(set.getUser_id());
 
         holder.binding.setNameTv.setText(set.getName());
         holder.binding.termCountTv.setText(count + " terms");
-        holder.binding.userNameTv.setText(user.getUsername());
-        Picasso.get().load(user.getAvatar()).into(holder.binding.avatarIv);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewSetActivity.class);

@@ -56,13 +56,9 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
         UserSharePreferences userSharePreferences = new UserSharePreferences(context);
         CardDAO cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
-        String avatar = userSharePreferences.getAvatar();
-        String userNames = userSharePreferences.getUserName();
 
         holder.binding.setNameTv.setText(set.getName());
         holder.binding.termCountTv.setText(count + " terms");
-        holder.binding.userNameTv.setText(userNames);
-        Picasso.get().load(avatar).into(holder.binding.avatarIv);
         holder.binding.createdDateTv.setText(set.getCreated_at());
 
         holder.itemView.setOnClickListener(v -> {

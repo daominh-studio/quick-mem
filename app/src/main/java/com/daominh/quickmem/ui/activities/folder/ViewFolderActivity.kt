@@ -57,8 +57,6 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
         val userSharePreferences = UserSharePreferences(this)
         val folder = folderDAO.getFolderById(id)
         binding.folderNameTv.text = folder.name
-        Picasso.get().load(userSharePreferences.avatar).into(binding.avatarIv)
-        binding.userNameTv.text = userSharePreferences.userName
         binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"
     }
 

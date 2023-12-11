@@ -36,7 +36,6 @@ public class FoldersFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
         folderDAO = new FolderDAO(requireActivity());
     }
 
@@ -50,16 +49,11 @@ public class FoldersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupUserPreferences();
         setupCreateButton();
         setupFolders();
         setupRecyclerView();
     }
 
-    private void setupUserPreferences() {
-        userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
-    }
 
     private void setupCreateButton() {
         binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateFolderActivity.class)));

@@ -93,7 +93,7 @@
     <string name="flashcards">Flashcards</string>
     <string name="flashcards_description">Review terms and definitions</string>
     <string name="learn">Learning</string>
-    <string name="review">You\ &amp;apos;re doing great!\n Keep focusing on \n your tough terms</string>
+    <string name="review">You\'re doing great!\n Keep focusing on \n your tough terms</string>
     <string name="know">Know</string>
     <string name="still_learning">Still learning</string>
     <string name="terms_left">Terms left</string>
@@ -112,8 +112,8 @@
     <string name="delete_set_success">Delete set success!</string>
     <string name="error">Uh oh</string>
     <string name="delete_set_error">Please try again late!</string>
-    <string name="create_new_folder">Create new folder</string>
-    <string name="create_new_classes">Create new class</string>
+    <string name="create_new_folder">+ Create new folder</string>
+    <string name="create_new_classes">+ Create new class</string>
     <string name="name_folder">Name folder</string>
     <string name="learn_this_folder">Learn this folder</string>
     <string name="created">Created</string>
@@ -139,7 +139,7 @@
     <string name="review_success">Create success!</string>
     <string name="view">View</string>
     <string name="edit_error">No permisson</string>
-    <string name="here_s_how_to_get_started">Here\ &amp;apos;s how to get started</string>
+    <string name="here_s_how_to_get_started">Here\'s how to get started</string>
     <string name="create_your_own_set">Create your own set</string>
     <string name="finish">Coragetion!</string>
     <string name="finish_quiz">You was done</string>
@@ -158,7 +158,7 @@
     <string name="true_false">True or False</string>
     <string name="true_false_description">Learn super fast</string>
     <string name="your_progress">Your progress</string>
-    <string name="review_your_progress_and_see_how_much_you_ve_learned">Review your progress, and see how much you\ &amp;apos;ve learned.</string>
+    <string name="review_your_progress_and_see_how_much_you_ve_learned">Review your progress, and see how much you\'ve learned.</string>
     <string name="not_learn_37_terms">Not learn: 37 terms</string>
     <string name="_3">3</string>
     <string name="_2">2</string>

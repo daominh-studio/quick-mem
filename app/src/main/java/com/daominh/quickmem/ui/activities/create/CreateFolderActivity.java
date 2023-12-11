@@ -57,11 +57,10 @@ public class CreateFolderActivity extends AppCompatActivity {
                 return false;
             } else {
                 final String folderId = genUUID();
-                final String userId = getUser_id();
                 final String createdAt = getCurrentDate();
                 final String updatedAt = getCurrentDate();
 
-                Folder folder = new Folder(folderId, folderName, description, userId, createdAt, updatedAt);
+                Folder folder = new Folder(folderId, folderName, description, createdAt, updatedAt);
                 FolderDAO folderDAO = new FolderDAO(this);
                 if (folderDAO.insertFolder(folder) > 0) {
                     Toast.makeText(this, "Folder created", Toast.LENGTH_SHORT).show();
@@ -87,11 +86,6 @@ public class CreateFolderActivity extends AppCompatActivity {
 
     private String genUUID() {
         return java.util.UUID.randomUUID().toString();
-    }
-
-    private String getUser_id() {
-        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
-        return userSharePreferences.getId();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

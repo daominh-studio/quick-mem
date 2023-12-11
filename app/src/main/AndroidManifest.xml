@@ -23,12 +23,6 @@
                 android:name=".ui.activities.set.AddFlashCardToClassActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.group.EditClassActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.group.AddMemberActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.learn.QuizFolderActivity"
                 android:exported="false"/>
         <activity
@@ -41,9 +35,6 @@
                 android:name=".ui.activities.search.ViewSearchActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.classes.ViewClassActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.set.AddFlashCardActivity"
                 android:exported="false"/>
         <activity
@@ -53,34 +44,13 @@
                 android:name=".ui.activities.learn.SelectDefineActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.profile.change.ChangePasswordActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.profile.change.ChangeEmailActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.profile.change.ChangeUsernameActivity"
-                android:exported="false"/>
-        <activity
                 android:name=".ui.activities.folder.AddToFolderActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.group.AddToClassActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.learn.QuizActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.learn.LearnActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.profile.SettingsActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.profile.CoursesActivity"
-                android:exported="false"/>
-        <activity
-                android:name=".ui.activities.create.CreateClassActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.create.CreateFolderActivity"
@@ -90,14 +60,6 @@
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.MainActivity"
-                android:exported="false"
-                android:windowSoftInputMode="adjustNothing"/>
-        <activity
-                android:name=".ui.activities.auth.signup.SignUpActivity"
-                android:exported="false"
-                android:theme="@style/AppBottomSheetDialogTheme"/>
-        <activity
-                android:name=".ui.activities.auth.signin.SignInActivity"
                 android:exported="false"
                 android:windowSoftInputMode="adjustNothing"/>
         <activity

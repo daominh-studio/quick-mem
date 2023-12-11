@@ -8,8 +8,6 @@ import com.daominh.quickmem.adapter.viewpager.OnboardingAdapter;
 import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
-import com.daominh.quickmem.ui.activities.auth.signin.SignInActivity;
-import com.daominh.quickmem.ui.activities.auth.signup.SignUpActivity;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -20,10 +18,10 @@ public class AuthenticationActivity extends AppCompatActivity {
         UserSharePreferences userSharePreferences = new UserSharePreferences(this);
 
         // Assuming that userSharePreferences is initialized somewhere else
-        if (userSharePreferences.getLogin()) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
+//        if (userSharePreferences.getLogin()) {
+//            startActivity(new Intent(this, MainActivity.class));
+//            finish();
+//        }
 
         // Inflate the layout
         ActivityAuthenticationBinding binding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
@@ -35,16 +33,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         binding.onboardingVp.setAdapter(onboardingAdapter);
         binding.indicator.setViewPager(binding.onboardingVp);
 
-        // Setup sign up button
-        binding.signUpBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, SignUpActivity.class));
+        // Setup view now button
+        binding.startNowBtn.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         });
 
-        // Setup sign in button
-        binding.signInBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, SignInActivity.class));
-            finish();
-        });
     }
 }

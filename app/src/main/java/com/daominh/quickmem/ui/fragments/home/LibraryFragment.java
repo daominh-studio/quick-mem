@@ -13,11 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.viewpager.MyViewPagerAdapter;
-import com.daominh.quickmem.data.dao.UserDAO;
-import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.FragmentLibraryBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
-import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -34,7 +31,6 @@ public class LibraryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
     }
 
     @Override
@@ -67,7 +63,6 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 currentTabPosition = tab.getPosition();
-                updateAddButtonVisibility();
             }
 
             @Override
@@ -84,12 +79,6 @@ public class LibraryFragment extends Fragment {
 
     private void setupUserPreferences() {
         userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
-        UserDAO userDAO = new UserDAO(getContext());
-        User user = userDAO.getUserById(idUser);
-        if (user.getRole() == 2) {
-            updateAddButtonVisibility();
-        }
     }
 
     private void setupAddButton() {
@@ -98,17 +87,8 @@ public class LibraryFragment extends Fragment {
                 startActivity(new Intent(getActivity(), CreateSetActivity.class));
             } else if (currentTabPosition == 1) {
                 startActivity(new Intent(getActivity(), CreateFolderActivity.class));
-            } else if (currentTabPosition == 2) {
-                startActivity(new Intent(getActivity(), CreateClassActivity.class));
             }
         });
     }
 
-    private void updateAddButtonVisibility() {
-        if (userSharePreferences.getRole() == 2 && currentTabPosition == 2) {
-            binding.addBtn.setVisibility(View.GONE);
-        } else {
-            binding.addBtn.setVisibility(View.VISIBLE);
-        }
-    }
 }

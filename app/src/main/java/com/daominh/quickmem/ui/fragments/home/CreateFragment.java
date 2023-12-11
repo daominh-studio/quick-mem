@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import com.daominh.quickmem.databinding.FragmentCreateBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
-import com.daominh.quickmem.ui.activities.create.CreateClassActivity;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -45,17 +44,7 @@ public class CreateFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userSharePreferences = new UserSharePreferences(requireActivity());
-        if (userSharePreferences.getRole() == 2) { // student
-            binding.llCreateClass.setVisibility(View.GONE);
-        }
 
-
-        binding.llCreateClass.setOnClickListener(v -> {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateClass, "transition");
-            startActivity(new Intent(requireContext(), CreateClassActivity.class), options.toBundle());
-            //call on dismissing to close the bottom sheet
-            dismiss();
-        });
 
         binding.llCreateFolder.setOnClickListener(v -> {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), binding.llCreateFolder, "transition");

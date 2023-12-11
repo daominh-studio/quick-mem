@@ -38,17 +38,18 @@ class AddToFolderActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val userSharePreferences = UserSharePreferences(this)
-        val folders = folderDAO.getAllFolderByUserId(userSharePreferences.id)
-        adapter = FolderSelectAdapter(folders, intent.getStringExtra("flashcard_id")!!)
-        val linearLayoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        binding.folderRv.layoutManager = linearLayoutManager
-        binding.folderRv.adapter = adapter
-        adapter.notifyDataSetChanged()
+        // TODO: get all folder
+//        val userSharePreferences = UserSharePreferences(this)
+//        val folders = folderDAO.getAllFolderByUserId(userSharePreferences.id)
+//        adapter = FolderSelectAdapter(folders, intent.getStringExtra("flashcard_id")!!)
+//        val linearLayoutManager = LinearLayoutManager(
+//            this,
+//            LinearLayoutManager.VERTICAL,
+//            false
+//        )
+//        binding.folderRv.layoutManager = linearLayoutManager
+//        binding.folderRv.adapter = adapter
+//        adapter.notifyDataSetChanged()
     }
 
     private fun setupCreateNewFolder() {

@@ -8,7 +8,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.FolderDAO
-import com.daominh.quickmem.data.dao.UserDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ItemSetFolderBinding
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity
@@ -30,14 +29,10 @@ class SetFolderViewAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SetFolderViewHolder, position: Int) {
         val flashcard = flashcardList[position]
-        val userDAO = UserDAO(holder.itemView.context)
-        val user = userDAO.getUserById(flashcard.user_id)
         val cardDAO = CardDAO(holder.itemView.context)
         val count = cardDAO.countCardByFlashCardId(flashcard.id)
         val folderDAO = FolderDAO(holder.itemView.context)
 
-        Picasso.get().load(user.avatar).into(holder.binding.avatarIv)
-        holder.binding.userNameTv.text = user.username
         holder.binding.setNameTv.text = flashcard.name
         holder.binding.termCountTv.text = "$count terms"
         if (isSelect) {

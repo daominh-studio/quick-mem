@@ -49,8 +49,6 @@ public class StudySetsFragment extends Fragment {
     }
 
     private void setupView() {
-        UserSharePreferences userSharePreferences = new UserSharePreferences(requireActivity());
-        idUser = userSharePreferences.getId();
         binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateSetActivity.class)));
         flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
         updateVisibility();

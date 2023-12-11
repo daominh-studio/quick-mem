@@ -6,7 +6,6 @@ public class FlashCard {
     private String id;
     private String name;
     private String description;
-    private String user_id;
     private int is_public;
     private String created_at;
     private String updated_at;
@@ -18,7 +17,6 @@ public class FlashCard {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
-        this.user_id = user_id;
         this.is_public = is_public;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -46,14 +44,6 @@ public class FlashCard {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
     }
 
     public String getCreated_at() {

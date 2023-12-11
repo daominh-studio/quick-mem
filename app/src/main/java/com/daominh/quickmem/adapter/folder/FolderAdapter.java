@@ -37,13 +37,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
     @Override
     public void onBindViewHolder(@NonNull @NotNull FolderAdapter.FolderViewHolder holder, int position) {
         Folder folder = folders.get(position);
-        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
-        String avatar = userSharePreferences.getAvatar();
-        String username = userSharePreferences.getUserName();
-
         holder.binding.folderNameTv.setText(folder.getName());
-        Picasso.get().load(avatar).into(holder.binding.avatarIv);
-        holder.binding.userNameTv.setText(username);
         holder.binding.folderCl.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewFolderActivity.class);
             intent.putExtra("id", folder.getId());

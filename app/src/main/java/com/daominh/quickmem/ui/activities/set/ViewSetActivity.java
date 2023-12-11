@@ -20,14 +20,11 @@ import com.daominh.quickmem.adapter.card.ViewTermsAdapter;
 import com.daominh.quickmem.adapter.card.ViewSetAdapter;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
-import com.daominh.quickmem.data.dao.UserDAO;
 import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.data.model.FlashCard;
-import com.daominh.quickmem.data.model.User;
 import com.daominh.quickmem.databinding.ActivityViewSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.folder.AddToFolderActivity;
-import com.daominh.quickmem.ui.activities.group.AddToClassActivity;
 import com.daominh.quickmem.ui.activities.learn.LearnActivity;
 import com.daominh.quickmem.ui.activities.learn.QuizActivity;
 import com.kennyc.bottomsheet.BottomSheetListener;
@@ -35,7 +32,6 @@ import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
-import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,12 +104,7 @@ public class ViewSetActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setupUserDetails() {
         String id = getIntent().getStringExtra("id");
-        UserDAO userDAO = new UserDAO(this);
         flashCardDAO = new FlashCardDAO(this);
-        User user = userDAO.getUserById(flashCardDAO.getFlashCardById(id).getUser_id());
-
-        Picasso.get().load(user.getAvatar()).into(binding.avatarIv);
-        binding.userNameTv.setText(user.getUsername());
         binding.descriptionTv.setText(flashCardDAO.getFlashCardById(id).getDescription());
         cardDAO = new CardDAO(this);
         binding.termCountTv.setText(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) + " " + getString(R.string.term));
@@ -317,7 +308,6 @@ public class ViewSetActivity extends AppCompatActivity {
                                 }
                             } else if (itemId == R.id.add_to_class) {
                                 if (isUserOwner()) {
-                                    handleAddToClassOption(id);
                                 } else {
                                     Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
                                 }
@@ -368,11 +358,6 @@ public class ViewSetActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void handleAddToClassOption(String id) {
-        Intent intent = new Intent(ViewSetActivity.this, AddToClassActivity.class);
-        intent.putExtra("flashcard_id", id);
-        startActivity(intent);
-    }
 
     private void handleResetOption(String id) {
         if (isUserOwner()) {
@@ -449,7 +434,6 @@ public class ViewSetActivity extends AppCompatActivity {
         FlashCard flashCard = flashCardDAO.getFlashCardById(id);
         idCard = genUUID();
         flashCard.setId(idCard);
-        flashCard.setUser_id(getUser_id());
         flashCardDAO.insertFlashCard(flashCard);
 
         CardDAO cardDAO = new CardDAO(this);
@@ -482,10 +466,6 @@ public class ViewSetActivity extends AppCompatActivity {
         return java.util.UUID.randomUUID().toString();
     }
 
-    private String getUser_id() {
-        userSharePreferences = new UserSharePreferences(this);
-        return userSharePreferences.getId();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String getCurrentDateNewApi() {
@@ -501,9 +481,7 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
     private boolean isUserOwner() {
-        Log.d("isUserOwner", "isUserOwner: " + userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id()));
-        return userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id());
-
+        return true;
     }
 
     @SuppressLint("SetTextI18n")

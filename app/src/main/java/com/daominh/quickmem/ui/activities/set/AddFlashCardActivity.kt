@@ -42,13 +42,14 @@ class AddFlashCardActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView() {
-        flashCardDAO = FlashCardDAO(this)
-        flashCardList = flashCardDAO.getAllFlashCardByUserId(userSharePreferences.id)
-        adapter = SetFolderViewAdapter(flashCardList, true, intent.getStringExtra("id_folder")!!)
-        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.flashcardRv.layoutManager = linearLayoutManager
-        binding.flashcardRv.adapter = adapter
-        adapter.notifyDataSetChanged()
+        //TODO: get all flashcard
+//        flashCardDAO = FlashCardDAO(this)
+//        flashCardList = flashCardDAO.getAllFlashCardByUserId(userSharePreferences.id)
+//        adapter = SetFolderViewAdapter(flashCardList, true, intent.getStringExtra("id_folder")!!)
+//        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//        binding.flashcardRv.layoutManager = linearLayoutManager
+//        binding.flashcardRv.adapter = adapter
+//        adapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.daominh.quickmem.ui.fragments.library.FoldersFragment;
-import com.daominh.quickmem.ui.fragments.library.MyClassesFragment;
 import com.daominh.quickmem.ui.fragments.library.StudySetsFragment;
 
 public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -20,7 +19,6 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         return switch (position) {
             case 1 -> new FoldersFragment();
-            case 2 -> new MyClassesFragment();
             default -> new StudySetsFragment();
         };
     }

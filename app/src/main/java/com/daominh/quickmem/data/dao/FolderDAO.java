@@ -33,7 +33,6 @@ public class FolderDAO {
         contentValues.put("id", folder.getId());
         contentValues.put("name", folder.getName());
         contentValues.put("description", folder.getDescription());
-        contentValues.put("user_id", folder.getUser_id());
         contentValues.put("is_public", 0);
         contentValues.put("created_at", folder.getCreated_at());
         contentValues.put("updated_at", folder.getUpdated_at());
@@ -66,7 +65,6 @@ public class FolderDAO {
                     folder.setId(cursor.getString(0));
                     folder.setName(cursor.getString(1));
                     folder.setDescription(cursor.getString(2));
-                    folder.setUser_id(cursor.getString(3));
                     folder.setCreated_at(cursor.getString(4));
                     folder.setUpdated_at(cursor.getString(5));
                     folders.add(folder);
@@ -126,7 +124,6 @@ public class FolderDAO {
                     flashCard.setId(cursor.getString(0));
                     flashCard.setName(cursor.getString(1));
                     flashCard.setDescription(cursor.getString(2));
-                    flashCard.setUser_id(cursor.getString(3));
                     flashCard.setCreated_at(cursor.getString(4));
                     flashCard.setUpdated_at(cursor.getString(5));
                     flashCards.add(flashCard);
@@ -155,7 +152,6 @@ public class FolderDAO {
                 folder.setId(cursor.getString(0));
                 folder.setName(cursor.getString(1));
                 folder.setDescription(cursor.getString(2));
-                folder.setUser_id(cursor.getString(3));
                 folder.setCreated_at(cursor.getString(4));
                 folder.setUpdated_at(cursor.getString(5));
             }

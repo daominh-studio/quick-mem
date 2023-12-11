@@ -1,104 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_bottom_sheet"
-    app:cardCornerRadius="@dimen/_16dp">
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:background="@drawable/background_bottom_sheet"
+                                   app:cardCornerRadius="@dimen/_16dp">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.fragments.home.CreateFragment">
-
-        <LinearLayout
-            android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/_30ssp">
+            tools:context=".ui.fragments.home.CreateFragment">
+
+        <LinearLayout
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_30ssp">
 
             <ImageView
-                android:layout_width="@dimen/_30ssp"
-                android:layout_height="@dimen/_30ssp"
-                android:layout_marginBottom="@dimen/_10dp"
-                android:src="@mipmap/ic_arrow_down" />
+                    android:layout_width="@dimen/_30ssp"
+                    android:layout_height="@dimen/_30ssp"
+                    android:layout_marginBottom="@dimen/_10dp"
+                    android:src="@mipmap/ic_arrow_down"/>
 
 
             <LinearLayout
-                android:id="@+id/ll_create_set"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10dp"
-                android:background="@drawable/background_bottom_sheet"
-                android:gravity="center"
-                android:orientation="horizontal">
+                    android:id="@+id/ll_create_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10dp"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/_30ssp"
-                    android:layout_height="@dimen/_30ssp"
-                    android:layout_margin="@dimen/_10ssp"
-                    android:src="@mipmap/ic_set" />
+                        android:layout_width="@dimen/_30ssp"
+                        android:layout_height="@dimen/_30ssp"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:src="@mipmap/ic_set"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_set"
-                    android:textSize="@dimen/_20ssp"
-                    android:textStyle="bold" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/create_set"
+                        android:textSize="@dimen/_20ssp"
+                        android:textStyle="bold"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_create_folder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10dp"
-                android:background="@drawable/background_bottom_sheet"
-                android:gravity="center"
-                android:orientation="horizontal">
+                    android:id="@+id/ll_create_folder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10dp"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/_30ssp"
-                    android:layout_height="@dimen/_30ssp"
-                    android:layout_margin="@dimen/_10ssp"
-                    android:src="@mipmap/ic_folder" />
+                        android:layout_width="@dimen/_30ssp"
+                        android:layout_height="@dimen/_30ssp"
+                        android:layout_margin="@dimen/_10ssp"
+                        android:src="@mipmap/ic_folder"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_folder"
-                    android:textSize="@dimen/_20ssp"
-                    android:textStyle="bold" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/create_folder"
+                        android:textSize="@dimen/_20ssp"
+                        android:textStyle="bold"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_create_class"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10dp"
-                android:visibility="visible"
-                android:background="@drawable/background_bottom_sheet"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/_30ssp"
-                    android:layout_height="@dimen/_30ssp"
-                    android:layout_margin="@dimen/_10ssp"
-                    android:src="@mipmap/ic_class" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_class"
-                    android:textSize="@dimen/_20ssp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
         </LinearLayout>
 
     </FrameLayout>
