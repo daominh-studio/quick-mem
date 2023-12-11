@@ -60,7 +60,7 @@ public class FoldersFragment extends Fragment {
     }
 
     private void setupFolders() {
-        folders = folderDAO.getAllFolderByUserId(idUser);
+        folders = folderDAO.getAllFolders();
         if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.VISIBLE);
             binding.foldersRv.setVisibility(View.GONE);
@@ -87,7 +87,7 @@ public class FoldersFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void refreshData() {
-        folders = folderDAO.getAllFolderByUserId(idUser);
+        folders = folderDAO.getAllFolders();
 
         folderAdapter = new FolderCopyAdapter(requireActivity(), folders);
         binding.foldersRv.setAdapter(folderAdapter);

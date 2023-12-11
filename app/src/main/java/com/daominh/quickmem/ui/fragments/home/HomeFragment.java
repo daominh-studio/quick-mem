@@ -33,13 +33,10 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private UserSharePreferences userSharePreferences;
-    private SetsAdapter setsAdapter;
-    private FolderAdapter folderAdapter;
     private ArrayList<FlashCard> flashCards;
     private ArrayList<Folder> folders;
     private FlashCardDAO flashCardDAO;
     private FolderDAO folderDAO;
-    private String idUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,18 +76,18 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void setupFlashCards() {
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
+        flashCards = flashCardDAO.getAllFlashCard();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
         binding.setsRv.setLayoutManager(linearLayoutManager);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
+        SetsAdapter setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
         binding.setsRv.setAdapter(setsAdapter);
         setsAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void setupFolders() {
-        folders = folderDAO.getAllFolderByUserId(idUser);
-        folderAdapter = new FolderAdapter(requireActivity(), folders);
+        folders = folderDAO.getAllFolders();
+        FolderAdapter folderAdapter = new FolderAdapter(requireActivity(), folders);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
         binding.foldersRv.setLayoutManager(linearLayoutManager1);
         binding.foldersRv.setAdapter(folderAdapter);
@@ -130,40 +127,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void refreshData() {
-        refreshFlashCards();
-        refreshFolders();
-        updateVisibility();
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void refreshFlashCards() {
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
-        binding.setsRv.setAdapter(setsAdapter);
-        setsAdapter.notifyDataSetChanged();
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void refreshFolders() {
-        folders = folderDAO.getAllFolderByUserId(idUser);
-        folderAdapter = new FolderAdapter(requireActivity(), folders);
-        binding.foldersRv.setAdapter(folderAdapter);
-        folderAdapter.notifyDataSetChanged();
-    }
-
-
-    private void updateVisibility() {
-        if (flashCards.isEmpty()) {
-            binding.setsCl.setVisibility(View.GONE);
-        } else {
-            binding.setsCl.setVisibility(View.VISIBLE);
-        }
-        if (folders.isEmpty()) {
-            binding.folderCl.setVisibility(View.GONE);
-        } else {
-            binding.folderCl.setVisibility(View.VISIBLE);
-        }
-
+        setupFlashCards();
+        setupFolders();
+        setupVisibility();
     }
 
     @Override

@@ -50,7 +50,7 @@ public class StudySetsFragment extends Fragment {
 
     private void setupView() {
         binding.createSetBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), CreateSetActivity.class)));
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
+        flashCards = flashCardDAO.getAllFlashCard();
         updateVisibility();
         setupRecyclerView();
     }
@@ -83,7 +83,7 @@ public class StudySetsFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void refreshData() {
         flashCards.clear();
-        flashCards.addAll(flashCardDAO.getAllFlashCardByUserId(idUser));
+        flashCards.addAll(flashCardDAO.getAllFlashCard());
         setsAdapter.notifyDataSetChanged();
         updateVisibility();
     }

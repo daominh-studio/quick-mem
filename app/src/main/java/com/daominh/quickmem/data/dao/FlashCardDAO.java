@@ -47,37 +47,7 @@ public class FlashCardDAO {
         return result;
     }
 
-    //get all flashcards by user_id
-    @SuppressLint("Range")
-    public ArrayList<FlashCard> getAllFlashCardByUserId(String user_id) {
-        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
-
-        ArrayList<FlashCard> flashCards = new ArrayList<>();
-
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FLASHCARDS + " WHERE user_id = '" + user_id + "' ORDER BY created_at DESC";
-
-        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
-
-            if (cursor.moveToFirst()) {
-                do {
-                    FlashCard flashCard = new FlashCard();
-                    flashCard.setId(cursor.getString(cursor.getColumnIndex("id")));
-                    flashCard.setName(cursor.getString(cursor.getColumnIndex("name")));
-                    flashCard.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                    flashCard.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
-                    flashCard.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
-                    flashCard.setIs_public(cursor.getInt(cursor.getColumnIndex("is_public")));
-
-                    flashCards.add(flashCard);
-                } while (cursor.moveToNext());
-            }
-        } catch (SQLException e) {
-            Log.e("FlashCardDAO", "getAllFlashCardByUserId: " + e);
-        } finally {
-            sqLiteDatabase.close();
-        }
-        return flashCards;
-    }
+    //delete flashcard
     public boolean deleteFlashcardAndCards(String flashcardId) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 

@@ -48,36 +48,6 @@ public class FolderDAO {
         return result;
     }
 
-    //get all folder by user_id
-    @SuppressLint("Range")
-    public ArrayList<Folder> getAllFolderByUserId(String user_id) {
-        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
-
-        ArrayList<Folder> folders = new ArrayList<>();
-
-        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FOLDERS + " WHERE user_id = '" + user_id + "' ORDER BY created_at DESC";
-
-        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                do {
-                    Folder folder = new Folder();
-                    folder.setId(cursor.getString(0));
-                    folder.setName(cursor.getString(1));
-                    folder.setDescription(cursor.getString(2));
-                    folder.setCreated_at(cursor.getString(4));
-                    folder.setUpdated_at(cursor.getString(5));
-                    folders.add(folder);
-                } while (cursor.moveToNext());
-            }
-        } catch (SQLException e) {
-            Log.e("FolderDAO", "getAllFolderByUserId: " + e);
-        } finally {
-            sqLiteDatabase.close();
-        }
-        return folders;
-    }
-
     //add flashcard to folder
     public long addFlashCardToFolder(String folder_id, String flashcard_id) {
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
@@ -268,6 +238,37 @@ public class FolderDAO {
             sqLiteDatabase.close();
         }
         return result;
+    }
+
+    // get all folders
+    @SuppressLint("Range")
+    public ArrayList<Folder> getAllFolders() {
+        sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
+
+        ArrayList<Folder> folders = new ArrayList<>();
+
+        String query = "SELECT * FROM " + QMDatabaseHelper.TABLE_FOLDERS + " ORDER BY created_at DESC";
+
+        try (Cursor cursor = sqLiteDatabase.rawQuery(query, null)) {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Folder folder = new Folder();
+                    folder.setId(cursor.getString(cursor.getColumnIndex("id")));
+                    folder.setName(cursor.getString(cursor.getColumnIndex("name")));
+                    folder.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                    folder.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
+                    folder.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+
+                    folders.add(folder);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException e) {
+            Log.e("FolderDAO", "getAllFolders: " + e);
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return folders;
     }
 
 
