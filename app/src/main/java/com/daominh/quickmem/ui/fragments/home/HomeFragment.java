@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         setupFlashCards();
         setupFolders();
         setupClasses();
-
+        setupVisibility();
         setupSwipeRefreshLayout();
         setupSearchBar();
         setupCreateSetsButton();
@@ -92,41 +92,29 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void setupFlashCards() {
         //get all flashcards by user id from firebase
         firebaseFirestore.collection(Table.FLASHCARD.toString()).whereEqualTo(FlashcardTable.USER_ID.toString(), idUser).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 flashCards = new ArrayList<>();
                 for (int i = 0; i < task.getResult().size(); i++) {
-                    FlashCard flashCard = new FlashCard();
-                    flashCard.setId(task.getResult().getDocuments().get(i).getId());
-                    flashCard.setUser_id(task.getResult().getDocuments().get(i).getString(FlashcardTable.USER_ID.toString()));
-                    flashCard.setName(task.getResult().getDocuments().get(i).getString(FlashcardTable.NAME.toString()));
-                    flashCard.setIs_public(((Long) task.getResult().getDocuments().get(i).get(FlashcardTable.IS_PUBLIC.toString())).intValue());
-                    flashCard.setDescription(task.getResult().getDocuments().get(i).getString(FlashcardTable.DESCRIPTION.toString()));
-                    flashCard.setCreated_at(task.getResult().getDocuments().get(i).getString(FlashcardTable.CREATED_AT.toString()));
-                    flashCard.setUpdated_at(task.getResult().getDocuments().get(i).getString(FlashcardTable.UPDATED_AT.toString()));
-                    flashCards.add(flashCard);
+                    flashCards.add(task.getResult().getDocuments().get(i).toObject(FlashCard.class));
+                }
+                if (flashCards.isEmpty()) {
+                    binding.setsCl.setVisibility(View.GONE);
+                } else {
+                    binding.setsCl.setVisibility(View.VISIBLE);
                 }
                 setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
                 Log.d("TAGGG", "setupFlashCards: " + flashCards.size());
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
                 binding.setsRv.setLayoutManager(linearLayoutManager);
                 binding.setsRv.setAdapter(setsAdapter);
-                setsAdapter.notifyDataSetChanged();
+                setsAdapter.notifyItemInserted(flashCards.size() - 1);
             } else {
                 Toast.makeText(requireActivity(), "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false);
-//        binding.setsRv.setLayoutManager(linearLayoutManager);
-//        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
-//        binding.setsRv.setAdapter(setsAdapter);
-//        setsAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -151,11 +139,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupVisibility() {
-        if (flashCards.isEmpty()) {
-            binding.setsCl.setVisibility(View.GONE);
-        } else {
-            binding.setsCl.setVisibility(View.VISIBLE);
-        }
+
         if (folders.isEmpty()) {
             binding.folderCl.setVisibility(View.GONE);
         } else {
@@ -187,19 +171,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void refreshData() {
-        refreshFlashCards();
+        setupFlashCards();
         refreshFolders();
         refreshClasses();
-        updateVisibility();
+        setupVisibility();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void refreshFlashCards() {
-        flashCards = flashCardDAO.getAllFlashCardByUserId(idUser);
-        setsAdapter = new SetsAdapter(requireActivity(), flashCards, false);
-        binding.setsRv.setAdapter(setsAdapter);
-        setsAdapter.notifyDataSetChanged();
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     private void refreshFolders() {
@@ -216,32 +193,6 @@ public class HomeFragment extends Fragment {
         classAdapter = new ClassAdapter(requireActivity(), classes);
         binding.classesRv.setAdapter(classAdapter);
         classAdapter.notifyDataSetChanged();
-    }
-
-    private void updateVisibility() {
-        if (flashCards == null || flashCards.isEmpty()) {
-            binding.setsCl.setVisibility(View.GONE);
-        } else {
-            binding.setsCl.setVisibility(View.VISIBLE);
-        }
-        if (folders == null || folders.isEmpty()) {
-            binding.folderCl.setVisibility(View.GONE);
-        } else {
-            binding.folderCl.setVisibility(View.VISIBLE);
-        }
-        if (classes == null || classes.isEmpty()) {
-            binding.classCl.setVisibility(View.GONE);
-        } else {
-            binding.classCl.setVisibility(View.VISIBLE);
-        }
-
-        if ((flashCards == null || flashCards.isEmpty()) &&
-                (folders == null || folders.isEmpty()) &&
-                (classes == null || classes.isEmpty())) {
-            binding.emptyCl.setVisibility(View.VISIBLE);
-        } else {
-            binding.emptyCl.setVisibility(View.GONE);
-        }
     }
 
     @Override

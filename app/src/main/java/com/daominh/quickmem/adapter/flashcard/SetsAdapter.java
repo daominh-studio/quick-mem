@@ -15,6 +15,9 @@ import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ItemSetBinding;
 import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
+import com.daominh.quickmem.utils.CARDTable;
+import com.daominh.quickmem.utils.Table;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +49,7 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull SetsAdapter.SetsViewHolder holder, int position) {
-        if (isLibrary){
+        if (isLibrary) {
             //set weight of card
             ViewGroup.LayoutParams params = holder.binding.setCv.getLayoutParams();
             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -54,20 +57,27 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
         }
         FlashCard set = sets.get(position);
         UserSharePreferences userSharePreferences = new UserSharePreferences(context);
-        CardDAO cardDAO = new CardDAO(context);
-        int count = cardDAO.countCardByFlashCardId(set.getId());
-        String avatar = userSharePreferences.getAvatar();
+//        CardDAO cardDAO = new CardDAO(context);
+//        int count = cardDAO.countCardByFlashCardId(set.getId());
         String userNames = userSharePreferences.getUserName();
 
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection(Table.CARD.toString()).whereEqualTo(CARDTable.FLASHCARD_ID.toString(), set.getId()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int count = task.getResult().size();
+                holder.binding.termCountTv.setText(count + " terms");
+            }
+        });
+
         holder.binding.setNameTv.setText(set.getName());
-        holder.binding.termCountTv.setText(count + " terms");
         holder.binding.userNameTv.setText(userNames);
-        Picasso.get().load(avatar).into(holder.binding.avatarIv);
+        Picasso.get().load(userSharePreferences.getAvatar()).into(holder.binding.avatarIv);
         holder.binding.createdDateTv.setText(set.getCreated_at());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewSetActivity.class);
             intent.putExtra("id", set.getId());
+            intent.putExtra("user_id", set.getUser_id());
 
             context.startActivity(intent);
         });

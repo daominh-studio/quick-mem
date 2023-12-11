@@ -30,6 +30,10 @@ import com.daominh.quickmem.ui.activities.folder.AddToFolderActivity;
 import com.daominh.quickmem.ui.activities.group.AddToClassActivity;
 import com.daominh.quickmem.ui.activities.learn.LearnActivity;
 import com.daominh.quickmem.ui.activities.learn.QuizActivity;
+import com.daominh.quickmem.utils.CARDTable;
+import com.daominh.quickmem.utils.FlashcardTable;
+import com.daominh.quickmem.utils.Table;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
 import com.saadahmedsoft.popupdialog.PopupDialog;
@@ -55,6 +59,7 @@ public class ViewSetActivity extends AppCompatActivity {
     private int listPosition = 0;
     private UserSharePreferences userSharePreferences;
     private String idCard;
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
 
     @SuppressLint("SetTextI18n")
@@ -108,17 +113,35 @@ public class ViewSetActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setupUserDetails() {
         String id = getIntent().getStringExtra("id");
-        UserDAO userDAO = new UserDAO(this);
+        String user_id = getIntent().getStringExtra("user_id");
         flashCardDAO = new FlashCardDAO(this);
-        User user = userDAO.getUserById(flashCardDAO.getFlashCardById(id).getUser_id());
+        firebaseFirestore.collection(Table.USER.toString()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (int i = 0; i < task.getResult().size(); i++) {
+                    User user = task.getResult().getDocuments().get(i).toObject(User.class);
+                    if (user.getId().equals(user_id)) {
+                        binding.userNameTv.setText(user.getUsername());
+                        Picasso.get().load(user.getAvatar()).into(binding.avatarIv);
+                    }
+                }
+            }
+        });
 
-        Picasso.get().load(user.getAvatar()).into(binding.avatarIv);
-        binding.userNameTv.setText(user.getUsername());
-        binding.descriptionTv.setText(flashCardDAO.getFlashCardById(id).getDescription());
-        cardDAO = new CardDAO(this);
-        binding.termCountTv.setText(cardDAO.countCardByFlashCardId(getIntent().getStringExtra("id")) + " " + getString(R.string.term));
-        flashCardDAO = new FlashCardDAO(this);
-        binding.setNameTv.setText(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getName());
+        firebaseFirestore.collection(Table.CARD.toString()).whereEqualTo(CARDTable.FLASHCARD_ID.toString(), id).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int count = task.getResult().size();
+                binding.termCountTv.setText(count + " terms");
+            }
+        });
+
+        firebaseFirestore.collection(Table.FLASHCARD.toString()).whereEqualTo(FlashcardTable.ID.toString(), id).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (int i = 0; i < task.getResult().size(); i++) {
+                    FlashCard flashCard = task.getResult().getDocuments().get(i).toObject(FlashCard.class);
+                    binding.descriptionTv.setText(flashCard.getDescription());
+                }
+            }
+        });
 
         userSharePreferences = new UserSharePreferences(this);
     }
@@ -235,16 +258,30 @@ public class ViewSetActivity extends AppCompatActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void setupCardData() {
         String id = getIntent().getStringExtra("id");
-        cardDAO = new CardDAO(this);
-        cards = cardDAO.getCardsByFlashCardId(id);
-        setUpProgress(cards);
-        ViewSetAdapter viewSetAdapter = new ViewSetAdapter(this, cards);
-        binding.recyclerViewSet.setAdapter(viewSetAdapter);
-        viewSetAdapter.notifyDataSetChanged();
 
-        ViewTermsAdapter viewTermsAdapter = new ViewTermsAdapter(cards);
-        binding.recyclerViewTerms.setAdapter(viewTermsAdapter);
-        viewTermsAdapter.notifyDataSetChanged();
+        Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+        firebaseFirestore.collection(Table.CARD.toString()).whereEqualTo(CARDTable.FLASHCARD_ID.toString(), id).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        cards = new ArrayList<>();
+                        Log.d("TAGGG", "setupCardData: " + task.getResult().size());
+                        for (int i = 0; i < task.getResult().size(); i++) {
+                            cards.add(task.getResult().getDocuments().get(i).toObject(Card.class));
+                        }
+                        if (!cards.isEmpty()) { // Add this check
+                            setUpProgress(cards);
+                            ViewSetAdapter viewSetAdapter1 = new ViewSetAdapter(this, cards);
+                            binding.recyclerViewSet.setAdapter(viewSetAdapter1);
+                            viewSetAdapter1.notifyDataSetChanged();
+
+                            ViewTermsAdapter viewTermsAdapter1 = new ViewTermsAdapter(cards);
+                            binding.recyclerViewTerms.setAdapter(viewTermsAdapter1);
+                            viewTermsAdapter1.notifyDataSetChanged();
+                        }
+                    } else {
+                        Toast.makeText(this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Error getting documents: " + e, Toast.LENGTH_SHORT).show());
 
     }
 
@@ -412,34 +449,61 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
     private void deleteSet(String id) {
-        FlashCardDAO flashCardDAO = new FlashCardDAO(ViewSetActivity.this);
-        if (flashCardDAO.deleteFlashcardAndCards(id)) {
-            PopupDialog.getInstance(ViewSetActivity.this)
-                    .setStyle(Styles.SUCCESS)
-                    .setHeading(getString(R.string.success))
-                    .setDescription(getString(R.string.delete_set_success))
-                    .setCancelable(false)
-                    .setDismissButtonText(getString(R.string.ok))
-                    .showDialog(new OnDialogButtonClickListener() {
-                        @Override
-                        public void onDismissClicked(Dialog dialog) {
-                            super.onDismissClicked(dialog);
-                            finish();
+        //delete on firebase
+        firebaseFirestore.collection(Table.FLASHCARD.toString()).document(id).delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                firebaseFirestore.collection(Table.CARD.toString()).whereEqualTo(CARDTable.FLASHCARD_ID.toString(), id).get().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        for (int i = 0; i < task1.getResult().size(); i++) {
+                            String cardId = task1.getResult().getDocuments().get(i).getId();
+                            firebaseFirestore.collection(Table.CARD.toString()).document(cardId).delete().addOnCompleteListener(task2 -> {
+                                if (task2.isSuccessful()) {
+                                    flashCardDAO.deleteFlashcardAndCards(id);
+                                    PopupDialog.getInstance(ViewSetActivity.this)
+                                            .setStyle(Styles.SUCCESS)
+                                            .setHeading(getString(R.string.success))
+                                            .setDescription(getString(R.string.delete_set_success))
+                                            .setCancelable(false)
+                                            .setDismissButtonText(getString(R.string.ok))
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onDismissClicked(Dialog dialog) {
+                                                    super.onDismissClicked(dialog);
+                                                    finish();
+                                                }
+                                            });
+                                    finish();
+                                } else {
+                                    PopupDialog.getInstance(ViewSetActivity.this)
+                                            .setStyle(Styles.FAILED)
+                                            .setHeading(getString(R.string.error))
+                                            .setDescription(getString(R.string.delete_set_error))
+                                            .setCancelable(true)
+                                            .showDialog(new OnDialogButtonClickListener() {
+                                                @Override
+                                                public void onPositiveClicked(Dialog dialog) {
+                                                    super.onPositiveClicked(dialog);
+                                                }
+                                            });
+                                }
+                            });
                         }
-                    });
-        } else {
-            PopupDialog.getInstance(ViewSetActivity.this)
-                    .setStyle(Styles.FAILED)
-                    .setHeading(getString(R.string.error))
-                    .setDescription(getString(R.string.delete_set_error))
-                    .setCancelable(true)
-                    .showDialog(new OnDialogButtonClickListener() {
-                        @Override
-                        public void onPositiveClicked(Dialog dialog) {
-                            super.onPositiveClicked(dialog);
-                        }
-                    });
-        }
+                    }
+                });
+            } else {
+                PopupDialog.getInstance(ViewSetActivity.this)
+                        .setStyle(Styles.FAILED)
+                        .setHeading(getString(R.string.error))
+                        .setDescription(getString(R.string.delete_set_error))
+                        .setCancelable(true)
+                        .showDialog(new OnDialogButtonClickListener() {
+                            @Override
+                            public void onPositiveClicked(Dialog dialog) {
+                                super.onPositiveClicked(dialog);
+                            }
+                        });
+            }
+        });
     }
 
     private void copyFlashCard() {
@@ -501,9 +565,9 @@ public class ViewSetActivity extends AppCompatActivity {
     }
 
     private boolean isUserOwner() {
-        Log.d("isUserOwner", "isUserOwner: " + userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id()));
-        return userSharePreferences.getId().equals(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getUser_id());
-
+        String currentUserId = userSharePreferences.getId();
+        String userId = getIntent().getStringExtra("user_id");
+        return currentUserId.equals(userId);
     }
 
     @SuppressLint("SetTextI18n")

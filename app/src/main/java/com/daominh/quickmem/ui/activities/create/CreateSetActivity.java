@@ -317,7 +317,7 @@ public class CreateSetActivity extends AppCompatActivity {
         cardMap.put(CARDTable.UPDATED_AT.toString(), card.getUpdated_at());
 
         // Add the cardMap to Firestore
-        firebaseFirestore.collection("cards").document(card.getId()).set(cardMap)
+        firebaseFirestore.collection(Table.CARD.toString()).document(card.getId()).set(cardMap)
                 .addOnSuccessListener(aVoid -> Log.d("Firestore", "DocumentSnapshot successfully written!"))
                 .addOnFailureListener(e -> Log.w("Firestore", "Error writing document", e));
 

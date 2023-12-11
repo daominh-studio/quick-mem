@@ -262,6 +262,7 @@ public class SignInActivity extends AppCompatActivity {
                     });
 
         } else {
+            userDAO.insertUser(user);
             UserSharePreferences userSharePreferences = new UserSharePreferences(SignInActivity.this);
             userSharePreferences.setRole(user.getRole());
             userSharePreferences.saveUser(user);
