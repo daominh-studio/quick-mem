@@ -25,7 +25,7 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Nullable
@@ -34,7 +34,6 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
         return switch (position) {
             case 0 -> "Study sets";
             case 1 -> "Folders";
-            case 2 -> "Classes";
             default -> "";
         };
     }

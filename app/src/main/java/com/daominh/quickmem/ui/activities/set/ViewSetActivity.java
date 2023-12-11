@@ -306,11 +306,6 @@ public class ViewSetActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (itemId == R.id.add_to_class) {
-                                if (isUserOwner()) {
-                                } else {
-                                    Toast.makeText(ViewSetActivity.this, getString(R.string.edit_error), Toast.LENGTH_SHORT).show();
-                                }
                             } else if (itemId == R.id.reset) {
                                 if (isUserOwner()) {
                                     handleResetOption(id);

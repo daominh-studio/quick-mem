@@ -5,10 +5,6 @@
             android:title="@string/add_to_folder"
             android:icon="@drawable/ic_folder"/>
     <item
-            android:id="@+id/add_to_class"
-            android:title="@string/add_to_class"
-            android:icon="@drawable/ic_group"/>
-    <item
             android:id="@+id/share"
             android:title="@string/share"
             android:icon="@drawable/ic_share"/>
