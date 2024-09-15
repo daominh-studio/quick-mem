@@ -1,132 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activities.set.EditFlashCardActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.set.EditFlashCardActivity">
 
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_gray"
-            android:elevation="@dimen/_10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Edit FlashCard"/>
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_gray"
+        android:elevation="@dimen/_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Edit FlashCard" />
 
     <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/subject_til"
+        android:id="@+id/subject_til"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:hint="@string/subject_chapter_topic"
+        app:helperText="Title"
+        app:helperTextEnabled="true"
+        app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+        app:helperTextTextColor="@color/gray"
+        app:hintTextColor="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <EditText
+            android:id="@+id/subject_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/private_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:padding="@dimen/_8ssp"
+        android:text="@string/private_text"
+        android:textColor="@color/celestial_blue"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subject_til" />
+
+    <TextView
+        android:id="@+id/total_cards_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/total_cards_0"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/private_switch"
+        app:layout_constraintStart_toEndOf="@id/private_switch"
+        app:layout_constraintTop_toTopOf="@id/private_switch" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/description_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/private_switch">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description_til"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10dp"
             android:layout_marginTop="@dimen/_10dp"
-            android:hint="@string/subject_chapter_topic"
-            app:helperText="Title"
+            android:hint="@string/provide_a_description_of_your_set"
+            android:visibility="visible"
+            app:helperText="Description"
             app:helperTextEnabled="true"
             app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
             app:helperTextTextColor="@color/gray"
             app:hintTextColor="@color/light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-                android:id="@+id/subject_et"
+            <EditText
+                android:id="@+id/description_et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:imeOptions="actionNext"
-                android:inputType="text"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/private_switch"
-            app:layout_constraintTop_toBottomOf="@id/subject_til"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"
-            android:text="Private"
-            android:padding="@dimen/_8ssp"
-            android:textColor="@color/celestial_blue"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total Cards: 0"
-            android:id="@+id/total_cards_tv"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/private_switch"
-            app:layout_constraintTop_toTopOf="@id/private_switch"
-            app:layout_constraintBottom_toBottomOf="@id/private_switch"
-            android:layout_margin="@dimen/_10dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/description_cl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/private_switch">
-
-
-        <com.google.android.material.textfield.TextInputLayout
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/description_til"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10dp"
-                android:layout_marginTop="@dimen/_10dp"
-                android:hint="@string/provide_a_description_of_your_set"
-                android:visibility="visible"
-                app:helperText="Description"
-                app:helperTextEnabled="true"
-                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:helperTextTextColor="@color/gray"
-                app:hintTextColor="@color/light_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-            <EditText
-                    android:id="@+id/description_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"/>
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cards_lv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/_10dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/add_fab"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_cl"
-            app:layout_constraintVertical_bias="0"
-            tools:listitem="@layout/item_card_add"/>
+        android:id="@+id/cards_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/add_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_cl"
+        app:layout_constraintVertical_bias="0"
+        tools:listitem="@layout/item_card_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16dp"
-            android:backgroundTint="@color/celestial_blue"
-            android:src="@drawable/ic_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:backgroundTint="@color/celestial_blue"
+        android:contentDescription="@string/add"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

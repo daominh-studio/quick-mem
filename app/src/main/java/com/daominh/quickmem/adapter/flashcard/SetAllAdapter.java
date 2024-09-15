@@ -14,7 +14,6 @@ import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ItemSetAllBinding;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 

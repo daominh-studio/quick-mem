@@ -95,9 +95,9 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return (id == null ? card.id == null : id.equals(card.id)) &&
-                (front == null ? card.front == null : front.equals(card.front)) &&
-                (back == null ? card.back == null : back.equals(card.back));
+        return (Objects.equals(id, card.id)) &&
+                (Objects.equals(front, card.front)) &&
+                (Objects.equals(back, card.back));
     }
 
     @Override

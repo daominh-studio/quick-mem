@@ -11,7 +11,6 @@ import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ItemSetFolderBinding
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity
-import com.squareup.picasso.Picasso
 
 class SetFolderViewAdapter(
     private val flashcardList: ArrayList<FlashCard>,

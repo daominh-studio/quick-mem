@@ -177,4 +177,23 @@
     <string name="personal_info">Personal Info</string>
     <string name="leave_class">Leave class</string>
     <string name="start_now">Start Now</string>
+    <string name="not_enough_card">You need more or equal 4 card to learn this folder</string>
+    <string name="flash_card_image">flash card image</string>
+    <string name="sad">sad</string>
+    <string name="continue_text">Continue</string>
+    <string name="laughing">laughing</string>
+    <string name="back">Back</string>
+    <string name="false_text">False</string>
+    <string name="true_text">True</string>
+    <string name="true_false_text">True/False</string>
+    <string name="decrease">decrease</string>
+    <string name="increase">increase</string>
+    <string name="random">Random</string>
+    <string name="_0">0</string>
+    <string name="skip">Skip</string>
+    <string name="rewind">Rewind</string>
+    <string name="like">Like</string>
+    <string name="private_text">Private</string>
+    <string name="total_cards_0">Total Cards: 0</string>
+    <string name="add_flash_card">Add flash card</string>
 </resources>

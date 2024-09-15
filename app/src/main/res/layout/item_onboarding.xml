@@ -9,6 +9,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
+        android:contentDescription="@string/onboarding_title"
         android:src="@drawable/ic_start_svg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

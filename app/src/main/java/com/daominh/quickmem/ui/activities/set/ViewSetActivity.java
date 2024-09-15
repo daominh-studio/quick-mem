@@ -4,16 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.daominh.quickmem.R;
 import com.daominh.quickmem.ui.activities.learn.TrueFalseFlashCardsActivity;
 import com.daominh.quickmem.adapter.card.ViewTermsAdapter;
@@ -23,7 +26,6 @@ import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.Card;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ActivityViewSetBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.folder.AddToFolderActivity;
 import com.daominh.quickmem.ui.activities.learn.LearnActivity;
 import com.daominh.quickmem.ui.activities.learn.QuizActivity;
@@ -32,6 +34,7 @@ import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment;
 import com.saadahmedsoft.popupdialog.PopupDialog;
 import com.saadahmedsoft.popupdialog.Styles;
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,8 +52,6 @@ public class ViewSetActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private static final String LIST_POSITION = "list_position";
     private int listPosition = 0;
-    private UserSharePreferences userSharePreferences;
-    private String idCard;
 
 
     @SuppressLint("SetTextI18n")
@@ -61,7 +62,6 @@ public class ViewSetActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        userSharePreferences = new UserSharePreferences(this);
         flashCardDAO = new FlashCardDAO(this);
 
         setupRecyclerView(savedInstanceState);
@@ -111,7 +111,6 @@ public class ViewSetActivity extends AppCompatActivity {
         flashCardDAO = new FlashCardDAO(this);
         binding.setNameTv.setText(flashCardDAO.getFlashCardById(getIntent().getStringExtra("id")).getName());
 
-        userSharePreferences = new UserSharePreferences(this);
     }
 
     private void setupReviewClickListener() {
@@ -424,10 +423,9 @@ public class ViewSetActivity extends AppCompatActivity {
 
     private void copyFlashCard() {
         String id = getIntent().getStringExtra("id");
-        userSharePreferences = new UserSharePreferences(this);
         flashCardDAO = new FlashCardDAO(this);
         FlashCard flashCard = flashCardDAO.getFlashCardById(id);
-        idCard = genUUID();
+        String idCard = genUUID();
         flashCard.setId(idCard);
         flashCardDAO.insertFlashCard(flashCard);
 
@@ -440,10 +438,10 @@ public class ViewSetActivity extends AppCompatActivity {
             card.setStatus(0);
             card.setCreated_at(getCurrentDate());
             card.setUpdated_at(getCurrentDate());
-            if (cardDAO.insertCard(card) > 0L) {
-            } else {
+            if (cardDAO.insertCard(card) < 0L) {
                 Toast.makeText(this, getString(R.string.review_error), Toast.LENGTH_SHORT).show();
             }
+
         }
         Toast.makeText(this, getString(R.string.review_success), Toast.LENGTH_SHORT).show();
     }

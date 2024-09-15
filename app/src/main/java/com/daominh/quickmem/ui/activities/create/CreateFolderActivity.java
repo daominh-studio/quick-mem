@@ -15,7 +15,6 @@ import com.daominh.quickmem.R;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.ActivityCreateFolderBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.folder.ViewFolderActivity;
 
 import java.text.SimpleDateFormat;

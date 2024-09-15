@@ -1,80 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context=".ui.activities.auth.AuthenticationActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.auth.AuthenticationActivity">
 
     <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/app_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/alfa_slab_one"
-            android:text="@string/quickmem"
-            android:textColor="@color/celestial_blue"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/app_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="@string/quickmem"
+        android:textColor="@color/celestial_blue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager.widget.ViewPager
-            android:id="@+id/onboarding_vp"
-            android:layout_width="0dp"
-            android:layout_height="350dp"
-            android:layout_margin="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_name_tv"/>
+        android:id="@+id/onboarding_vp"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_name_tv" />
 
     <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginVertical="@dimen/_16dp"
-            app:ci_drawable="@drawable/indicator_selector"
-            app:ci_gravity="center_vertical|center_horizontal"
-            app:ci_height="5dp"
-            app:ci_margin="10dp"
-            app:ci_orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/onboarding_vp"
-            app:layout_constraintStart_toStartOf="@id/onboarding_vp"
-            app:layout_constraintTop_toBottomOf="@id/onboarding_vp"/>
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginVertical="@dimen/_16dp"
+        app:ci_drawable="@drawable/indicator_selector"
+        app:ci_gravity="center_vertical|center_horizontal"
+        app:ci_height="5dp"
+        app:ci_margin="10dp"
+        app:ci_orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/onboarding_vp"
+        app:layout_constraintStart_toStartOf="@id/onboarding_vp"
+        app:layout_constraintTop_toBottomOf="@id/onboarding_vp" />
 
     <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/terms_and_conditions_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="center"
-            android:text="@string/terms_and_conditions"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/indicator"
-            app:layout_constraintStart_toStartOf="@id/indicator"
-            app:layout_constraintTop_toBottomOf="@id/indicator"/>
+        android:id="@+id/terms_and_conditions_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:text="@string/terms_and_conditions"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/indicator"
+        app:layout_constraintStart_toStartOf="@id/indicator"
+        app:layout_constraintTop_toBottomOf="@id/indicator" />
 
     <Button
-            android:id="@+id/start_now_btn"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="15dp"
-            android:background="@drawable/button_background"
-            android:text="@string/start_now"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/terms_and_conditions_tv"/>
+        android:id="@+id/start_now_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="15dp"
+        android:background="@drawable/button_background"
+        android:text="@string/start_now"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/terms_and_conditions_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

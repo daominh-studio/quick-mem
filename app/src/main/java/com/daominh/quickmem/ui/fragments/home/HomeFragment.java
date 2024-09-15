@@ -21,7 +21,6 @@ import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.FragmentHomeBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.daominh.quickmem.ui.activities.search.ViewSearchActivity;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private UserSharePreferences userSharePreferences;
     private ArrayList<FlashCard> flashCards;
     private ArrayList<Folder> folders;
     private FlashCardDAO flashCardDAO;
@@ -42,7 +40,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userSharePreferences = new UserSharePreferences(requireActivity());
+        requireActivity();
         flashCardDAO = new FlashCardDAO(requireActivity());
         folderDAO = new FolderDAO(requireActivity());
     }
@@ -58,7 +56,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userSharePreferences = new UserSharePreferences(requireActivity());
+        requireActivity();
 
         setupFlashCards();
         setupFolders();

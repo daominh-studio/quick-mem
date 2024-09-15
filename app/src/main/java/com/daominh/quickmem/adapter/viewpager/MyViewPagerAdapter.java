@@ -17,10 +17,11 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return switch (position) {
-            case 1 -> new FoldersFragment();
-            default -> new StudySetsFragment();
-        };
+        if (position == 1) {
+            return new FoldersFragment();
+        } else {
+            return new StudySetsFragment();
+        }
     }
 
     @Override

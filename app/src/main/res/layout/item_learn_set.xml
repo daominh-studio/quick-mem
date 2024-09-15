@@ -1,104 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="8dp">
 
-<!-- https://qiita.com/ntsk/items/dac92596742e18470a55 -->
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ImageView
+        android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="8dp">
+        android:contentDescription="@string/flash_card_image"
+        android:scaleType="centerCrop" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-                android:id="@+id/item_image"
+        <com.wajahatkarim3.easyflipview.EasyFlipView
+            android:id="@+id/card_view_flip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flipDuration="10000"
+            app:flipEnabled="true"
+            app:flipFrom="left"
+            app:flipOnTouch="true"
+            app:flipType="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
+                android:background="@drawable/flash_card_bg"
                 android:orientation="vertical">
 
-            <com.wajahatkarim3.easyflipview.EasyFlipView
-                    android:id="@+id/card_view_flip"
+                <TextView
+                    android:id="@+id/front_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:flipDuration="10000"
-                    app:flipEnabled="true"
-                    app:flipFrom="left"
-                    app:flipOnTouch="true"
-                    app:flipType="horizontal"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    android:gravity="center"
+                    android:text="@string/culminate"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:background="@drawable/flash_card_bg"
-                        android:layout_height="match_parent">
-
-                    <TextView
-                            android:id="@+id/front_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/culminate"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_20ssp"
-                            android:gravity="center"
-                            android:textColor="@android:color/black"/>
-                </LinearLayout>
-
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:background="@drawable/flash_card_bg"
-                        android:layout_height="match_parent">
-
-                    <TextView
-                            android:id="@+id/back_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/culminate"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_20ssp"
-                            android:gravity="center"
-                            android:textColor="@android:color/black"/>
-                </LinearLayout>
-
-            </com.wajahatkarim3.easyflipview.EasyFlipView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <FrameLayout
-                android:id="@+id/left_overlay"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@drawable/overlay_orange"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/flash_card_bg"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/back_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/culminate"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        </FrameLayout>
+        </com.wajahatkarim3.easyflipview.EasyFlipView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-                android:id="@+id/right_overlay"
-                android:layout_width="match_parent"
-                android:background="@drawable/overlay_green"
-                android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_orange" />
 
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay_green" />
 
-        </FrameLayout>
+    <FrameLayout
+        android:id="@+id/top_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <FrameLayout
-                android:id="@+id/top_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        <FrameLayout
-                android:id="@+id/bottom_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+    <FrameLayout
+        android:id="@+id/bottom_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

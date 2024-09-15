@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.Card;
 
@@ -26,25 +27,13 @@ public class CardDAO {
 
         long result = 0;
 
-        ContentValues contentValues = new ContentValues();
-
-        //put
-        contentValues.put("id", card.getId());
-        contentValues.put("front", card.getFront());
-        contentValues.put("back", card.getBack());
-        contentValues.put("status", card.getStatus());
-        contentValues.put("is_learned", card.getIsLearned());
-        contentValues.put("flashcard_id", card.getFlashcard_id());
-        contentValues.put("created_at", card.getCreated_at());
-        contentValues.put("updated_at", card.getUpdated_at());
+        ContentValues contentValues = createContentValues(card);
 
         //insert
         try {
             result = sqLiteDatabase.insert(QMDatabaseHelper.TABLE_CARDS, null, contentValues);
         } catch (SQLException e) {
             Log.e("CardDAO", "insertCard: " + e);
-        } finally {
-           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -81,8 +70,6 @@ public class CardDAO {
             cards = getCardsFromCursor(cursor);
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardsByFlashCardId: " + e);
-        } finally {
-           // sqLiteDatabase.close();
         }
         return cards;
     }
@@ -100,8 +87,6 @@ public class CardDAO {
             cards = getCardsFromCursor(cursor);
         } catch (SQLException e) {
             Log.e("CardDAO", "getAllCardByStatus: " + e);
-        } finally {
-         //   sqLiteDatabase.close();
         }
         return cards;
     }
@@ -116,8 +101,6 @@ public class CardDAO {
             result = sqLiteDatabase.delete(QMDatabaseHelper.TABLE_CARDS, "id = ?", new String[]{id});
         } catch (SQLException e) {
             Log.e("CardDAO", "deleteCardById: " + e);
-        } finally {
-            //sqLiteDatabase.close();
         }
         return result;
     }
@@ -136,8 +119,6 @@ public class CardDAO {
             result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "id = ?", new String[]{id});
         } catch (SQLException e) {
             Log.e("CardDAO", "updateCardStatusById: " + e);
-        } finally {
-         //   sqLiteDatabase.close();
         }
         return result;
     }
@@ -155,8 +136,6 @@ public class CardDAO {
             cards = getCardsFromCursor(cursor);
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardByStatus: " + e);
-        } finally {
-          //  sqLiteDatabase.close();
         }
         return cards.size();
     }
@@ -175,8 +154,6 @@ public class CardDAO {
             result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "flashcard_id = ?", new String[]{flashcard_id});
         } catch (SQLException e) {
             Log.e("CardDAO", "resetStatusCardByFlashCardId: " + e);
-        } finally {
-           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -195,8 +172,6 @@ public class CardDAO {
             result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "id = ?", new String[]{id});
         } catch (SQLException e) {
             Log.e("CardDAO", "updateIsLearnedCardById: " + e);
-        } finally {
-           // sqLiteDatabase.close();
         }
         return result;
     }
@@ -214,8 +189,6 @@ public class CardDAO {
             cards = getCardsFromCursor(cursor);
         } catch (SQLException e) {
             Log.e("CardDAO", "getCardByIsLearned: " + e);
-        } finally {
-//            sqLiteDatabase.close();
         }
         return cards;
     }
@@ -234,8 +207,6 @@ public class CardDAO {
             }
         } catch (SQLException e) {
             Log.e("CardDAO", "checkCardExist: " + e);
-        } finally {
-         //   sqLiteDatabase.close();
         }
         return false;
     }
@@ -258,8 +229,6 @@ public class CardDAO {
             result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "id = ?", new String[]{card.getId()});
         } catch (SQLException e) {
             Log.e("CardDAO", "updateCardById: " + e);
-        } finally {
-          //  sqLiteDatabase.close();
         }
         return result;
     }
@@ -278,8 +247,6 @@ public class CardDAO {
             cards = getCardsFromCursor(cursor);
         } catch (SQLException e) {
             Log.e("CardDAO", "getAllCardByFlashCardId: " + e);
-        } finally {
-           //sqLiteDatabase.close();
         }
         return cards;
     }
@@ -299,8 +266,6 @@ public class CardDAO {
             result = sqLiteDatabase.update(QMDatabaseHelper.TABLE_CARDS, contentValues, "flashcard_id = ?", new String[]{flashcard_id});
         } catch (SQLException e) {
             Log.e("CardDAO", "resetIsLearnedAndStatusCardByFlashCardId: " + e);
-        } finally {
-          //  sqLiteDatabase.close();
         }
         return result;
     }
@@ -327,5 +292,18 @@ public class CardDAO {
             Log.d("CardDAO", "Database is closed.");
         }
         return cards;
+    }
+
+    private ContentValues createContentValues(Card card) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id", card.getId());
+        contentValues.put("front", card.getFront());
+        contentValues.put("back", card.getBack());
+        contentValues.put("status", card.getStatus());
+        contentValues.put("is_learned", card.getIsLearned());
+        contentValues.put("flashcard_id", card.getFlashcard_id());
+        contentValues.put("created_at", card.getCreated_at());
+        contentValues.put("updated_at", card.getUpdated_at());
+        return contentValues;
     }
 }

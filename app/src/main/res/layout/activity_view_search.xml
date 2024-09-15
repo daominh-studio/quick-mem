@@ -22,10 +22,12 @@
             android:layout_marginStart="@dimen/_10dp"
             android:layout_marginTop="@dimen/_10dp"
             android:layout_marginBottom="@dimen/_10dp"
+            android:contentDescription="@string/back"
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="wrap_content"
@@ -33,12 +35,13 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/background_search_in"
             android:focusableInTouchMode="true"
+            android:paddingStart="0dp"
             android:paddingEnd="20dp"
-            app:iconifiedByDefault="false"
             android:text="@string/search"
             android:textColor="@color/gray"
-            android:textSize="@dimen/_16dp"
+            android:textSize="@dimen/_16sp"
             android:textStyle="bold"
+            app:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/back_iv"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,9 +55,9 @@
         android:layout_marginHorizontal="@dimen/_16dp"
         android:layout_marginTop="@dimen/_16dp"
         android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar">
 
         <TextView
@@ -73,7 +76,7 @@
             android:layout_height="wrap_content"
             android:text="@string/view_all"
             android:textColor="@color/celestial_blue"
-            android:textSize="@dimen/_16dp"
+            android:textSize="@dimen/_16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/set_cv"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:elevation="@dimen/_8ssp"
-                                   app:cardCornerRadius="@dimen/_10dp"
-                                   android:layout_marginBottom="@dimen/_10dp"
-                                   app:cardPreventCornerOverlap="false"
-                                   app:cardUseCompatPadding="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/set_cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_10dp"
+    android:elevation="@dimen/_8ssp"
+    app:cardCornerRadius="@dimen/_10dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/_10dp"
+        android:layout_height="wrap_content">
 
         <TextView
-                android:id="@+id/set_name_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@string/set_name"
-                android:textColor="@color/dark_gray"
-                android:textSize="@dimen/_20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:id="@+id/set_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/set_name"
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/_20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:id="@+id/term_count_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_8ssp"
-                android:text="@string/_1_term"
-                android:textColor="@color/gray"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/set_name_tv"
-                app:layout_constraintTop_toBottomOf="@id/set_name_tv"/>
+            android:id="@+id/term_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_8ssp"
+            android:text="@string/_1_term"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/set_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/set_name_tv" />
 
         <TextView
-                android:id="@+id/created_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10dp"
-                android:layout_marginVertical="@dimen/_8ssp"
-                android:text="@string/_12_07_2023"
-                android:textColor="@color/gray"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/term_count_tv"
-                app:layout_constraintTop_toBottomOf="@id/set_name_tv"/>
-
+            android:id="@+id/created_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10dp"
+            android:layout_marginVertical="@dimen/_8ssp"
+            android:text="@string/_12_07_2023"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/term_count_tv"
+            app:layout_constraintTop_toBottomOf="@id/set_name_tv" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

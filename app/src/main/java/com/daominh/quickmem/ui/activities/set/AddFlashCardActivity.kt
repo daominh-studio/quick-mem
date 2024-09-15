@@ -6,24 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.daominh.quickmem.R
-import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
-import com.daominh.quickmem.data.dao.FlashCardDAO
-import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ActivityAddFlashCardBinding
-import com.daominh.quickmem.preferen.UserSharePreferences
 
 class AddFlashCardActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityAddFlashCardBinding.inflate(layoutInflater)
     }
-    private lateinit var adapter: SetFolderViewAdapter
-    private val userSharePreferences by lazy {
-        UserSharePreferences(this)
-    }
-    private lateinit var flashCardDAO: FlashCardDAO
-    private lateinit var flashCardList: ArrayList<FlashCard>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

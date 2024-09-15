@@ -27,12 +27,16 @@ class ViewTermsAdapter(
 
         val status = card.status
         // change color of card
-        if (status == 1) {
-            holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.holo_green_light))
-        } else if (status == 2) {
-            holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.holo_orange_light))
-        } else {
-            holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+        when (status) {
+            1 -> {
+                holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.holo_green_light))
+            }
+            2 -> {
+                holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.holo_orange_light))
+            }
+            else -> {
+                holder.binding.cardView.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+            }
         }
 
         holder.binding.termsTv.text = card.front

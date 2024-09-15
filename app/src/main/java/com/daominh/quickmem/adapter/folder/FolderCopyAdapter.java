@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.model.Folder;
-import com.daominh.quickmem.databinding.ItemFolderBinding;
 import com.daominh.quickmem.databinding.ItemFolderCopyBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.folder.ViewFolderActivity;
-import com.squareup.picasso.Picasso;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class FolderCopyAdapter extends RecyclerView.Adapter<FolderCopyAdapter.Fo
         return folders.size();
     }
 
-    public class FolderViewHolder extends RecyclerView.ViewHolder {
+    public static class FolderViewHolder extends RecyclerView.ViewHolder {
         private final ItemFolderCopyBinding binding;
 
         public FolderViewHolder(@NonNull @NotNull View itemView) {

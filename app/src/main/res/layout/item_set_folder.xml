@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:background="@color/white_gray"
-                                   android:elevation="@dimen/_8ssp"
-                                   android:layout_marginVertical="@dimen/_10dp"
-                                   android:layout_marginHorizontal="@dimen/_10dp"
-                                   android:layout_gravity="center_horizontal"
-                                   app:cardCornerRadius="@dimen/_15ssp"
-                                   app:cardPreventCornerOverlap="false"
-                                   app:cardUseCompatPadding="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="@dimen/_10dp"
+    android:layout_marginVertical="@dimen/_10dp"
+    android:background="@color/white_gray"
+    android:elevation="@dimen/_8ssp"
+    app:cardCornerRadius="@dimen/_15ssp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:id="@+id/set_folder_item"
-            android:layout_height="match_parent">
+        android:id="@+id/set_folder_item"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/_10dp"
+        android:layout_height="match_parent">
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="@dimen/_24sp"
-                android:text="@string/set_name"
-                android:layout_margin="@dimen/_16dp"
-                android:gravity="start"
-                android:textColor="@android:color/black"
-                android:id="@+id/set_name_tv"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            android:id="@+id/set_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16dp"
+            android:gravity="start"
+            android:text="@string/set_name"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_18ssp"
-                android:text="@string/_1_term"
-                android:textStyle="bold"
-                android:textColor="@color/gray"
-                app:layout_constraintStart_toStartOf="@id/set_name_tv"
-                app:layout_constraintTop_toBottomOf="@id/set_name_tv"
-                android:layout_marginTop="@dimen/_8ssp"
-                android:id="@+id/term_count_tv"/>
+            android:id="@+id/term_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8ssp"
+            android:text="@string/_1_term"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/set_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/set_name_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

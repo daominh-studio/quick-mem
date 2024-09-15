@@ -21,12 +21,13 @@ import com.daominh.quickmem.data.dao.CardDAO
 import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityEditFlashCardBinding
-import com.daominh.quickmem.preferen.UserSharePreferences
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class EditFlashCardActivity : AppCompatActivity() {
     private val binding: ActivityEditFlashCardBinding by lazy {
@@ -73,7 +74,8 @@ class EditFlashCardActivity : AppCompatActivity() {
 
                 binding.cardsLv.scrollToPosition(cards.size - 1)
                 binding.cardsLv.post {
-                    val viewHolder = binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
+                    val viewHolder =
+                        binding.cardsLv.findViewHolderForAdapterPosition(cards.size - 1)
                     viewHolder?.itemView?.requestFocus()
                 }
                 updateTotalCards()
@@ -106,11 +108,15 @@ class EditFlashCardActivity : AppCompatActivity() {
                     cardAdapter.notifyItemRemoved(position)
 
                     // Showing Snack bar with an Undo option
-                    val snackbar = Snackbar.make(binding.root, "Item was removed from the list.", Snackbar.LENGTH_LONG)
+                    val snackbar = Snackbar.make(
+                        binding.root,
+                        "Item was removed from the list.",
+                        Snackbar.LENGTH_LONG
+                    )
                     snackbar.setAction("UNDO") { _ ->
 
                         // Check if the position is valid before adding the item back
-                        if (position >= 0 && position <= cards.size) {
+                        if (position <= cards.size) {
                             cards.add(position, deletedItem)
                             updateTotalCards()
 
@@ -126,7 +132,11 @@ class EditFlashCardActivity : AppCompatActivity() {
                             cardAdapter.notifyItemInserted(position)
                         } else {
                             // If the position isn't valid, show a message or handle the error appropriately
-                            Toast.makeText(applicationContext, "Error restoring item", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "Error restoring item",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                     snackbar.setActionTextColor(Color.Yellow.toArgb())
@@ -145,7 +155,15 @@ class EditFlashCardActivity : AppCompatActivity() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
 
                 val icon = ContextCompat.getDrawable(applicationContext, R.drawable.ic_delete)
                 val itemView = viewHolder.itemView
@@ -159,7 +177,12 @@ class EditFlashCardActivity : AppCompatActivity() {
                     icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
 
                     val background = ColorDrawable(Color.White.toArgb())
-                    background.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+                    background.setBounds(
+                        itemView.right + dX.toInt(),
+                        itemView.top,
+                        itemView.right,
+                        itemView.bottom
+                    )
                     background.draw(c)
                 } else { // No swipe
                     icon.setBounds(0, 0, 0, 0)
@@ -237,8 +260,8 @@ class EditFlashCardActivity : AppCompatActivity() {
                 }
             }
 
-            for (card_id in listIdCard) {
-                cardDAO.deleteCardById(card_id) >= 0
+            for (cardId in listIdCard) {
+                cardDAO.deleteCardById(cardId) >= 0
 
 
             }
@@ -271,10 +294,11 @@ class EditFlashCardActivity : AppCompatActivity() {
     }
 
     private fun updateTotalCards() {
-        binding.totalCardsTv.text = String.format("Total Cards: %d", cards.size)
+        binding.totalCardsTv.text =
+            String.format(Locale.getDefault(), "Total Cards: %d", cards.size)
     }
 
-    fun checkTwoCardsEmpty(): Boolean {
+    private fun checkTwoCardsEmpty(): Boolean {
         // check if 2 cards are empty return true
         var emptyCount = 0
         for (card in cards) {

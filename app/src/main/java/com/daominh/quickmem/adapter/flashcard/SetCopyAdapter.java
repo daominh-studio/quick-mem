@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ItemSetCopyBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +43,6 @@ public class SetCopyAdapter extends RecyclerView.Adapter<SetCopyAdapter.SetViewH
     public void onBindViewHolder(@NonNull SetViewHolder holder, int position) {
 
         FlashCard set = sets.get(position);
-        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
         cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
 

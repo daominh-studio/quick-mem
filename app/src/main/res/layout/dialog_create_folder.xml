@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10ssp"
         android:layout_marginTop="@dimen/_10ssp"
+        android:gravity="start"
         android:text="@string/create_folder"
         android:textSize="@dimen/_20ssp"
-        android:gravity="start"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +34,11 @@
             android:id="@+id/folder_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:lineBreakStyle="strict"
-            android:clipToOutline="true"
             android:imeOptions="actionNext"
-            android:inputType="textMultiLine" />
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:maxLines="1"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,11 +56,12 @@
         <EditText
             android:id="@+id/description_et"
             android:layout_width="match_parent"
-            android:lineBreakStyle="strict"
-            android:clipToOutline="true"
             android:layout_height="match_parent"
             android:imeOptions="actionNext"
-            android:inputType="textMultiLine" />
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:maxLines="1"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

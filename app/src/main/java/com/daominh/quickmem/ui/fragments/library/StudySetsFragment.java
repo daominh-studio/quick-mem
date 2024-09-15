@@ -15,7 +15,6 @@ import com.daominh.quickmem.adapter.flashcard.SetCopyAdapter;
 import com.daominh.quickmem.data.dao.FlashCardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.FragmentStudySetsBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +25,6 @@ public class StudySetsFragment extends Fragment {
     private ArrayList<FlashCard> flashCards;
     private FlashCardDAO flashCardDAO;
     private SetCopyAdapter setsAdapter;
-    private String idUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

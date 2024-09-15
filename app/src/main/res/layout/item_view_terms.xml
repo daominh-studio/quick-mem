@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:elevation="@dimen/_8ssp"
-                                   android:layout_marginVertical="@dimen/_8ssp"
-                                   android:layout_marginHorizontal="@dimen/_5dp"
-                                   android:layout_gravity="center_horizontal"
-                                   app:cardCornerRadius="@dimen/_10dp"
-                                   android:id="@+id/card_view"
-                                   app:cardPreventCornerOverlap="false"
-                                   app:cardUseCompatPadding="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="@dimen/_5dp"
+    android:layout_marginVertical="@dimen/_8ssp"
+    android:elevation="@dimen/_8ssp"
+    app:cardCornerRadius="@dimen/_10dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:padding="@dimen/_10dp"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10dp">
 
         <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/terms"
-                android:textSize="@dimen/_20ssp"
-                android:layout_marginHorizontal="@dimen/_5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/terms_tv"/>
+            android:id="@+id/terms_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5dp"
+            android:text="@string/terms"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/definition_tv"
-                android:text="@string/terms"
-                android:textSize="@dimen/_16ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/terms_tv"
-                android:layout_marginTop="@dimen/_5dp"
-                android:layout_marginBottom="@dimen/_5dp"
-                android:layout_marginHorizontal="@dimen/_5dp"
-                android:textColor="@color/black"/>
+            android:id="@+id/definition_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_5dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_marginBottom="@dimen/_5dp"
+            android:text="@string/terms"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/terms_tv" />
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_volum"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="@dimen/_5dp"
-                android:id="@+id/sound_iv"/>
+            android:id="@+id/sound_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5dp"
+            android:src="@drawable/ic_volum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

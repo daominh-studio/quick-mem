@@ -1,20 +1,15 @@
 package com.daominh.quickmem.ui.activities.learn
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.CardDAO
-import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.dao.FolderDAO
 import com.daominh.quickmem.data.model.Card
-import com.daominh.quickmem.databinding.ActivityQuizBinding
 import com.daominh.quickmem.databinding.ActivityQuizFolderBinding
 import com.daominh.quickmem.databinding.DialogCorrectBinding
 import com.daominh.quickmem.databinding.DialogWrongBinding
@@ -52,7 +47,6 @@ class QuizFolderActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        setNextQuestion()
         setUpProgressBar()
 
     }
@@ -85,9 +79,29 @@ class QuizFolderActivity : AppCompatActivity() {
         for (folder in folderDAO.getAllFlashCardIdByFolderId(id)) {
             randomCard.addAll(cardDAO.getAllCardByFlashCardId(folder))
         }
-        val max = randomCard.size
-        binding.timelineProgress.max = max
-        return max
+        // if have less than 4 cards, show alert dialog
+        if (randomCard.size < 4) {
+            PopupDialog.getInstance(this)
+                .setStyle(Styles.FAILED)
+                .setHeading(getString(R.string.error))
+                .setDescription(getString(R.string.not_enough_card))
+                .setDismissButtonText(getString(R.string.ok))
+                .setCancelable(true)
+                .showDialog(object : OnDialogButtonClickListener() {
+                    override fun onDismissClicked(dialog: Dialog?) {
+                        super.onDismissClicked(dialog)
+                        dialog?.dismiss()
+                        finish()
+                    }
+                })
+        } else {
+            setNextQuestion()
+            val max = randomCard.size
+            binding.timelineProgress.max = max
+            return max
+        }
+        return 0
+
     }
 
     private fun setNextQuestion() {
@@ -206,33 +220,6 @@ class QuizFolderActivity : AppCompatActivity() {
             //startAnimations()
         }
         builder.show()
-    }
-
-    private fun startAnimations() {
-        val views =
-            listOf(
-                binding.optionOne,
-                binding.optionTwo,
-                binding.optionThree,
-                binding.optionFour,
-                binding.tvQuestion
-            )
-        val duration = 1000L
-        val endValue = -binding.optionOne.width.toFloat()
-
-        views.forEach { view ->
-            val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, endValue)
-            animator.duration = duration
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    view.translationX = 0f
-                    if (view == binding.optionFour) {
-                        setNextQuestion()
-                    }
-                }
-            })
-            animator.start()
-        }
     }
 
     override fun onDestroy() {

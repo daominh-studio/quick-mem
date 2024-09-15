@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.daominh.quickmem.adapter.viewpager.OnboardingAdapter;
 import com.daominh.quickmem.databinding.ActivityAuthenticationBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.MainActivity;
 
 public class AuthenticationActivity extends AppCompatActivity {
@@ -14,14 +13,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
-
-        // Assuming that userSharePreferences is initialized somewhere else
-//        if (userSharePreferences.getLogin()) {
-//            startActivity(new Intent(this, MainActivity.class));
-//            finish();
-//        }
 
         // Inflate the layout
         ActivityAuthenticationBinding binding = ActivityAuthenticationBinding.inflate(getLayoutInflater());

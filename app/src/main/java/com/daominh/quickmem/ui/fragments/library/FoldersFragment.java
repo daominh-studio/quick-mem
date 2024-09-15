@@ -18,7 +18,6 @@ import com.daominh.quickmem.adapter.folder.FolderCopyAdapter;
 import com.daominh.quickmem.data.dao.FolderDAO;
 import com.daominh.quickmem.data.model.Folder;
 import com.daominh.quickmem.databinding.FragmentFoldersBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,16 +25,14 @@ import java.util.ArrayList;
 
 public class FoldersFragment extends Fragment {
     private FragmentFoldersBinding binding;
-    private UserSharePreferences userSharePreferences;
     private ArrayList<Folder> folders;
     private FolderCopyAdapter folderAdapter;
     private FolderDAO folderDAO;
-    private String idUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userSharePreferences = new UserSharePreferences(requireActivity());
+        requireActivity();
         folderDAO = new FolderDAO(requireActivity());
     }
 

@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daominh.quickmem.data.dao.CardDAO;
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ItemSetBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +51,6 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.SetsViewHolder
 
         }
         FlashCard set = sets.get(position);
-        UserSharePreferences userSharePreferences = new UserSharePreferences(context);
         CardDAO cardDAO = new CardDAO(context);
         int count = cardDAO.countCardByFlashCardId(set.getId());
 

@@ -13,7 +13,7 @@ public class FlashCard {
     public FlashCard() {
     }
 
-    public FlashCard(String id, String name, String description, String user_id, int is_public, String created_at, String updated_at) {
+    public FlashCard(String name, String description, int is_public, String created_at, String updated_at) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;

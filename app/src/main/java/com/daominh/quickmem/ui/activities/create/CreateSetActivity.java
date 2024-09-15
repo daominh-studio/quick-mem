@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +31,6 @@ import com.daominh.quickmem.data.model.Card;
 
 import com.daominh.quickmem.data.model.FlashCard;
 import com.daominh.quickmem.databinding.ActivityCreateSetBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.set.ViewSetActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -304,7 +302,6 @@ public class CreateSetActivity extends AppCompatActivity {
         FlashCard flashCard = new FlashCard();
         flashCard.setName(subject);
         flashCard.setDescription(description);
-        UserSharePreferences userSharePreferences = new UserSharePreferences(this);
         flashCard.setCreated_at(getCurrentDate());
         flashCard.setUpdated_at(getCurrentDate());
         flashCard.setId(id);

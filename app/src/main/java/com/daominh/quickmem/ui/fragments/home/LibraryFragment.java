@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.daominh.quickmem.adapter.viewpager.MyViewPagerAdapter;
 import com.daominh.quickmem.databinding.FragmentLibraryBinding;
-import com.daominh.quickmem.preferen.UserSharePreferences;
 import com.daominh.quickmem.ui.activities.create.CreateFolderActivity;
 import com.daominh.quickmem.ui.activities.create.CreateSetActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -23,14 +22,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class LibraryFragment extends Fragment {
     private FragmentLibraryBinding binding;
-    private UserSharePreferences userSharePreferences;
     private int currentTabPosition = 0;
-    private String idUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userSharePreferences = new UserSharePreferences(requireActivity());
     }
 
     @Override
@@ -78,7 +74,6 @@ public class LibraryFragment extends Fragment {
     }
 
     private void setupUserPreferences() {
-        userSharePreferences = new UserSharePreferences(requireActivity());
     }
 
     private void setupAddButton() {

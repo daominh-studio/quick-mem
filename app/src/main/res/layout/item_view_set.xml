@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="match_parent"
-                                   android:id="@+id/card_view"
-                                   android:layout_marginHorizontal="@dimen/_30ssp"
-                                   android:layout_marginEnd="@dimen/_16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/_30ssp"
+    android:layout_marginEnd="@dimen/_16dp">
 
 
     <com.wajahatkarim3.easyflipview.EasyFlipView
-            android:id="@+id/card_view_flip"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:autoFlipBack="false"
-            app:autoFlipBackTime="1000"
-            app:flipDuration="500"
-            app:flipEnabled="true"
-            app:flipFrom="back"
-            app:flipOnTouch="false"
-            app:flipType="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+        android:id="@+id/card_view_flip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoFlipBack="false"
+        app:autoFlipBackTime="1000"
+        app:flipDuration="500"
+        app:flipEnabled="true"
+        app:flipFrom="back"
+        app:flipOnTouch="false"
+        app:flipType="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:background="@drawable/flash_card_bg"
-                android:orientation="vertical"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/flash_card_bg"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/front_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/culminate"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_20ssp"
-                    android:layout_margin="@dimen/_16dp"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"/>
+                android:id="@+id/front_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_16dp"
+                android:gravity="center"
+                android:text="@string/culminate"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/flash_card_bg"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/flash_card_bg"
+            android:orientation="vertical">
+
             <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_volum"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_margin="@dimen/_16dp"
-                    android:id="@+id/sound_iv"/>
+                android:id="@+id/sound_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16dp"
+                android:src="@drawable/ic_volum"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                    android:id="@+id/back_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/culminate"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_20ssp"
-                    android:layout_margin="@dimen/_16dp"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"/>
+                android:id="@+id/back_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_16dp"
+                android:gravity="center"
+                android:text="@string/culminate"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.wajahatkarim3.easyflipview.EasyFlipView>

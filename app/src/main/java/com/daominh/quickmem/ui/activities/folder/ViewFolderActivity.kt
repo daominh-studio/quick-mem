@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.daominh.quickmem.ui.activities.set.AddFlashCardActivity
-import com.daominh.quickmem.ui.activities.learn.QuizFolderActivity
 import com.daominh.quickmem.R
 import com.daominh.quickmem.adapter.flashcard.SetFolderViewAdapter
 import com.daominh.quickmem.data.dao.FolderDAO
@@ -20,12 +18,13 @@ import com.daominh.quickmem.data.model.FlashCard
 import com.daominh.quickmem.databinding.ActivityViewFolderBinding
 import com.daominh.quickmem.databinding.DialogCreateFolderBinding
 import com.daominh.quickmem.preferen.UserSharePreferences
+import com.daominh.quickmem.ui.activities.learn.QuizFolderActivity
+import com.daominh.quickmem.ui.activities.set.AddFlashCardActivity
 import com.kennyc.bottomsheet.BottomSheetListener
 import com.kennyc.bottomsheet.BottomSheetMenuDialogFragment
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
-import com.squareup.picasso.Picasso
 
 class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     private val binding by lazy { ActivityViewFolderBinding.inflate(layoutInflater) }

@@ -1,122 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/top_cl"
-            android:background="@color/orange"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+        android:id="@+id/top_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_sad"
-                android:id="@+id/sad_iv"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_margin="@dimen/_10dp"/>
+            android:contentDescription="@string/sad"
+            android:id="@+id/sad_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/_10dp"
+            android:src="@drawable/ic_sad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/oops_study_this_one"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_16sp"
-                android:id="@+id/oops_tv"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/sad_iv"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_margin="@dimen/_10dp"/>
+            android:id="@+id/oops_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10dp"
+            android:text="@string/oops_study_this_one"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sad_iv"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/question_tv"
-            android:text="@string/answer"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/top_cl"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+        android:id="@+id/question_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/answer"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_cl" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/correct_answer"
-            android:textColor="@color/green_light"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            android:id="@+id/correct_answer_tv"
-            app:layout_constraintTop_toBottomOf="@+id/question_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+        android:id="@+id/correct_answer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/correct_answer"
+        android:textColor="@color/green_light"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_tv" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/explanation"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            android:id="@+id/explanation_tv"
-            app:layout_constraintTop_toBottomOf="@+id/correct_answer_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+        android:id="@+id/explanation_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/explanation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/correct_answer_tv" />
 
     <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:id="@+id/view"
-            android:background="@color/light_gray"
-            app:layout_constraintTop_toBottomOf="@+id/explanation_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/your_answer"
-            android:textColor="@color/red"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            android:id="@+id/your_answer_tv"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/explanation"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
-            android:textStyle="bold"
-            android:id="@+id/your_explanation_tv"
-            app:layout_constraintTop_toBottomOf="@+id/your_answer_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/_10dp"
+        android:background="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/explanation_tv" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Continue"
-            android:padding="@dimen/_10dp"
-            android:textColor="@color/celestial_blue"
-            android:textSize="@dimen/_16sp"
-            android:id="@+id/continue_tv"
-            app:layout_constraintTop_toBottomOf="@+id/your_explanation_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/_10dp"/>
+        android:id="@+id/your_answer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/your_answer"
+        android:textColor="@color/red"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/your_explanation_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:text="@string/explanation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_answer_tv" />
+
+    <TextView
+        android:id="@+id/continue_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10dp"
+        android:padding="@dimen/_10dp"
+        android:text="@string/continue_text"
+        android:textColor="@color/celestial_blue"
+        android:textSize="@dimen/_16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_explanation_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

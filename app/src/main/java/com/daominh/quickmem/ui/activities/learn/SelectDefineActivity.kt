@@ -12,7 +12,7 @@ class SelectDefineActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivitySelectDefineBinding.inflate(layoutInflater) }
     private val cardDAO by lazy { CardDAO(this) }
-    lateinit var cardList: List<Card> //list of card
+    private lateinit var cardList: List<Card> //list of card
 
     private lateinit var defineListAdapter: DefineListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +29,4 @@ class SelectDefineActivity : AppCompatActivity() {
 
     }
 
-    //get card define from cardList
-    private fun getCardDefine(cardList: List<Card>, num: Int): List<Card> {
-        val cardDefineList = mutableListOf<Card>()
-        for (i in 0 until num) {
-            cardDefineList.add(cardList[i])
-        }
-        return cardDefineList
-
-    }
 }
