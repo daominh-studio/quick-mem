@@ -28,7 +28,7 @@
             android:layout_height="250dp"
             android:layout_marginStart="@dimen/_16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:paddingVertical="@dimen/_20ssp" />
 
         <LinearLayout
@@ -97,6 +97,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:paddingBottom="@dimen/_10dp"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -122,19 +123,17 @@
                     app:layout_constraintStart_toStartOf="@id/set_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/set_name_tv" />
 
-
                 <TextView
                     android:id="@+id/term_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_8ssp"
                     android:layout_marginStart="@dimen/_16dp"
                     android:text="@string/_1_term"
                     android:textColor="@color/gray"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/set_name_tv"
                     app:layout_constraintStart_toEndOf="@id/set_name_tv"
-                    app:layout_constraintTop_toTopOf="@id/set_name_tv" />
+                    app:layout_constraintTop_toTopOf="@+id/set_name_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
@@ -142,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16ssp"
-            android:layout_marginVertical="@dimen/_16ssp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:background="@color/white"
             android:orientation="vertical">
 
