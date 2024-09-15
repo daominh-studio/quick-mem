@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id "org.jlleitschuh.gradle.ktlint" version "10.2.0"
-    id("io.github.farimarwat.lokalenow") version "1.2"
     id 'com.google.gms.google-services'
 }
 
@@ -13,7 +12,6 @@ android {
     defaultConfig {
         applicationId "com.daominh.quickmem"
         minSdk 24
-        //noinspection OldTargetApi
         targetSdk 33
         versionCode 2
         versionName "1.1"
@@ -43,32 +41,26 @@ android {
         options.compilerArgs << "-Xlint:deprecation"
     }
 }
-//lokalenow {
-//    listLang = ['vi', 'cn', 'fr', 'de', 'it', 'ja', 'ko', 'pt', 'ru', 'es', 'th', 'tr']
-//}
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.compose.ui:ui-android:1.5.4'
+    implementation 'androidx.compose.ui:ui-android:1.7.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     //navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.7.5"
-    implementation "androidx.navigation:navigation-ui-ktx:2.7.5"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.8.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.8.0"
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
     //circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
-
-    //material
-    implementation 'com.google.android.material:material:1.10.0'
 
     //date picker
     implementation 'com.github.swnishan:materialdatetimepicker:1.0.0'
@@ -90,14 +82,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     //Support Library
-    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     //Card stack view
-    implementation 'com.yuyakaido.android:card-stack-view:2.3.4'
+    implementation project(':cardstackview')
 
     //circle progress bar
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
@@ -105,7 +96,7 @@ dependencies {
     implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 
     //lottie
-    implementation 'com.airbnb.android:lottie:6.2.0'
+    implementation 'com.airbnb.android:lottie:6.4.1'
 
     //bottom sheet
     implementation "com.github.Kennyc1012:BottomSheetMenu:5.1"
@@ -123,7 +114,7 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     //firebase
-    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation platform('com.google.firebase:firebase-bom:33.3.0')
     implementation 'com.google.firebase:firebase-analytics'
 
 

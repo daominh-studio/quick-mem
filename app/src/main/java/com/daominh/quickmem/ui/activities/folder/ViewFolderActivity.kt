@@ -54,7 +54,7 @@ class ViewFolderActivity : AppCompatActivity(), BottomSheetListener {
     @SuppressLint("SetTextI18n")
     private fun setupFolderDetails() {
         val id = intent.getStringExtra("id")
-        val userSharePreferences = UserSharePreferences(this)
+        UserSharePreferences(this)
         val folder = folderDAO.getFolderById(id)
         binding.folderNameTv.text = folder.name
         binding.termCountTv.text = folderDAO.getAllFlashCardByFolderId(id).size.toString() + " flashcards"

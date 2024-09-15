@@ -1,16 +1,11 @@
 package com.daominh.quickmem.ui.activities.learn
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.daominh.quickmem.R
 import com.daominh.quickmem.data.dao.CardDAO
-import com.daominh.quickmem.data.dao.FlashCardDAO
 import com.daominh.quickmem.data.model.Card
 import com.daominh.quickmem.databinding.ActivityQuizBinding
 import com.daominh.quickmem.databinding.DialogCorrectBinding
@@ -18,7 +13,11 @@ import com.daominh.quickmem.databinding.DialogWrongBinding
 import com.saadahmedsoft.popupdialog.PopupDialog
 import com.saadahmedsoft.popupdialog.Styles
 import com.saadahmedsoft.popupdialog.listener.OnDialogButtonClickListener
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuizActivity : AppCompatActivity() {
 
@@ -27,9 +26,6 @@ class QuizActivity : AppCompatActivity() {
     }
     private val cardDAO by lazy {
         CardDAO(this)
-    }
-    private val flashCardDAO by lazy {
-        FlashCardDAO(this)
     }
 
     private var progress = 0
@@ -55,7 +51,7 @@ class QuizActivity : AppCompatActivity() {
     private fun checkAnswer(selectedAnswer: String, cardId: String): Boolean {
         return if (selectedAnswer == correctAnswer) {
             correctDialog(correctAnswer)
-            GlobalScope.launch(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.IO).launch {
                 cardDAO.updateIsLearnedCardById(cardId, 1)
             }
             setNextQuestion()
@@ -71,11 +67,9 @@ class QuizActivity : AppCompatActivity() {
 
     private fun setUpProgressBar() {
         binding.timelineProgress.progress = progress
-        Log.d("progresss", progress.toString())
     }
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun setNextQuestion() {
         scope.launch {
             val cards = cardDAO.getCardByIsLearned(id, 0) // get a list of cards that are not learned
@@ -180,33 +174,6 @@ class QuizActivity : AppCompatActivity() {
             //startAnimations()
         }
         builder.show()
-    }
-
-    private fun startAnimations() {
-        val views =
-            listOf(
-                binding.optionOne,
-                binding.optionTwo,
-                binding.optionThree,
-                binding.optionFour,
-                binding.tvQuestion
-            )
-        val duration = 1000L
-        val endValue = -binding.optionOne.width.toFloat()
-
-        views.forEach { view ->
-            val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, endValue)
-            animator.duration = duration
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    view.translationX = 0f
-                    if (view == binding.optionFour) {
-                        setNextQuestion()
-                    }
-                }
-            })
-            animator.start()
-        }
     }
 
     override fun onDestroy() {
