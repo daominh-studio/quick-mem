@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.Card;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -17,8 +19,11 @@ public class CardDAO {
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;
 
+    private DatabaseReference databaseReference;
     public CardDAO(Context context) {
         qmDatabaseHelper = new QMDatabaseHelper(context);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("cards");
     }
 
     //insert card
