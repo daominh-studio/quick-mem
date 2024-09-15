@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "1001542464049",
-    "project_id": "daominh-studio",
-    "storage_bucket": "daominh-studio.appspot.com"
+    "project_number": "636851183857",
+    "project_id": "quickmem-3ecc7",
+    "storage_bucket": "quickmem-3ecc7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1001542464049:android:c88aa268e41d8456399b10",
+        "mobilesdk_app_id": "1:636851183857:android:2787dba40ccc935bc74950",
         "android_client_info": {
           "package_name": "com.daominh.quickmem"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "636851183857-6mbb5dm1pf1bssnsugbc9ds1o4jip050.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daominh.quickmem",
+            "certificate_hash": "76ab593bbd26c04dfe04973e295e734d6fbab419"
+          }
+        },
+        {
+          "client_id": "636851183857-ei4f1rop9p6lo3j8khtsvgae6eq8ejd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAJzmdLzI_-A9AQ_8Vyrb6YpfaFXSEODFo"
+          "current_key": "AIzaSyBC6Wt2PmwmwBeRiwjWgoHav02Y7eJ5bls"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636851183857-ei4f1rop9p6lo3j8khtsvgae6eq8ejd9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

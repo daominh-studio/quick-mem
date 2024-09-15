@@ -7,38 +7,59 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.Card;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CardDAO {
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;
 
-    private DatabaseReference databaseReference;
+    private final DatabaseReference databaseReference;
+    private FirebaseFirestore db;
+
+
     public CardDAO(Context context) {
         qmDatabaseHelper = new QMDatabaseHelper(context);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("cards");
+        db = FirebaseFirestore.getInstance();
     }
 
     //insert card
     public long insertCard(Card card) {
+        Log.d("CardDAO", "insertCard: " + card.getId());
         sqLiteDatabase = qmDatabaseHelper.getWritableDatabase();
 
         long result = 0;
 
         ContentValues contentValues = createContentValues(card);
+        Map<String, String> cardMap = new HashMap<>();
+        cardMap.put("id", card.getId());
+        cardMap.put("front", card.getFront());
+        cardMap.put("back", card.getBack());
+        cardMap.put("flashcard_id", card.getFlashcard_id());
+        cardMap.put("created_at", card.getCreated_at());
+        cardMap.put("updated_at", card.getUpdated_at());
+        cardMap.put("status", String.valueOf(card.getStatus()));
+        cardMap.put("is_learned", String.valueOf(card.getIsLearned()));
 
         //insert
         try {
             result = sqLiteDatabase.insert(QMDatabaseHelper.TABLE_CARDS, null, contentValues);
-        } catch (SQLException e) {
+            db.collection("cards")
+                    .add(cardMap)
+                    .addOnFailureListener(e -> Log.e("CardDAO", "insertCard: " + e))
+                    .addOnSuccessListener(documentReference -> Log.d("CardDAO", "DocumentSnapshot added with ID: " + documentReference.getId()));
+        } catch (Exception e) {
             Log.e("CardDAO", "insertCard: " + e);
+        } finally {
+            sqLiteDatabase.close();
         }
         return result;
     }
