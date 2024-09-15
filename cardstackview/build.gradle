@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.nqmgaming.cardstackview'
     compileSdk 34
 
     defaultConfig {
