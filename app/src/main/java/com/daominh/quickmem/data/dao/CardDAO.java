@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.daominh.quickmem.data.QMDatabaseHelper;
 import com.daominh.quickmem.data.model.Card;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,14 +18,11 @@ public class CardDAO {
     QMDatabaseHelper qmDatabaseHelper;
     SQLiteDatabase sqLiteDatabase;
 
-    private final DatabaseReference databaseReference;
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
 
 
     public CardDAO(Context context) {
         qmDatabaseHelper = new QMDatabaseHelper(context);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("cards");
         db = FirebaseFirestore.getInstance();
     }
 
